@@ -1,2 +1,2 @@
 # JEE-H2
-Java corses 
+Java courses 
