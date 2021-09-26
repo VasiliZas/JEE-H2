@@ -6,7 +6,11 @@
 
     <groupId>vasilizas</groupId>
     <artifactId>jeeProject</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
+    <modules>
+        <module>student</module>
+    </modules>
 
     <properties>
         <!-- Code analysis server auth -->
