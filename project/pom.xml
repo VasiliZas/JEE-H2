@@ -9,7 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>student</module>
+        <module>model</module>
+        <module>appweb</module>
     </modules>
 
     <properties>
@@ -34,6 +35,12 @@
             <version>2.0.0-alpha1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
         <!-- Performs Tests -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
@@ -47,6 +54,13 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.7</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Allows to use variables in external properties file -->
