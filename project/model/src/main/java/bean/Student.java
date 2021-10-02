@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Student extends Person {
+public final class Student extends Person {
     private List<Integer> marks;
 
     public Student(String name, int age) {
@@ -36,5 +36,13 @@ public class Student extends Person {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), marks);
+    }
+
+    public List<Integer> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(List<Integer> marks) {
+        this.marks = marks;
     }
 }
