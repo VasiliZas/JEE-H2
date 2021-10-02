@@ -4,14 +4,14 @@ import bean.Teacher;
 
 import java.util.List;
 
-import static factory.Factory.creatTeacher;
+import static factory.Factory.createTeacher;
 
-public class TeacherRepository {
+public final class TeacherRepository {
 
     public static List<Teacher> teacherList = List.of(
-            creatTeacher("Picasso", 55),
-            creatTeacher("Petrovicv", 75),
-            creatTeacher("Koltiga", 45)
+            createTeacher("Picasso", 55),
+            createTeacher("Petrovicv", 75),
+            createTeacher("Koltiga", 45)
     );
 
     private TeacherRepository() {

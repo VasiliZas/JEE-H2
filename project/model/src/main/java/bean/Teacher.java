@@ -1,7 +1,9 @@
 package bean;
 
 
-public class Teacher extends Person {
+import java.util.Objects;
+
+public final class Teacher extends Person {
     private long salary;
 
     public Teacher(String name, int age) {
@@ -10,6 +12,20 @@ public class Teacher extends Person {
     }
 
     public Teacher() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Teacher teacher = (Teacher) o;
+        return salary == teacher.salary;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), salary);
     }
 
     @Override
