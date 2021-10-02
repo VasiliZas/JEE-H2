@@ -1,6 +1,8 @@
 package bean;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public abstract class Person {
 
@@ -15,7 +17,7 @@ public abstract class Person {
     protected Person(String name, int age) {
         this.name = name;
         this.age = age;
-        this.loginAndPassword = new HashMap<String, String>();
+        this.loginAndPassword = new HashMap<>();
     }
 
     @Override
@@ -24,6 +26,14 @@ public abstract class Person {
                 "name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getName() {

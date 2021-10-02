@@ -4,20 +4,20 @@ import static repository.TeacherRepository.teacherList;
 import static service.facade.Service.log;
 
 public class TeacherService {
-    public TeacherService() {
+    private TeacherService() {
     }
 
-       public  void getTeacherSalary(String name) {
+       public static void getTeacherSalaryInfo(String name) {
         teacherList.stream().filter(teacher -> teacher.getName().equals(name))
                 .forEach(teacher -> log.info("Teacher {}, salary {} ", name, teacher.getSalary()));
     }
 
-    public  void getTeacherInfo(String name) {
+    public static void getTeacherInfo(String name) {
         teacherList.stream().filter(teacher -> teacher.getName().equals(name))
-                .forEach(teacher -> log.info("{} ", teacher.getSalary()));
+                .forEach(teacher -> log.info("{} ", teacher));
     }
 
-    public  void setTeacherSalary(String name, long salary) {
+    public static void setTeacherSalary(String name, long salary) {
         teacherList.stream().filter(teacher -> teacher.getName().equals(name))
                 .forEach(teacher -> teacher.setSalary(salary));
     }

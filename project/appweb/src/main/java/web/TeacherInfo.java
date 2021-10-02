@@ -2,7 +2,6 @@ package web;
 
 import bean.Teacher;
 import repository.TeacherRepository;
-import service.facade.TeacherService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,18 +14,16 @@ import java.util.List;
 
 @WebServlet(value = "/teacherInfo")
 public class TeacherInfo extends HttpServlet {
-    private TeacherService teacherService;
     private List<Teacher> teacherList;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        teacherService = new TeacherService();
         teacherList = TeacherRepository.teacherList;
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = resp.getWriter();

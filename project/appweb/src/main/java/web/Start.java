@@ -1,6 +1,5 @@
 package web;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,14 +13,15 @@ public class Start extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       // resp.setContentType("text/html");
-       /// resp.setCharacterEncoding("UTF-8");
-        PrintWriter out = resp.getWriter();
-       // writer.write("<p><span style='color: blac;'>Hello in my project</span></p>");
-        out.println("<html>");
-        out.println("<body>");
-        out.println("<h1 align=center> The simplest servlet</h1>" );
-        out.println("<p align=center><b> "  + "</b></p>");
+
+                        PrintWriter out = resp.getWriter();
+       out.println("<html>");
+       out.println("<body>");
+       out.println("<h1 align=center> Welcome in my SchoolProgramm </h1>" );
+       out.println("<h1 align=center><b> " + "There you can get some information about " +
+               "student and teacher" + "</b></h1>");
+        out.println("<p align=center><c> " + "created by Vasili Zasinets " +
+                 "</c></p>");
         out.println("</body>");
         out.println("</body>");
     }

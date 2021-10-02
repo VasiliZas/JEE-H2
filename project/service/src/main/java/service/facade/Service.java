@@ -16,6 +16,7 @@ public class Service {
     }
 
     public static void createAndAddPerson(String typePerson, String namePerson, int agePerson) {
+
         switch (typePerson) {
             case "Student" -> studentList.add(createStudent(namePerson, agePerson));
             case "Teacher" -> teacherList.add(createTeacher(namePerson, agePerson));
@@ -23,3 +24,4 @@ public class Service {
         }
     }
 }
+
