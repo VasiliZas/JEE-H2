@@ -1,14 +1,17 @@
 package bean;
 
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
+import static java.math.BigDecimal.valueOf;
+
 public final class Teacher extends Person {
-    private long salary;
+    private BigDecimal salary;
 
     public Teacher(String name, int age) {
         super(name, age);
-        this.salary = 0;
+        this.salary = valueOf(0);
     }
 
     public Teacher() {
@@ -20,12 +23,20 @@ public final class Teacher extends Person {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Teacher teacher = (Teacher) o;
-        return salary == teacher.salary;
+        return Objects.equals(salary, teacher.salary);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), salary);
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
     }
 
     @Override
@@ -35,13 +46,5 @@ public final class Teacher extends Person {
                 ", age=" + age +
                 ", salary=" + salary +
                 '}';
-    }
-
-    public long getSalary() {
-        return salary;
-    }
-
-    public void setSalary(long salary) {
-        this.salary = salary;
     }
 }
