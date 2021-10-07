@@ -1,0 +1,63 @@
+package web.vasilizas.controller.authentication;
+
+import vasilizas.myservice.security.AdminSecurity;
+import vasilizas.myservice.security.StudentSecurity;
+import vasilizas.myservice.security.TeacherSecurity;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+@WebServlet(value = "/auth")
+public class Authentication extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        AdminSecurity.security("Vasili", "mylogin", "456987");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String name = request.getParameter("name");
+        String type = request.getParameter("type");
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
+        HttpSession session = request.getSession();
+
+        if (type != null) {
+
+            if (type.equals("Student") && StudentSecurity.check(name, login, password)) {
+                session.setAttribute("type", type);
+                session.setAttribute("login", login);
+                session.setAttribute("password", password);
+                response.sendRedirect("/myweb/student.jsp");
+            }
+
+            if (type.equals("Admin") && AdminSecurity.check(name, login, password)) {
+                session.setAttribute("type", type);
+                session.setAttribute("userLogin", login);
+                session.setAttribute("userPassword", password);
+                response.sendRedirect("/myweb/admin/admin.jsp");
+            }
+
+            if (type.equals("Teacher") && TeacherSecurity.check(name, login, password)) {
+                session.setAttribute("userLogin", login);
+                session.setAttribute("userPassword", password);
+                response.sendRedirect("/myweb/teacher.jsp");
+            }
+        } else {
+            response.sendRedirect("/index.jsp");
+
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/index.jsp").include(request, response);
+    }
+}

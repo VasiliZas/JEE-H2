@@ -16,8 +16,8 @@
 
     <properties>
         <!-- Code analysis server auth -->
-        <sonar.projectKey>service</sonar.projectKey>
-        <sonar.organization>service</sonar.organization>
+        <sonar.projectKey>vasilizas.myservice</sonar.projectKey>
+        <sonar.organization>vasilizas.myservice</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <!--suppress UnresolvedMavenProperty -->
         <sonar.login>${sonar.token}</sonar.login>
@@ -26,6 +26,7 @@
         <maven.compiler.target>16</maven.compiler.target>
         <!-- Default file encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.target.sourceEncoding>UTF-8</project.target.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -34,6 +35,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>2.0.0-alpha1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
         </dependency>
 
         <dependency>
