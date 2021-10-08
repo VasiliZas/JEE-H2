@@ -1,4 +1,4 @@
-//package web.vasilizas.controller.authentication;
+//package web.vasilizas.controller.filter;
 //
 //import javax.servlet.*;
 //import javax.servlet.annotation.WebFilter;
@@ -7,30 +7,35 @@
 //import javax.servlet.http.HttpSession;
 //import java.io.IOException;
 //
-//@WebFilter("/myweb/*")//Все страницы сайта обрабатывает данный фильтр
-//public class LoginFilter implements Filter {
+////@WebFilter(filterName = "LoginFilter" , urlPatterns = "/*")//Все страницы сайта обрабатывает данный фильтр
+//public class LoginFilter extends AbstractFilter {
+//
 //
 //    @Override
 //    public void init(FilterConfig filterConfig) throws ServletException {
+//
 //    }
 //
 //    @Override
-//    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+//    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 //        //получение данных сессии
-//        HttpServletRequest request = (HttpServletRequest) servletRequest;
-//        HttpServletResponse response = (HttpServletResponse) servletResponse;
-//        HttpSession session = request.getSession(false);
+//
+//        HttpServletRequest request = (HttpServletRequest) req;
+//        HttpServletResponse response = (HttpServletResponse) res;
+//        HttpSession session = request.getSession();
 //        //URL Запроса/переадресации на Servlet входа
-//        String loginURI = request.getContextPath() + "/auth.jsp";
+//        String loginURI =  "/auth.html";
+//        String attribute = (String) session.getAttribute("type");
 //        //Если сессия ранее создана
-//        boolean loggedIn = session != null && session.getAttribute("login") != null && session.getAttribute("userRole") != null;
+//        boolean loggedIn = attribute!= null ;//|| attribute.equals("Student") || attribute.equals("Teacher") ;
 //        boolean loginRequest = request.getRequestURI().equals(loginURI);
 //        //Если запрос пришел со страницы с входом или сессия не пуста даем добро следовать дальше
 //        //Если нет ридерект на страницу входа
 //        if (loggedIn || loginRequest) {
-//            filterChain.doFilter(request, response);
+//            chain.doFilter(request, response);
 //        } else {
-//            response.sendRedirect(loginURI);
+//            RequestDispatcher dispatcher = req.getRequestDispatcher(loginURI);
+//            dispatcher.forward(req,res);
 //        }
 //    }
 //

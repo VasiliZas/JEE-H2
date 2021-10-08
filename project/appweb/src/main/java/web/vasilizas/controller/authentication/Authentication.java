@@ -29,35 +29,37 @@ public class Authentication extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        if (type != null) {
+        if (type.equals("Student") && StudentSecurity.check(name, login, password)) {
+            session.setAttribute("type", type);
+            session.setAttribute("login", login);
+            session.setAttribute("name", name);
+            response.sendRedirect("/myweb/student/student.html");
+        }
 
-            if (type.equals("Student") && StudentSecurity.check(name, login, password)) {
-                session.setAttribute("type", type);
-                session.setAttribute("login", login);
-                session.setAttribute("password", password);
-                response.sendRedirect("/myweb/student.jsp");
-            }
+        if (type.equals("Admin") && AdminSecurity.check(name, login, password)) {
+            session.setAttribute("type", type);
+            session.setAttribute("login", login);
+            session.setAttribute("name", name);
+            response.sendRedirect("/myweb/admin/admin.html");
+        }
 
-            if (type.equals("Admin") && AdminSecurity.check(name, login, password)) {
-                session.setAttribute("type", type);
-                session.setAttribute("userLogin", login);
-                session.setAttribute("userPassword", password);
-                response.sendRedirect("/myweb/admin/admin.jsp");
-            }
+        if (type.equals("Teacher") && TeacherSecurity.check(name, login, password)) {
+            session.setAttribute("login", login);
+            session.setAttribute("type", type);
+            session.setAttribute("name", name);
+            response.sendRedirect("/myweb/teacher/teacher.html");
+        }
 
-            if (type.equals("Teacher") && TeacherSecurity.check(name, login, password)) {
-                session.setAttribute("userLogin", login);
-                session.setAttribute("userPassword", password);
-                response.sendRedirect("/myweb/teacher.jsp");
-            }
-        } else {
-            response.sendRedirect("/index.jsp");
-
+        else {
+            session.setAttribute("login", null);
+            session.setAttribute("type", null);
+            session.setAttribute("name", null);
+            response.sendRedirect("/myweb/error/auth-error.html");
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/index.jsp").include(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+
     }
 }
