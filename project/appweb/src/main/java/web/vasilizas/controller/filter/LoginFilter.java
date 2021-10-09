@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static vasilizas.myservice.person.MyService.log;
+
 @WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter extends AbstractFilter {
 
@@ -26,21 +28,27 @@ public class LoginFilter extends AbstractFilter {
         String teacher = "Teacher";
 
         HttpSession session = request.getSession();
-
+        log.info("give session");
         String loginURI = "/myweb/auth";
+        String  loginUri2 = "/myweb/auth.html";
         String type;
-
+        log.info("check session");
         if (session == null) {
-            type = "null";
-        } else type = (String) session.getAttribute("type");
-
+            response.sendRedirect("/myweb/auth.html");
+            return;
+            }
+        else type = (String) session.getAttribute("type");
+        log.info("check type");
         boolean loggedIn = admin.equals(type) || student.equals(type) || teacher.equals(type);
-        boolean loginRequest = request.getRequestURI().equals(loginURI);
+        boolean loginRequest = request.getRequestURI().equals(loginURI) || request.getRequestURI().equals(loginUri2);
 
-        if (loggedIn || loginRequest) {
+        if (loggedIn|| loginRequest) {
+            log.info("The filter worked, the request was approved");
             chain.doFilter(request, response);
         } else {
+            log.info("The filter worked, the request was redirected");
             response.sendRedirect("/myweb/auth.html");
+            return;
         }
     }
 

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import static vasilizas.myservice.person.MyService.createAndAddPerson;
+import static vasilizas.myservice.person.MyService.log;
 import static vasilizas.myservice.person.TeacherService.setTeacherSalary;
 import static vasilizas.repository.TeacherRepository.teacherList;
 
@@ -24,6 +25,7 @@ public class Info extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.info("Info about teacher");
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = resp.getWriter();
