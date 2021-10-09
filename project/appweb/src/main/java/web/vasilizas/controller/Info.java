@@ -27,8 +27,15 @@ public class Info extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = resp.getWriter();
-        writer.write("<p><span style='color: blac;'>Teacher  information: "
-                + "</span></p>");
+        writer.write("<html>");
+        writer.write("<head>");
+        writer.write("<title>Teacher info</title>");
+        writer.write("<body align=center>");
+        writer.write("<h1> Teacher Info </h1>");
         teacherList.forEach(teacher -> writer.write(teacher.toString() + "</p>"));
+        writer.write("<p center><c></c></p>");
+        writer.write("<a href=/myweb/home.html>Back to HOME</a>");
+        writer.write("<p center>    <c></c>  </p>");
+        writer.write("<a href=/myweb/admin/admin.html>Back to work page</a>");
     }
 }
