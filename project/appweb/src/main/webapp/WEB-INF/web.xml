@@ -3,9 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+
   <servlet>
     <servlet-name>Info</servlet-name>
-   <servlet-class>web.vasilizas.Info</servlet-class>
+   <servlet-class>web.vasilizas.controller.Info</servlet-class>
   </servlet>
 
   <servlet>
@@ -18,10 +19,7 @@
     <jsp-file>/add-teacher.jsp</jsp-file>
   </servlet>
 
-  <servlet-mapping>
-    <servlet-name>Info</servlet-name>
-    <url-pattern>/myweb/admin/info</url-pattern>
-  </servlet-mapping>
+
 
   <servlet-mapping>
     <servlet-name>AddTeacher</servlet-name>
@@ -31,6 +29,11 @@
   <servlet-mapping>
     <servlet-name>Auth</servlet-name>
     <url-pattern>/myweb/auth</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Info</servlet-name>
+    <url-pattern>/info</url-pattern>
   </servlet-mapping>
 
 
