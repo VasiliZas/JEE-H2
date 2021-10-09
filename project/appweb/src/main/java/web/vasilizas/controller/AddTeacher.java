@@ -23,7 +23,7 @@ public class AddTeacher extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("newteacher", name);
 
-        teacherList.add(createTeacher(name, Integer.valueOf(age)));
+        teacherList.add(createTeacher(name, Integer.valueOf(age), "TLogin", "12345"));
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/add-teacher");
         requestDispatcher.forward(req, resp);

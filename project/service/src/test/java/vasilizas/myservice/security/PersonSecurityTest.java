@@ -4,7 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static vasilizas.myservice.person.MyService.createAndAddPerson;
-import static vasilizas.myservice.security.PersonSecurity.addLoginAndPassword;
+
+import static vasilizas.myservice.security.PersonSecurity.addLogin;
 import static vasilizas.myservice.security.StudentSecurity.getPassword;
 
 public class PersonSecurityTest {
@@ -20,13 +21,13 @@ public class PersonSecurityTest {
 
     @Test
     public void addLoginAndPasswordStudent() {
-        addLoginAndPassword("Student", "Bakke", "dog", "4563289");
+       StudentSecurity.addLogin("Bakke","myDog");
         getPassword("Bakke", "dog");
     }
 
     @Test
     public void addLoginAndPasswordTeacher() {
-        addLoginAndPassword("Teacher", "Picasso", "car", "5558455");
+        addLogin("Teacher", "Picasso", "car", "5558455");
         TeacherSecurity.getPassword("Picasso");
     }
 }

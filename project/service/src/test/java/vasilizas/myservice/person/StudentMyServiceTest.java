@@ -13,7 +13,7 @@ public class StudentMyServiceTest {
 
     @Before
     public void setUp()  {
-        MyService.createAndAddPerson("Student","Bakke", 22);
+        MyService.createAndAddPerson("Student","Bakke", 22, "kl", "ppp");
     }
 
     @Test

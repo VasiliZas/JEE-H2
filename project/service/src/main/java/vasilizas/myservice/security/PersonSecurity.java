@@ -10,8 +10,8 @@ public class PersonSecurity {
 
     public static void addLogin(String personType, String personName, String login, String password) {
         switch (personType) {
-            case "Student" -> StudentSecurity.addLogin(personName, login, password);
-            case "Teacher" -> TeacherSecurity.addLogin(personName, login, password);
+            case "Student" -> StudentSecurity.addLogin(personName, login);
+            case "Teacher" -> TeacherSecurity.addLogin(personName, login);
             default -> log.warn("Incorrect variable entered");
         }
     }

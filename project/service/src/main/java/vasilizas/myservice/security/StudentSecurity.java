@@ -18,7 +18,7 @@ public class StudentSecurity extends AbstractSecurity {
                 .forEach(s -> log.info("{}", s));
     }
 
-    public static void addLogin(String personName, String login, String password) {
+    public static void addLogin(String personName, String login) {
         studentList.stream()
                 .filter(student -> student.getName().equals(personName))
                 .forEach(student -> student.setLogin(login));

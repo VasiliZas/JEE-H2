@@ -7,7 +7,7 @@ public class TeacherMyServiceTest {
 
     @Before
     public void setUp() {
-        MyService.createAndAddPerson("Teacher", "Jasmin", 35);
+        MyService.createAndAddPerson("Teacher", "Jasmin", 35, "login", "oio");
         TeacherService.setTeacherSalary("Jasmin", 5000.50);
     }
 
@@ -18,7 +18,7 @@ public class TeacherMyServiceTest {
 
     @Test
     public void getTeacherInfo() {
-        MyService.createAndAddPerson("Teacher", "Test", 55);
+        MyService.createAndAddPerson("Teacher", "Test", 55, "login", "hhh");
         TeacherService.setTeacherSalary("Test", 1000.77);
         TeacherService.getTeacherInfo("Test");
         TeacherService.getTeacherInfo("Jasmin");

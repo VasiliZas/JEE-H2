@@ -12,7 +12,7 @@ public class TeacherSecurity extends AbstractSecurity {
         // blank default constructor for utility class
     }
 
-    public static void addLogin(String personName, String login, String password) {
+    public static void addLogin(String personName, String login) {
         teacherList.stream()
                 .filter(t -> t.getName().equals(personName))
                 .forEach(t -> t.setLogin(login));
