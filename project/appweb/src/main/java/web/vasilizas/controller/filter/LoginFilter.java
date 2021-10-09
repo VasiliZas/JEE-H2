@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")//Все страницы сайта обрабатывает данный фильтр
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter extends AbstractFilter {
 
     @Override
@@ -24,7 +24,12 @@ public class LoginFilter extends AbstractFilter {
         HttpSession session = request.getSession();
 
         String loginURI = "/myweb/auth";
-        String type = (String) session.getAttribute("type");
+        String type;
+
+        if (session == null) {
+            type = "null";
+        }
+        type = (String) session.getAttribute("type");
 
         if (type == null) {
             type = "null";
@@ -35,7 +40,6 @@ public class LoginFilter extends AbstractFilter {
 
         if (loggedIn || loginRequest) {
             chain.doFilter(request, response);
-
         } else {
             response.sendRedirect("/myweb/auth.html");
         }

@@ -19,8 +19,6 @@
     <jsp-file>/add-teacher.jsp</jsp-file>
   </servlet>
 
-
-
   <servlet-mapping>
     <servlet-name>AddTeacher</servlet-name>
     <url-pattern>/admin/add-teacher</url-pattern>
@@ -35,17 +33,6 @@
     <servlet-name>Info</servlet-name>
     <url-pattern>/info</url-pattern>
   </servlet-mapping>
-
-
-  <!--  <filter>-->
-<!--    <filter-name>LoginFilter</filter-name>-->
-<!--    <filter-class>web.vasilizas.controller.filter.LoginFilter</filter-class>-->
-<!--      </filter>-->
-
-<!--  <filter-mapping>-->
-<!--    <filter-name>LoginFilter</filter-name>-->
-<!--    <url-pattern>/*</url-pattern>-->
-<!--  </filter-mapping>-->
 
   <session-config>
     <session-timeout>
