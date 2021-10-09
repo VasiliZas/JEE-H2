@@ -12,10 +12,10 @@ public class PersonSecurityTest {
 
     @Before
     public void setUp() {
-        createAndAddPerson("Student", "Bakke", 22);
-        createAndAddPerson("Student", "Jasmin", 25);
-        createAndAddPerson("Teacher", "Picasso", 56);
-        createAndAddPerson("Teacher", "Fox", 66);
+        createAndAddPerson("Student", "Bakke", 22, "login", "password");
+        createAndAddPerson("Student", "Jasmin", 25, "login", "password");
+        createAndAddPerson("Teacher", "Picasso", 56, "login", "password");
+        createAndAddPerson("Teacher", "Fox", 66, "login", "password");
     }
 
     @Test
@@ -27,6 +27,6 @@ public class PersonSecurityTest {
     @Test
     public void addLoginAndPasswordTeacher() {
         addLoginAndPassword("Teacher", "Picasso", "car", "5558455");
-        TeacherSecurity.getPassword("Picasso", "car");
+        TeacherSecurity.getPassword("Picasso");
     }
 }

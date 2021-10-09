@@ -26,7 +26,7 @@ public class Authentication extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter(NAME);
         String type = request.getParameter(TYPE);
         String login = request.getParameter(LOGIN);
@@ -35,35 +35,24 @@ public class Authentication extends HttpServlet {
         HttpSession session = request.getSession();
 
         if (type.equals("Student") && StudentSecurity.check(name, login, password)) {
-            session.setAttribute(TYPE, type);
-            session.setAttribute(LOGIN, login);
-            session.setAttribute(NAME, name);
-            response.sendRedirect(urlMap.get(type));
+            setAttribute(session, type, login, name, response);
             return;
         }
         if (type.equals("Admin") && AdminSecurity.check(name, login, password)) {
-            session.setAttribute(TYPE, type);
-            session.setAttribute(LOGIN, login);
-            session.setAttribute(NAME, name);
-            response.sendRedirect(urlMap.get(type));
+            setAttribute(session, type, login, name, response);
             return;
         }
         if (type.equals("Teacher") && TeacherSecurity.check(name, login, password)) {
-            session.setAttribute(LOGIN, login);
-            session.setAttribute(TYPE, type);
-            session.setAttribute(NAME, name);
-            response.sendRedirect(urlMap.get(type));
+            setAttribute(session, type, login, name, response);
         } else {
-            session.setAttribute(LOGIN, "null");
-            session.setAttribute(TYPE, "null");
-            session.setAttribute(NAME, "null");
-            response.sendRedirect(urlMap.get("Error"));
+            setAttribute(session, "Error", "login", "name", response);
         }
-
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        //do not use
+    private void setAttribute(HttpSession session, String type, String login, String name, HttpServletResponse response) throws IOException {
+        session.setAttribute(TYPE, type);
+        session.setAttribute(LOGIN, login);
+        session.setAttribute(NAME, name);
+        response.sendRedirect(urlMap.get(type));
     }
 }

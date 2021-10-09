@@ -6,8 +6,9 @@ import java.util.List;
 
 public class AdminRepository {
 
-    public static List<Admin> adminList = List.of(new Admin("Vasili", 33));
+    public static List<Admin> adminList = List.of(new Admin("Vasili", 33, "mylogin", "456987"));
 
     private AdminRepository() {
+        // blank default constructor for utility class
     }
 }

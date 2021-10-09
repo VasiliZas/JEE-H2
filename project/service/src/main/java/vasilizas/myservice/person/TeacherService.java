@@ -6,6 +6,7 @@ import static vasilizas.myservice.person.MyService.log;
 
 public class TeacherService {
     private TeacherService() {
+        // blank default constructor for utility class
     }
 
     public static void getTeacherSalaryInfo(String name) {

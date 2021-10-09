@@ -6,6 +6,7 @@ import static vasilizas.repository.AdminRepository.adminList;
 
 public class AdminSecurity extends AbstractSecurity {
     private AdminSecurity() {
+        // blank default constructor for utility class
     }
 
     public static void addLoginAndPassword(String name, String login, String password) {

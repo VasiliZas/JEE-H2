@@ -21,16 +21,11 @@ public class AddTeacher extends HttpServlet {
         String age = req.getParameter("age");
 
         HttpSession session = req.getSession();
-        session.setAttribute("newteacher",name);
+        session.setAttribute("newteacher", name);
 
         teacherList.add(createTeacher(name, Integer.valueOf(age)));
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/add-teacher");
         requestDispatcher.forward(req, resp);
-    }
-
-    @Override
-    public void init() throws ServletException {
-
     }
 }

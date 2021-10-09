@@ -10,5 +10,6 @@ public final class StudentRepository {
     public static List<Student> studentList = new ArrayList<>();
 
     private StudentRepository() {
+        // blank default constructor for utility class
     }
 }

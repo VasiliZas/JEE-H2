@@ -1,4 +1,4 @@
 package vasilizas.bean;
 
-public class DefaultPerson extends Person{
+public class DefaultPerson extends Person {
 }

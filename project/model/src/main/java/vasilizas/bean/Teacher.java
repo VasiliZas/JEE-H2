@@ -4,14 +4,12 @@ package vasilizas.bean;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import static java.math.BigDecimal.valueOf;
-
 public final class Teacher extends Person {
     private BigDecimal salary;
 
-    public Teacher(String name, int age) {
-        super(name, age);
-        this.salary = valueOf(0);
+    public Teacher(String name, int age, String login, String password) {
+        super(name, age, login, password);
+        this.salary = BigDecimal.valueOf(0);
     }
 
     public Teacher() {

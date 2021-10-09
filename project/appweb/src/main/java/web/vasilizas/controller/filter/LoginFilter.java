@@ -21,6 +21,10 @@ public class LoginFilter extends AbstractFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
+        String admin = "Admin";
+        String student = "Student";
+        String teacher = "Teacher";
+
         HttpSession session = request.getSession();
 
         String loginURI = "/myweb/auth";
@@ -28,14 +32,9 @@ public class LoginFilter extends AbstractFilter {
 
         if (session == null) {
             type = "null";
-        }
-        type = (String) session.getAttribute("type");
+        } else type = (String) session.getAttribute("type");
 
-        if (type == null) {
-            type = "null";
-        }
-
-        boolean loggedIn = type.equals("Admin") || type.equals("Student") || type.equals("Teacher");
+        boolean loggedIn = admin.equals(type) || student.equals(type) || teacher.equals(type);
         boolean loginRequest = request.getRequestURI().equals(loginURI);
 
         if (loggedIn || loginRequest) {

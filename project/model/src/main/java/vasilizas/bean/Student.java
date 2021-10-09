@@ -1,18 +1,15 @@
 package vasilizas.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public final class Student extends Person {
     private List<Integer> marks;
 
-    public Student(String name, int age) {
-        super(name, age);
-        this.marks = new ArrayList<>();
-    }
+    public Student(String name, int age, String login, String password) {
+        super(name, age, login, password);
+        this.marks = new ArrayList<>(); }
 
-    public Student() {
+                public Student() {
     }
 
     @Override

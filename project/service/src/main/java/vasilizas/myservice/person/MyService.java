@@ -13,13 +13,14 @@ public class MyService {
     public static final Logger log = LoggerFactory.getLogger("Service");
 
     private MyService() {
+        // blank default constructor for utility class
     }
 
-    public static void createAndAddPerson(String typePerson, String namePerson, int agePerson) {
+    public static void createAndAddPerson(String typePerson, String namePerson, int agePerson, String login, String passsword) {
 
         switch (typePerson) {
-            case "Student" -> studentList.add(createStudent(namePerson, agePerson));
-            case "Teacher" -> teacherList.add(createTeacher(namePerson, agePerson));
+            case "Student" -> studentList.add(createStudent(namePerson, agePerson, login, passsword));
+            case "Teacher" -> teacherList.add(createTeacher(namePerson, agePerson, login, passsword));
             default -> log.warn("Incorrect variable entered");
         }
     }

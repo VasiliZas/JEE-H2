@@ -5,6 +5,7 @@ import static vasilizas.myservice.person.MyService.log;
 public class PersonSecurity {
 
     private PersonSecurity() {
+        // blank default constructor for utility class
     }
 
     public static void addLoginAndPassword(String personType, String personName, String login, String password) {

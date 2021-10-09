@@ -16,8 +16,8 @@ import static vasilizas.repository.TeacherRepository.teacherList;
 public class Info extends HttpServlet {
     @Override
     public void init() throws ServletException {
-        createAndAddPerson("Teacher", "Jasmin", 22);
-        createAndAddPerson("Teacher", "Zlata", 25);
+        createAndAddPerson("Teacher", "Jasmin", 22, "login", "password");
+        createAndAddPerson("Teacher", "Zlata", 25, "login", "password");
         setTeacherSalary("Zlata", 6000);
         setTeacherSalary("Jasmin", 2000);
     }

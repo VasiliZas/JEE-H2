@@ -1,23 +1,36 @@
 package vasilizas.bean;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public abstract class Person {
 
     protected String name;
     protected int age;
-    protected Map<String, String> loginAndPassword;
+    protected String login;
+    protected String password;
 
 
     protected Person() {
     }
 
-    protected Person(String name, int age) {
+    public Person(String name, int age, String login, String password) {
         this.name = name;
         this.age = age;
-        this.loginAndPassword = new HashMap<>();
+        this.login = login;
+        this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age && Objects.equals(name, person.name) && Objects.equals(login, person.login) && Objects.equals(password, person.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, login, password);
     }
 
     @Override
@@ -25,16 +38,28 @@ public abstract class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
-                ", loginAndPassword=" + loginAndPassword +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 
-    public Map<String, String> getLoginAndPassword() {
-        return loginAndPassword;
+    public String getLogin() {
+        return login;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-     public int getAge() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getAge() {
         return age;
     }
 
@@ -50,18 +75,7 @@ public abstract class Person {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return age == person.age && Objects.equals(name, person.name) && Objects.equals(loginAndPassword, person.loginAndPassword);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, age, loginAndPassword);
-    }
 }
 
 
