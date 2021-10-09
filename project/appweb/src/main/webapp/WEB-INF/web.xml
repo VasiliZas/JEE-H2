@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
   <servlet>
-    <servlet-name>InfoTeacher</servlet-name>
-    <jsp-file>/teacher-info.jsp</jsp-file>
+    <servlet-name>Info</servlet-name>
+   <servlet-class>web.vasilizas.Info</servlet-class>
   </servlet>
 
   <servlet>
@@ -19,8 +19,8 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>InfoTeacher</servlet-name>
-    <url-pattern>/admin/teacher-info</url-pattern>
+    <servlet-name>Info</servlet-name>
+    <url-pattern>/myweb/admin/info</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

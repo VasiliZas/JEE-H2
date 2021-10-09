@@ -4,11 +4,11 @@ import vasilizas.bean.Person;
 
 import static vasilizas.repository.AdminRepository.adminList;
 
-public class AdminSecurity implements Security {
+public class AdminSecurity extends AbstractSecurity {
     private AdminSecurity() {
     }
 
-    public static void security(String name, String login, String password) {
+    public static void addLoginAndPassword(String name, String login, String password) {
         adminList.stream()
                 .filter(admin -> admin.getName().equals(name))
                 .map(Person::getLoginAndPassword)
@@ -17,17 +17,8 @@ public class AdminSecurity implements Security {
 
     public static boolean check(String name, String login, String password) {
         boolean result = false;
-        if (checkName(name)) {
-            if (checkLogin(name, login)) {
-
-                var list = adminList.stream()
-                        .filter(a -> a.getName().equals(name))
-                        .map(Person::getLoginAndPassword)
-                        .map(stringStringMap -> stringStringMap.get(login))
-                        .toList();
-                result = list.get(0).equals(password);
-            }
-            return result;
+        if (checkName(name) && (checkLogin(name, login))) {
+            result = checkPassword(name, login, password);
         }
         return result;
     }
@@ -41,8 +32,15 @@ public class AdminSecurity implements Security {
 
     private static boolean checkName(String name) {
         return adminList.stream()
-                .anyMatch(admin -> admin.getName().equals(name));
+                .anyMatch(a -> a.getName().equals(name));
+    }
 
-
+    private static boolean checkPassword(String name, String login, String password) {
+        var list = adminList.stream()
+                .filter(a -> a.getName().equals(name))
+                .map(Person::getLoginAndPassword)
+                .map(stringStringMap -> stringStringMap.get(login))
+                .toList();
+        return list.get(0).equals(password);
     }
 }

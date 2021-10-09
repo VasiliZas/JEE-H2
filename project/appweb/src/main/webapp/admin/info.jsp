@@ -8,10 +8,10 @@
 <body align=center>
 
 <%=
-session.getAttribute("teacher-info")
+session.getAttribute("info")
 %>
 <p center>    <c></c>  </p>
-<a href="/myweb/index.html">Back to HOME</a>
+<a href="/myweb/home.html">Back to HOME</a>
 <p center>    <c></c>  </p>
 <a href="/myweb/admin/admin.html">Back to work page</a>
 </body>
