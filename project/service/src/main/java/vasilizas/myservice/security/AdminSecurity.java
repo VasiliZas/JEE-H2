@@ -9,17 +9,22 @@ public class AdminSecurity extends AbstractSecurity {
         // blank default constructor for utility class
     }
 
-    public static void addLoginAndPassword(String name, String login, String password) {
+    public static void addLogin(String name, String login) {
         adminList.stream()
                 .filter(admin -> admin.getName().equals(name))
-                .map(Person::getLoginAndPassword)
-                .forEach(stringStringMap -> stringStringMap.put(login, password));
+                .forEach(admin -> admin.setLogin(login));
+    }
+
+    public static void addPassword(String name, String password) {
+        adminList.stream()
+                .filter(admin -> admin.getName().equals(name))
+                .forEach(admin -> admin.setPassword(password));
     }
 
     public static boolean check(String name, String login, String password) {
         boolean result = false;
         if (checkName(name) && (checkLogin(name, login))) {
-            result = checkPassword(name, login, password);
+            result = checkPassword(name, password);
         }
         return result;
     }
@@ -27,8 +32,8 @@ public class AdminSecurity extends AbstractSecurity {
     private static boolean checkLogin(String name, String login) {
         return adminList.stream()
                 .filter(a -> a.getName().equals(name))
-                .map(Person::getLoginAndPassword)
-                .anyMatch(stringStringMap -> stringStringMap.containsKey(login));
+                .map(Person::getLogin)
+                .anyMatch(s -> s.equals(login));
     }
 
     private static boolean checkName(String name) {
@@ -36,12 +41,10 @@ public class AdminSecurity extends AbstractSecurity {
                 .anyMatch(a -> a.getName().equals(name));
     }
 
-    private static boolean checkPassword(String name, String login, String password) {
-        var list = adminList.stream()
+    private static boolean checkPassword(String name, String password) {
+        return adminList.stream()
                 .filter(a -> a.getName().equals(name))
-                .map(Person::getLoginAndPassword)
-                .map(stringStringMap -> stringStringMap.get(login))
-                .toList();
-        return list.get(0).equals(password);
+                .map(Person::getPassword)
+                .allMatch(s -> s.equals(password));
     }
 }

@@ -20,12 +20,7 @@ public class Authentication extends HttpServlet {
     private static final String NAME = "name";
     private static final String TYPE = "type";
 
-    @Override
-    public void init() {
-        AdminSecurity.addLoginAndPassword("Vasili", "mylogin", "456987");
-    }
-
-    @Override
+      @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter(NAME);
         String type = request.getParameter(TYPE);
@@ -45,7 +40,7 @@ public class Authentication extends HttpServlet {
         if (type.equals("Teacher") && TeacherSecurity.check(name, login, password)) {
             setAttribute(session, type, login, name, response);
         } else {
-            setAttribute(session, "Error", "login", "name", response);
+            setAttribute(session, "Error", LOGIN, NAME, response);
         }
     }
 

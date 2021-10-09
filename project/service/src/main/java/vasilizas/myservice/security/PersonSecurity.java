@@ -8,10 +8,18 @@ public class PersonSecurity {
         // blank default constructor for utility class
     }
 
-    public static void addLoginAndPassword(String personType, String personName, String login, String password) {
+    public static void addLogin(String personType, String personName, String login, String password) {
         switch (personType) {
-            case "Student" -> StudentSecurity.addLoginAndPassword(personName, login, password);
-            case "Teacher" -> TeacherSecurity.addLoginAndPassword(personName, login, password);
+            case "Student" -> StudentSecurity.addLogin(personName, login, password);
+            case "Teacher" -> TeacherSecurity.addLogin(personName, login, password);
+            default -> log.warn("Incorrect variable entered");
+        }
+    }
+
+    public static void addPassword(String personType, String personName, String password) {
+        switch (personType) {
+            case "Student" -> StudentSecurity.addPassword(personName, password);
+            case "Teacher" -> TeacherSecurity.addPassword(personName, password);
             default -> log.warn("Incorrect variable entered");
         }
     }
