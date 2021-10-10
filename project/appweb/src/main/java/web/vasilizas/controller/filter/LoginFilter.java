@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static vasilizas.myservice.person.MyService.log;
+import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter extends AbstractFilter {
@@ -45,7 +45,7 @@ public class LoginFilter extends AbstractFilter {
         if (loggedIn || loginRequest) {
             chain.doFilter(request, response);
         } else {
-            log.info("The LoginFilter worked, the request was redirected");
+            myLogger.info("The LoginFilter worked, the request was redirected");
             response.sendRedirect(loginUri2);
             return;
         }

@@ -1,5 +1,7 @@
 package web.vasilizas.controller;
 
+import web.vasilizas.controller.authentication.Authentication;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import static vasilizas.myservice.person.MyService.createAndAddPerson;
 import static vasilizas.myservice.person.MyService.log;
 import static vasilizas.myservice.person.TeacherService.setTeacherSalary;
 import static vasilizas.repository.TeacherRepository.teacherList;
+import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/admin/info")
 public class Info extends HttpServlet {
@@ -25,7 +28,7 @@ public class Info extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("Info about teacher");
+        myLogger.info("Info about teacher");
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = resp.getWriter();

@@ -11,13 +11,13 @@ import java.io.IOException;
 public class WorkPageFilter extends AbstractFilter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
+    public void init(FilterConfig filterConfig)  {
+//init
     }
 
     @Override
     public void destroy() {
-
+//destroy
     }
 
     @Override

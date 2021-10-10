@@ -1,5 +1,7 @@
 package web.vasilizas.controller.authentication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vasilizas.myservice.security.AdminSecurity;
 import vasilizas.myservice.security.StudentSecurity;
 import vasilizas.myservice.security.TeacherSecurity;
@@ -12,10 +14,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static vasilizas.myservice.person.MyService.createAndAddPerson;
-import static vasilizas.myservice.person.MyService.log;
 import static web.vasilizas.UrlRepository.urlMap;
 
 public class Authentication extends HttpServlet {
+
+    public static final Logger myLogger = LoggerFactory.getLogger("webLogger");
 
 
     private static final String LOGIN = "login";
@@ -36,7 +39,7 @@ public class Authentication extends HttpServlet {
         String password = request.getParameter("password");
 
         HttpSession session = request.getSession();
-        log.info("Passing authorization");
+        myLogger.info("Passing authorization");
         if (type.equals("Student") && StudentSecurity.check(name, login, password)) {
             setAttribute(session, type, login, name, response);
             return;
@@ -53,7 +56,7 @@ public class Authentication extends HttpServlet {
     }
 
     private void setAttribute(HttpSession session, String type, String login, String name, HttpServletResponse response) throws IOException {
-        log.info("Setting attributes during authorization");
+        myLogger.info("Setting attributes during authorization");
         session.setAttribute(TYPE, type);
         session.setAttribute(LOGIN, login);
         session.setAttribute(NAME, name);
