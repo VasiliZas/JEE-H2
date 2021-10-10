@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang=en>
 <head>
-    <meta charset=UTF-8>
-    <title>authentication</title>
+    <meta charset="UTF-8">
+    <title>My Web Project</title>
 </head>
 <body align=center>
-<p> You are on the login page
-</p>
+<jsp:include page="href.html"/>
+<h1 center> School web project </h1>
+
 <h1> Please enter your status, name, login and password </h1>
 <form action="/myweb/auth" method=post>
     <input name=type placeholder=type type=text> <br/>
@@ -15,9 +16,8 @@
     <input name=password placeholder=password type=text> <br/>
     <input type=submit value=OK>
 </form>
-<p center>
-    <c></c>
-</p>
-<a href="/myweb/home.html">Back to HOME</a>
+
+<jsp:include page="my.jsp"/>
+
 </body>
 </html>

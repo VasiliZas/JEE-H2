@@ -30,11 +30,12 @@ public class LoginFilter extends AbstractFilter {
         HttpSession session = request.getSession();
         log.info("give session");
         String loginURI = "/myweb/auth";
-        String  loginUri2 = "/myweb/auth.html";
+        String  loginUri2 = "/myweb/home";
         String type;
         log.info("check session");
         if (session == null) {
-            response.sendRedirect("/myweb/auth.html");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/myweb/home");
+            requestDispatcher.forward(req, res);
             return;
             }
         else type = (String) session.getAttribute("type");
@@ -47,7 +48,7 @@ public class LoginFilter extends AbstractFilter {
             chain.doFilter(request, response);
         } else {
             log.info("The filter worked, the request was redirected");
-            response.sendRedirect("/myweb/auth.html");
+            response.sendRedirect("/myweb/home");
             return;
         }
     }

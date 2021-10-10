@@ -1,12 +1,10 @@
 package web.vasilizas.controller.authentication;
 
-import vasilizas.myservice.person.MyService;
 import vasilizas.myservice.security.AdminSecurity;
 import vasilizas.myservice.security.StudentSecurity;
 import vasilizas.myservice.security.TeacherSecurity;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +15,6 @@ import static vasilizas.myservice.person.MyService.createAndAddPerson;
 import static vasilizas.myservice.person.MyService.log;
 import static web.vasilizas.UrlRepository.urlMap;
 
-@WebServlet(value = "/auth")
 public class Authentication extends HttpServlet {
 
 
@@ -27,8 +24,8 @@ public class Authentication extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-       createAndAddPerson("Student", "Bakke", 22, "myDog","poi");
-        createAndAddPerson("Teacher", "Jasmin", 22, "myCat","lkj");
+        createAndAddPerson("Student", "Bakke", 22, "myDog", "poi");
+        createAndAddPerson("Teacher", "Jasmin", 22, "myCat", "lkj");
     }
 
     @Override

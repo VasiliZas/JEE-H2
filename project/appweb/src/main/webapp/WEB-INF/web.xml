@@ -10,13 +10,29 @@
   </servlet>
 
   <servlet>
+    <servlet-name>Home</servlet-name>
+    <jsp-file>/index.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
     <servlet-name>Auth</servlet-name>
     <servlet-class>web.vasilizas.controller.authentication.Authentication</servlet-class>
+    </servlet>
+
+  <servlet>
+    <servlet-name>About</servlet-name>
+    <jsp-file>/about.jsp</jsp-file>
   </servlet>
+
 
   <servlet>
     <servlet-name>AddTeacher</servlet-name>
     <jsp-file>/add-teacher.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SessionOut</servlet-name>
+    <servlet-class>web.vasilizas.controller.Out</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -26,12 +42,27 @@
 
   <servlet-mapping>
     <servlet-name>Auth</servlet-name>
-    <url-pattern>/myweb/auth</url-pattern>
-  </servlet-mapping>
+    <url-pattern>/auth</url-pattern>
+      </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>Info</servlet-name>
     <url-pattern>/info</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Home</servlet-name>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SessionOut</servlet-name>
+    <url-pattern>/out</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>About</servlet-name>
+    <url-pattern>/about</url-pattern>
   </servlet-mapping>
 
   <session-config>

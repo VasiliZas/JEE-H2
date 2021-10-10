@@ -29,12 +29,12 @@ public class AuthenticationFilter extends AbstractFilter {
             if (userRole.equals("Admin")) {
                 chain.doFilter(request, response);
             } else {
-                response.sendRedirect("/myweb/index.html");
+                response.sendRedirect("/myweb/home");
                 return;
             }
             //Если нет то на страницу входа.
         } else {
-            response.sendRedirect("/myweb/index.html");
+            response.sendRedirect("/index.jsp");
             return;
         }
     }

@@ -36,7 +36,7 @@ public class Info extends HttpServlet {
         writer.write("<h1> Teacher Info </h1>");
         teacherList.forEach(teacher -> writer.write(teacher.toString() + "</p>"));
         writer.write("<p center><c></c></p>");
-        writer.write("<a href=/myweb/home.html>Back to HOME</a>");
+        writer.write("<a href=/myweb/home>Back to HOME</a>");
         writer.write("<p center>    <c></c>  </p>");
         writer.write("<a href=/myweb/admin/admin.html>Back to work page</a>");
     }
