@@ -15,6 +15,11 @@
   </servlet>
 
   <servlet>
+    <servlet-name>Start</servlet-name>
+    <jsp-file>/auth.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
     <servlet-name>Auth</servlet-name>
     <servlet-class>web.vasilizas.controller.authentication.Authentication</servlet-class>
     </servlet>
@@ -24,6 +29,10 @@
     <jsp-file>/about.jsp</jsp-file>
   </servlet>
 
+  <servlet>
+    <servlet-name>Admin</servlet-name>
+    <jsp-file>/admin/admin.jsp</jsp-file>
+  </servlet>
 
   <servlet>
     <servlet-name>AddTeacher</servlet-name>
@@ -63,6 +72,16 @@
   <servlet-mapping>
     <servlet-name>About</servlet-name>
     <url-pattern>/about</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Admin</servlet-name>
+    <url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Start</servlet-name>
+    <url-pattern>/start</url-pattern>
   </servlet-mapping>
 
   <session-config>

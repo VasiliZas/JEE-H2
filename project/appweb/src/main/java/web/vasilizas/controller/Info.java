@@ -38,6 +38,6 @@ public class Info extends HttpServlet {
         writer.write("<p center><c></c></p>");
         writer.write("<a href=/myweb/home>Back to HOME</a>");
         writer.write("<p center>    <c></c>  </p>");
-        writer.write("<a href=/myweb/admin/admin.html>Back to work page</a>");
+        writer.write("<a href=/myweb/admin>Back to work page</a>");
     }
 }

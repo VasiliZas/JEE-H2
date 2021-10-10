@@ -12,7 +12,6 @@ public class Out extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         log.info("Out session");
         HttpSession session = req.getSession();
         session.invalidate();

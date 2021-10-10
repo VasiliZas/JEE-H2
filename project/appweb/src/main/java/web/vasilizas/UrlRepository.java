@@ -4,9 +4,9 @@ import java.util.Map;
 
 public class UrlRepository {
     public static final Map<String, String> urlMap = Map.of(
-            "Student", "/myweb/student/student.html",
-            "Admin", "/myweb/admin/admin.html",
-            "Teacher", "/myweb/teacher/teacher.html",
+            "Student", "/myweb/student",
+            "Admin", "/myweb/admin",
+            "Teacher", "/myweb/teacher",
             "Error", "/myweb/error/auth-error.html");
 
     private UrlRepository() {

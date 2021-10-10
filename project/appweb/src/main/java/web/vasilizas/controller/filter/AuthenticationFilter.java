@@ -13,34 +13,40 @@ import static vasilizas.myservice.person.MyService.log;
 public class AuthenticationFilter extends AbstractFilter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig)  {
+        //init
     }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+
         HttpSession session = request.getSession();
 
          boolean loggedLogin = session != null && session.getAttribute("type") != null;
+
         if (loggedLogin) {
             log.info("check type admin filter");
-            String userRole = session.getAttribute("type").toString();
+            String userRole = (String) session.getAttribute("type");
+
             if (userRole.equals("Admin")) {
                 chain.doFilter(request, response);
             } else {
-                response.sendRedirect("/myweb/home");
-                return;
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/home");
+                requestDispatcher.forward(req, res);
             }
-            //Если нет то на страницу входа.
+
         } else {
-            response.sendRedirect("/index.jsp");
-            return;
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/home");
+            requestDispatcher.forward(req, res);
         }
     }
 
     @Override
     public void destroy() {
+        //destroy
     }
 }
 

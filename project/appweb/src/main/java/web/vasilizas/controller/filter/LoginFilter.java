@@ -28,27 +28,25 @@ public class LoginFilter extends AbstractFilter {
         String teacher = "Teacher";
 
         HttpSession session = request.getSession();
-        log.info("give session");
+
         String loginURI = "/myweb/auth";
-        String  loginUri2 = "/myweb/home";
+        String loginUri2 = "/myweb/start";
         String type;
-        log.info("check session");
+
         if (session == null) {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/myweb/home");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(loginUri2);
             requestDispatcher.forward(req, res);
             return;
-            }
-        else type = (String) session.getAttribute("type");
-        log.info("check type");
+        } else type = (String) session.getAttribute("type");
+
         boolean loggedIn = admin.equals(type) || student.equals(type) || teacher.equals(type);
         boolean loginRequest = request.getRequestURI().equals(loginURI) || request.getRequestURI().equals(loginUri2);
 
-        if (loggedIn|| loginRequest) {
-            log.info("The filter worked, the request was approved");
+        if (loggedIn || loginRequest) {
             chain.doFilter(request, response);
         } else {
-            log.info("The filter worked, the request was redirected");
-            response.sendRedirect("/myweb/home");
+            log.info("The LoginFilter worked, the request was redirected");
+            response.sendRedirect(loginUri2);
             return;
         }
     }
