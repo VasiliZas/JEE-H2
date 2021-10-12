@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import vasilizas.myservice.security.AdminSecurity;
 import vasilizas.myservice.security.StudentSecurity;
 import vasilizas.myservice.security.TeacherSecurity;
+import vasilizas.repository.StudentRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,11 @@ public class Authentication extends HttpServlet {
     @Override
     public void init() throws ServletException {
         createAndAddPerson("Student", "Bakke", 22, "myDog", "poi");
+        StudentRepository.studentList.stream()
+                        .filter(student -> student.getName().equals("Bakke"))
+                        .map(student -> student.getMarks())
+                        .forEach(integerList -> integerList.add(89));
+
         createAndAddPerson("Teacher", "Jasmin", 22, "myCat", "lkj");
     }
 

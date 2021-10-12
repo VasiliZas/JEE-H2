@@ -10,6 +10,11 @@
   </servlet>
 
   <servlet>
+    <servlet-name>StudentPage</servlet-name>
+  <jsp-file>/student/student.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
     <servlet-name>Home</servlet-name>
     <jsp-file>/index.jsp</jsp-file>
   </servlet>
@@ -82,6 +87,11 @@
   <servlet-mapping>
     <servlet-name>Start</servlet-name>
     <url-pattern>/start</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>StudentPage</servlet-name>
+    <url-pattern>/student-page</url-pattern>
   </servlet-mapping>
 
   <session-config>

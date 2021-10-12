@@ -20,10 +20,10 @@ public final class Factory {
         return new Admin();
     }
 
-    public static Person getTypePerson(String type, String name, int age, String login, String passsword) {
+    public static Person getTypePerson(String type, String name, int age, String login, String password) {
         return switch (type) {
-            case "Student" -> new Student(name, age, login, passsword);
-            case "Teacher" -> new Teacher(name, age, login, passsword);
+            case "Student" -> new Student(name, age, login, password);
+            case "Teacher" -> new Teacher(name, age, login, password);
             case "Admin" -> new Admin();
             default -> new DefaultPerson();
         };
