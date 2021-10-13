@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang=en>
@@ -13,7 +12,7 @@
 </head>
 <body align="center">
 <jsp:include page="href.html"/>
-<h1 align="center">Work with teacher </h1>
+<h1 align="center">Work with users </h1>
 <h2 align="center"> Please enter age, name, login and password teacher </h2>
 <form action="/myweb/addteacher" method=post>
     <input required name=name placeholder=name type=text> <br/>

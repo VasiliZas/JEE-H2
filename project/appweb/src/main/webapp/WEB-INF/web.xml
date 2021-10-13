@@ -15,6 +15,11 @@
   </servlet>
 
   <servlet>
+    <servlet-name>AverageSalary</servlet-name>
+    <jsp-file>/admin/average.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
     <servlet-name>Home</servlet-name>
     <jsp-file>/index.jsp</jsp-file>
   </servlet>
@@ -48,6 +53,11 @@
     <servlet-name>SessionOut</servlet-name>
     <servlet-class>web.vasilizas.controller.Out</servlet-class>
   </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AverageSalary</servlet-name>
+    <url-pattern>/admin/avg-salary</url-pattern>
+  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>AddTeacher</servlet-name>
