@@ -41,7 +41,7 @@
 
   <servlet>
     <servlet-name>AddTeacher</servlet-name>
-    <jsp-file>/add-teacher.jsp</jsp-file>
+    <jsp-file>/admin/addPerson.jsp</jsp-file>
   </servlet>
 
   <servlet>
@@ -51,7 +51,7 @@
 
   <servlet-mapping>
     <servlet-name>AddTeacher</servlet-name>
-    <url-pattern>/admin/add-teacher</url-pattern>
+    <url-pattern>/admin/addteacherpar</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

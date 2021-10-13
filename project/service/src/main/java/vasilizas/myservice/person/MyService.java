@@ -16,11 +16,11 @@ public class MyService {
         // blank default constructor for utility class
     }
 
-    public static void createAndAddPerson(String typePerson, String namePerson, int agePerson, String login, String passsword) {
+    public static void createAndAddPerson(String typePerson, String namePerson, int agePerson, String login, String password) {
 
         switch (typePerson) {
-            case "Student" -> studentList.add(createStudent(namePerson, agePerson, login, passsword));
-            case "Teacher" -> teacherList.add(createTeacher(namePerson, agePerson, login, passsword));
+            case "Student" -> studentList.add(createStudent(namePerson, agePerson, login, password));
+            case "Teacher" -> teacherList.add(createTeacher(namePerson, agePerson, login, password));
             default -> log.warn("Incorrect variable entered");
         }
     }

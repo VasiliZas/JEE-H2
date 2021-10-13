@@ -21,9 +21,10 @@ public class TeacherService {
                 .forEach(teacher -> log.info("{} ", teacher));
     }
 
-    public static void setTeacherSalary(String name, double salary) {
+    public static void setTeacherSalary(String name, String login, double salary) {
         teacherList.stream()
                 .filter(teacher -> teacher.getName().equals(name))
+                .filter(teacher -> teacher.getLogin().equals(login))
                 .forEach(teacher -> teacher.setSalary(valueOf(salary)));
     }
 }

@@ -7,11 +7,7 @@
 <body align=center>
 <jsp:include page="href.html"/>
 <h1 center> Admin work page </h1>
-<a href="/myweb/admin/info">Info</a>
-<p center>
-    <c></c>
-</p>
-<a href="/myweb/admin/addteacher">Add teacher</a>
-
+<nav><a href="/myweb/admin/addteacherpar">Add teacher and salary</a> | <a href="/myweb/admin/avgsalary">Teacher's salary average</a>
+    | <a href="/myweb/admin/addstudent">Add student</a></nav>
 </body>
 </html>

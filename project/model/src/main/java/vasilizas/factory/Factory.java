@@ -8,12 +8,12 @@ public final class Factory {
         // blank default constructor for utility class
     }
 
-    public static Student createStudent(String name, int age, String login, String passsword) {
-        return new Student(name, age, login, passsword);
+    public static Student createStudent(String name, int age, String login, String password) {
+        return new Student(name, age, login, password);
     }
 
-    public static Teacher createTeacher(String name, int age, String login, String passsword) {
-        return new Teacher(name, age, login, passsword);
+    public static Teacher createTeacher(String name, int age, String login, String password) {
+        return new Teacher(name, age, login, password);
     }
 
     public static Admin createAdmin() {

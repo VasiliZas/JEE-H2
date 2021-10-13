@@ -22,8 +22,8 @@ public class Info extends HttpServlet {
     public void init() throws ServletException {
         createAndAddPerson("Teacher", "Jasmin", 22, "login", "password");
         createAndAddPerson("Teacher", "Zlata", 25, "login", "password");
-        setTeacherSalary("Zlata", 6000);
-        setTeacherSalary("Jasmin", 2000);
+        setTeacherSalary("Zlata", "login",6000);
+        setTeacherSalary("Jasmin", "login",2000);
     }
 
     @Override

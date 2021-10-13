@@ -10,22 +10,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static vasilizas.factory.Factory.createTeacher;
-import static vasilizas.repository.TeacherRepository.teacherList;
+import static java.lang.Integer.parseInt;
+import static vasilizas.myservice.person.MyService.createAndAddPerson;
 
 @WebServlet("/addteacher")
-public class AddTeacher extends HttpServlet {
+public class TeacherController extends HttpServlet {
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String age = req.getParameter("age");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
 
         HttpSession session = req.getSession();
         session.setAttribute("newteacher", name);
 
-        teacherList.add(createTeacher(name, Integer.valueOf(age), "TLogin", "12345"));
+        createAndAddPerson("Teacher", name, parseInt(age), login, password);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/add-teacher");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin");
         requestDispatcher.forward(req, resp);
     }
 }
