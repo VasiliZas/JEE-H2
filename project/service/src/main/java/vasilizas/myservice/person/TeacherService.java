@@ -32,8 +32,8 @@ public class TeacherService {
                 .forEach(teacher -> teacher.setSalary(valueOf(salary)));
     }
 
-    public static int averageSalary() {
-       return (int) teacherList.stream()
+    public static double averageSalary() {
+       return  teacherList.stream()
                 .map(Teacher::getSalary)
                 .mapToInt(BigDecimal::intValueExact)
                 .summaryStatistics()
