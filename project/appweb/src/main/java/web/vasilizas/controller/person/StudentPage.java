@@ -1,4 +1,4 @@
-package web.vasilizas.controller;
+package web.vasilizas.controller.person;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

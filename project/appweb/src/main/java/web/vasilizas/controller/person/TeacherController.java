@@ -1,6 +1,5 @@
-package web.vasilizas.controller;
+package web.vasilizas.controller.person;
 
-import vasilizas.myservice.person.TeacherService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,25 +10,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static java.lang.Double.valueOf;
+import static java.lang.Integer.parseInt;
+import static vasilizas.myservice.person.MyService.createAndAddPerson;
 
-@WebServlet("/teacher-salary")
-public class TeacherSalaryController extends HttpServlet {
-
+@WebServlet("/addteacher")
+public class TeacherController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        String salary = req.getParameter("salary");
+        String age = req.getParameter("age");
         String login = req.getParameter("login");
+        String password = req.getParameter("password");
 
-
-        TeacherService.setTeacherSalary(name, login, valueOf(salary));
         HttpSession session = req.getSession();
+        session.setAttribute("add", "You add new teacher " + name + " with age "+ age + " and login " + login );
 
-        session.setAttribute("newteacher", name);
+        createAndAddPerson("Teacher", name, parseInt(age), login, password);
 
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
         requestDispatcher.forward(req, resp);
     }
 }

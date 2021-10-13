@@ -51,7 +51,7 @@
 
   <servlet-mapping>
     <servlet-name>AddTeacher</servlet-name>
-    <url-pattern>/admin/addteacherpar</url-pattern>
+    <url-pattern>/admin/addpersonpar</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

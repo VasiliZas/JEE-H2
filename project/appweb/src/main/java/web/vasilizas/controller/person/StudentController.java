@@ -1,4 +1,4 @@
-package web.vasilizas.controller;
+package web.vasilizas.controller.person;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,11 +23,11 @@ public class StudentController extends HttpServlet {
         String password = req.getParameter("password");
 
         HttpSession session = req.getSession();
-        session.setAttribute("newteacher", name);
+        session.setAttribute("add", "You add new student " + name + " with age "+ age + " and login " + login );
 
         createAndAddPerson("Student", name, parseInt(age), login, password);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
         requestDispatcher.forward(req, resp);
     }
 }
