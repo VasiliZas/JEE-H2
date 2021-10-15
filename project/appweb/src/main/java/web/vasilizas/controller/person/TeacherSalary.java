@@ -1,7 +1,5 @@
 package web.vasilizas.controller.person;
 
-import vasilizas.myservice.person.TeacherService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static java.lang.Integer.parseInt;
+import static vasilizas.myservice.person.TeacherService.averageSalary;
+import static vasilizas.repository.TeacherRepository.teacherList;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/averagesalary")
@@ -21,7 +21,12 @@ public class TeacherSalary extends HttpServlet {
         String name = req.getParameter("name");
 
         try {
-            double average = TeacherService.averageSalary(name, parseInt(number));
+            if (teacherList.stream().noneMatch(teacher -> teacher.getName().equals(name))) {
+                myLogger.warn("Error TeacherSalary");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
+                requestDispatcher.forward(req, resp);
+            }
+            double average = averageSalary(name, parseInt(number));
             HttpSession session = req.getSession();
             session.setAttribute("avgSalary", "Average salary " + name + " teacher  is " + average + " eur");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/avg-salary");
@@ -29,6 +34,5 @@ public class TeacherSalary extends HttpServlet {
         } catch (Exception e) {
             myLogger.warn(String.valueOf(e));
         }
-
     }
 }

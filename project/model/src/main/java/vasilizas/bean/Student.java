@@ -1,16 +1,14 @@
 package vasilizas.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public final class Student extends Person {
-    private List<Integer> marks;
+    private Map<String,Integer> marks;
     private int id;
 
     public Student(String name, int age, String login, String password) {
         super(name, age, login, password);
-        this.marks = new ArrayList<>();
+        this.marks = new HashMap<>();
         this.id = 0;
     }
 
@@ -51,11 +49,11 @@ public final class Student extends Person {
         this.id = id;
     }
 
-    public List<Integer> getMarks() {
+    public Map<String, Integer> getMarks() {
         return marks;
     }
 
-    public void setMarks(List<Integer> marks) {
+    public void setMarks(Map<String, Integer> marks) {
         this.marks = marks;
     }
 }

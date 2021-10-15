@@ -20,13 +20,13 @@ public class StudentService {
         studentList.stream()
                 .filter(student -> student.getName().equals(name))
                 .map(Student::getMarks)
-                .forEach(integerList -> log.info("Student {}  marks {}", name, integerList));
+                .forEach(stringIntegerMap -> log.info("Student {}  marks {}", name, stringIntegerMap));
     }
 
-    public static void addStudentMarks(String name, int mark) {
+    public static void addStudentMarks(String name, String theme, int mark) {
         studentList.stream()
                 .filter(student -> student.getName().equals(name))
                 .map(Student::getMarks)
-                .forEach(integers -> integers.add(mark));
+                .forEach(integers -> integers.put(theme,mark));
     }
 }

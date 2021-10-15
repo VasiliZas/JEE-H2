@@ -10,7 +10,7 @@
         }
     </style>
 </head>
-<body align="center">
+<body align="center" background="img/fon_pero_cvet.jpg">
 <jsp:include page="href.html"/>
 <h1 align="center">Work with users </h1>
 <h2 align="center"> Please enter age, name, login and password teacher </h2>
@@ -41,7 +41,7 @@
 <p > </p>
 <% if (session.getAttribute("add") == null ){
        session.setAttribute("add", "There will result your work");} %>
-<h3> <%= session.getAttribute("add")%></h3>
+<h3 style="color: blue"> <%= session.getAttribute("add")%></h3>
 <% session.setAttribute("add",null); %>
 </body>
 </html>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static java.lang.Double.parseDouble;
+import static vasilizas.repository.TeacherRepository.teacherList;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/teacher-salary")
@@ -22,6 +23,11 @@ public class TeacherSalaryController extends HttpServlet {
         String login = req.getParameter("login");
 
         try {
+            if (teacherList.stream().noneMatch(teacher -> teacher.getName().equals(name))) {
+                myLogger.warn("Error TeacherSalaryController");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
+                requestDispatcher.forward(req, resp);
+            }
             TeacherService.setTeacherSalary(name, login, parseDouble(salary));
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new teacher " + name + " with salary " + salary);

@@ -5,7 +5,7 @@
     <meta charset=UTF-8>
     <title>Teacher info</title>
 </head>
-<body align=center>
+<body align=center background="img/fon_pero_cvet.jpg">
 
 <%=
 session.getAttribute("info")

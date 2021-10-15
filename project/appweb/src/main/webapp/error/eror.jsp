@@ -5,8 +5,8 @@
     <title>Error</title>
 </head>
 <body align=center>
+<jsp:include page="href.html"/>
 <h1 center> Please try again </h1>
-
-<a href="/myweb/index.html">Back to Start</a>
+<h3> Something went wrong. Please try again or email us about the problem. </h3>
 </body>
 </html>

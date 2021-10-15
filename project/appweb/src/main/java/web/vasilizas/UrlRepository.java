@@ -7,7 +7,7 @@ public class UrlRepository {
             "Student", "/myweb/student",
             "Admin", "/myweb/admin",
             "Teacher", "/myweb/teacher",
-            "Error", "/myweb/error/auth-error.html");
+            "Error", "/myweb/error");
 
     private UrlRepository() {
     }

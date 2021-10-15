@@ -2,10 +2,12 @@ package web.vasilizas.controller.authentication;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vasilizas.myservice.person.MyService;
 import vasilizas.myservice.security.AdminSecurity;
 import vasilizas.myservice.security.StudentSecurity;
 import vasilizas.myservice.security.TeacherSecurity;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +18,12 @@ import static web.vasilizas.UrlRepository.urlMap;
 
 public class Authentication extends HttpServlet {
 
-    public static final Logger myLogger = LoggerFactory.getLogger("webLogger");
+    @Override
+    public void init() throws ServletException {
+        MyService.createAndAddPerson("Student", "Bakke", 22, "login", "qwerty");
+    }
 
+    public static final Logger myLogger = LoggerFactory.getLogger("webLogger");
 
     private static final String LOGIN = "login";
     private static final String NAME = "name";

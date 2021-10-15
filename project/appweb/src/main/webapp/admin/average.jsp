@@ -11,7 +11,7 @@
         }
     </style>
 </head>
-<body align="center">
+<body align="center" background="img/fon_pero_cvet.jpg">
 <jsp:include page="href.html"/>
 <h1 align="center">Work with teacher </h1>
 <h2 align="center"> Please enter the name and the number of months for which you want to receive an average salary. </h2>
@@ -24,7 +24,7 @@
 <p > </p>
 <% if (session.getAttribute("avgSalary") == null ){
     session.setAttribute("avgSalary", "There will result your work");} %>
-<h3> <%= session.getAttribute("avgSalary")%></h3>
+<h3 style="color: blue"> <%= session.getAttribute("avgSalary")%></h3>
 <% session.setAttribute("avgSalary",null); %>
 </body>
 </html>

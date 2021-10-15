@@ -1,19 +1,23 @@
 package vasilizas.myservice.person;
 
-import vasilizas.bean.Student;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import vasilizas.bean.Student;
 
 import java.util.List;
 
+import static vasilizas.myservice.person.StudentService.getStudentMarksInformation;
 import static vasilizas.repository.StudentRepository.studentList;
 
 public class StudentMyServiceTest {
 
+    int marks;
+
     @Before
-    public void setUp()  {
-        MyService.createAndAddPerson("Student","Bakke", 22, "kl", "ppp");
+    public void setUp() {
+        MyService.createAndAddPerson("Student", "Bakke", 22, "kl", "ppp");
+        MyService.createAndAddPerson("Student", "Jasmin", 25, "klo", "poi");
     }
 
     @Test
@@ -23,27 +27,29 @@ public class StudentMyServiceTest {
 
     @Test
     public void addStudentMarks() {
-        StudentService.addStudentMarks("Bakke", 95);
+        StudentService.addStudentMarks("Jasmin", "Running", 95);
+        StudentService.addStudentMarks("Jasmin", "Sleeping", 99);
+        Assert.assertEquals(99, getMarks(studentList,"Jasmin","Sleeping"));
         StudentService.getStudentInfo("Bakke");
     }
 
     @Test
     public void getStudentMarks() {
-        StudentService.addStudentMarks("Bakke", 97);
-        StudentService.addStudentMarks("Bakke", 88);
-        StudentService.addStudentMarks("Bakke", 85);
-        StudentService.getStudentMarksInformation("Bakke");
-        var mark = getMarks(studentList, "Bakke", 2);
+        StudentService.addStudentMarks("Bakke", "Running", 97);
+        StudentService.addStudentMarks("Bakke", "Sleeping", 88);
+        StudentService.addStudentMarks("Bakke", "Running", 85);
+        getStudentMarksInformation("Bakke");
+        var mark = getMarks(studentList, "Bakke", "Running");
         Assert.assertEquals(85, mark);
     }
 
-    private int getMarks(List<Student> list, String name, int index) {
-        int mark = 0;
+    private int getMarks(List<Student> list, String name, String theme) {
+
         for (Student student : list) {
             if (student.getName().equals(name)) {
-                mark = student.getMarks().get(index);
+                marks = student.getMarks().get(theme);
             }
         }
-        return mark;
+        return marks;
     }
 }

@@ -2,16 +2,9 @@
 <html lang=en>
 <head>
     <meta charset="UTF-8">
-    <title>authentication</title>
-    <style type="text/css">
-        body {
-            margin: 0;
-            background-image: url(img/fon.jpg);
-            background-repeat: no-repeat;
-        }
-    </style>
+    <title>Authentication</title>
 </head>
-<body align=center>
+<body align=center background="img/fon_pero_cvet.jpg">
 
 <h1 center>Authentication </h1>
 

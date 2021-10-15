@@ -20,6 +20,11 @@
   </servlet>
 
   <servlet>
+    <servlet-name>Error</servlet-name>
+    <jsp-file>/error/eror.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
     <servlet-name>Home</servlet-name>
     <jsp-file>/index.jsp</jsp-file>
   </servlet>
@@ -68,6 +73,11 @@
     <servlet-name>Auth</servlet-name>
     <url-pattern>/auth</url-pattern>
       </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Error</servlet-name>
+    <url-pattern>/error</url-pattern>
+  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>Info</servlet-name>

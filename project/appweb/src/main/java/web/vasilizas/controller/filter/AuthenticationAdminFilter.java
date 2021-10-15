@@ -9,8 +9,8 @@ import java.io.IOException;
 
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-@WebFilter(urlPatterns = "/myweb/admin/*")
-public class AuthenticationFilter extends AbstractFilter {
+@WebFilter(urlPatterns = "/admin/*")
+public class AuthenticationAdminFilter extends AbstractFilter {
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -49,4 +49,3 @@ public class AuthenticationFilter extends AbstractFilter {
         //destroy
     }
 }
-
