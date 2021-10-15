@@ -13,7 +13,7 @@ public abstract class Person {
     protected Person() {
     }
 
-    public Person(String name, int age, String login, String password) {
+    protected Person(String name, int age, String login, String password) {
         this.name = name;
         this.age = age;
         this.login = login;

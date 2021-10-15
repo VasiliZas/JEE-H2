@@ -4,21 +4,9 @@ import vasilizas.bean.Person;
 
 import static vasilizas.repository.AdminRepository.adminList;
 
-public class AdminSecurity extends AbstractSecurity {
+public class AdminSecurity {
     private AdminSecurity() {
         // blank default constructor for utility class
-    }
-
-    public static void addLogin(String name, String login) {
-        adminList.stream()
-                .filter(admin -> admin.getName().equals(name))
-                .forEach(admin -> admin.setLogin(login));
-    }
-
-    public static void addPassword(String name, String password) {
-        adminList.stream()
-                .filter(admin -> admin.getName().equals(name))
-                .forEach(admin -> admin.setPassword(password));
     }
 
     public static boolean check(String name, String login, String password) {

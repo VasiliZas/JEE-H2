@@ -2,17 +2,37 @@ package vasilizas.bean;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public final class Teacher extends Person {
-    private BigDecimal salary;
+    private List<BigDecimal> salary;
+    private int id;
 
     public Teacher(String name, int age, String login, String password) {
         super(name, age, login, password);
-        this.salary = BigDecimal.valueOf(0);
+        this.salary = new ArrayList<>();
+        this.id = 0;
     }
 
     public Teacher() {
+    }
+
+    public List<BigDecimal> getSalary() {
+        return salary;
+    }
+
+    public void setSalary(List<BigDecimal> salary) {
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -21,28 +41,20 @@ public final class Teacher extends Person {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Teacher teacher = (Teacher) o;
-        return Objects.equals(salary, teacher.salary);
+        return id == teacher.id && Objects.equals(salary, teacher.salary);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), salary);
-    }
-
-    public BigDecimal getSalary() {
-        return salary;
-    }
-
-    public void setSalary(BigDecimal salary) {
-        this.salary = salary;
+        return Objects.hash(super.hashCode(), salary, id);
     }
 
     @Override
     public String toString() {
         return "Teacher{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", salary=" + salary +
+                "salary=" + salary +
+                ", id=" + id +
                 '}';
     }
 }
+

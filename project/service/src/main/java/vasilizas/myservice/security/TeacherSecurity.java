@@ -3,10 +3,9 @@ package vasilizas.myservice.security;
 import vasilizas.bean.Person;
 
 import static vasilizas.myservice.person.MyService.log;
-import static vasilizas.repository.StudentRepository.studentList;
 import static vasilizas.repository.TeacherRepository.teacherList;
 
-public class TeacherSecurity extends AbstractSecurity {
+public class TeacherSecurity {
 
     private TeacherSecurity() {
         // blank default constructor for utility class
@@ -18,7 +17,7 @@ public class TeacherSecurity extends AbstractSecurity {
                 .forEach(t -> t.setLogin(login));
     }
 
-    public static void addPassword(String personName,  String password) {
+    public static void addPassword(String personName, String password) {
         teacherList.stream()
                 .filter(t -> t.getName().equals(personName))
                 .forEach(t -> t.setPassword(password));
@@ -27,13 +26,13 @@ public class TeacherSecurity extends AbstractSecurity {
     static void getPassword(String personName) {
         teacherList.stream()
                 .filter(teacher -> teacher.getName().equals(personName))
-               .forEach(s -> log.info("{}", s.getPassword()));
+                .forEach(s -> log.info("{}", s.getPassword()));
     }
 
     public static boolean check(String name, String login, String password) {
         boolean result = false;
         if (checkName(name) && (checkLogin(name, login))) {
-            result = checkPassword(name, login, password);
+            result = checkPassword(name, password);
         }
         return result;
     }
@@ -50,7 +49,7 @@ public class TeacherSecurity extends AbstractSecurity {
                 .anyMatch(a -> a.getName().equals(name));
     }
 
-    private static boolean checkPassword(String name, String login, String password) {
+    private static boolean checkPassword(String name, String password) {
         return teacherList.stream()
                 .filter(a -> a.getName().equals(name))
                 .map(Person::getPassword)

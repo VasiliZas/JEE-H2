@@ -22,12 +22,12 @@ public class PersonSecurityTest {
     @Test
     public void addLoginAndPasswordStudent() {
        StudentSecurity.addLogin("Bakke","myDog");
-        getPassword("Bakke", "dog");
+        getPassword("Bakke");
     }
 
     @Test
     public void addLoginAndPasswordTeacher() {
-        addLogin("Teacher", "Picasso", "car", "5558455");
+        addLogin("Teacher", "Picasso", "car");
         TeacherSecurity.getPassword("Picasso");
     }
 }

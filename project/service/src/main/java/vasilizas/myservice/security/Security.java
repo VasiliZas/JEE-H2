@@ -5,7 +5,7 @@ import vasilizas.bean.Person;
 import java.util.List;
 
 public interface  Security<T extends Person> {
-
+// work in progress
       static void addLoginAndPassword(String personName, String login, String password){}
 
       static void getPassword(String personName, String login){}

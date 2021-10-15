@@ -46,8 +46,8 @@ public class LoginFilter extends AbstractFilter {
             chain.doFilter(request, response);
         } else {
             myLogger.info("The LoginFilter worked, the request was redirected");
-            response.sendRedirect(loginUri2);
-            return;
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/start");
+            requestDispatcher.forward(request, response);
         }
     }
 

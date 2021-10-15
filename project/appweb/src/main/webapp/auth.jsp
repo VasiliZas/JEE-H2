@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>authentication</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            background-image: url(img/fon.jpg);
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
 <body align=center>
 
@@ -14,7 +21,7 @@
     <input required name=name placeholder=name type=text> <br/>
     <input required name=login placeholder=login type=text> <br/>
     <input required name=password placeholder=password type=password> <br/>
-    <input type=submit value=Go!>  <input type=reset value=Clean>
+    <input type=submit value=Go!> <input type=reset value=Clean>
 </form>
 
 </body>

@@ -6,10 +6,12 @@ import java.util.Objects;
 
 public final class Student extends Person {
     private List<Integer> marks;
+    private int id;
 
     public Student(String name, int age, String login, String password) {
         super(name, age, login, password);
         this.marks = new ArrayList<>();
+        this.id = 0;
     }
 
     public Student() {
@@ -20,7 +22,10 @@ public final class Student extends Person {
         return "Student{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", marks=" + marks +
+                ", id=" + id +
                 '}';
     }
 
@@ -30,12 +35,20 @@ public final class Student extends Person {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Student student = (Student) o;
-        return Objects.equals(marks, student.marks);
+        return id == student.id && Objects.equals(marks, student.marks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), marks);
+        return Objects.hash(super.hashCode(), marks, id);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public List<Integer> getMarks() {

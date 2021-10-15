@@ -8,7 +8,7 @@ public class PersonSecurity {
         // blank default constructor for utility class
     }
 
-    public static void addLogin(String personType, String personName, String login, String password) {
+    public static void addLogin(String personType, String personName, String login) {
         switch (personType) {
             case "Student" -> StudentSecurity.addLogin(personName, login);
             case "Teacher" -> TeacherSecurity.addLogin(personName, login);

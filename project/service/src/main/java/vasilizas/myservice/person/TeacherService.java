@@ -3,12 +3,18 @@ package vasilizas.myservice.person;
 import vasilizas.bean.Teacher;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.math.BigDecimal.valueOf;
+import static vasilizas.factory.Factory.createTeacher;
 import static vasilizas.myservice.person.MyService.log;
 import static vasilizas.repository.TeacherRepository.teacherList;
 
 public class TeacherService {
+
+    private static Teacher teacher;
+
     private TeacherService() {
         // blank default constructor for utility class
     }
@@ -29,14 +35,34 @@ public class TeacherService {
         teacherList.stream()
                 .filter(teacher -> teacher.getName().equals(name))
                 .filter(teacher -> teacher.getLogin().equals(login))
-                .forEach(teacher -> teacher.setSalary(valueOf(salary)));
+                .map(Teacher::getSalary)
+                .forEach(s -> s.add(valueOf(salary)));
     }
 
-    public static double averageSalary() {
-       return  teacherList.stream()
-                .map(Teacher::getSalary)
-                .mapToInt(BigDecimal::intValueExact)
-                .summaryStatistics()
-                .getAverage();
+    private static Teacher getTeacher(String name) {
+
+        for (Teacher t : teacherList) {
+            if (t.getName().equals(name)) {
+                teacher = t;
+            } else teacher = createTeacher("Name", 100, "login", "password");
+        }
+        return teacher;
+    }
+
+    private static double getAverage(List<BigDecimal> list, int finish) {
+        int summ = 0;
+        for (int i = 0; i < finish; i++) {
+            summ = summ + list.get(i).intValueExact();
+        }
+        return (double) summ / finish;
+    }
+
+    public static double averageSalary(String name, int finish) throws NullPointerException {
+        var teacher = getTeacher(name);
+        var list = teacher.getSalary();
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+        return getAverage(list, finish);
     }
 }

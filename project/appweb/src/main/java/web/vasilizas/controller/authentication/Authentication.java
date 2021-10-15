@@ -5,16 +5,13 @@ import org.slf4j.LoggerFactory;
 import vasilizas.myservice.security.AdminSecurity;
 import vasilizas.myservice.security.StudentSecurity;
 import vasilizas.myservice.security.TeacherSecurity;
-import vasilizas.repository.StudentRepository;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static vasilizas.myservice.person.MyService.createAndAddPerson;
 import static web.vasilizas.UrlRepository.urlMap;
 
 public class Authentication extends HttpServlet {
@@ -25,17 +22,6 @@ public class Authentication extends HttpServlet {
     private static final String LOGIN = "login";
     private static final String NAME = "name";
     private static final String TYPE = "type";
-
-    @Override
-    public void init() throws ServletException {
-        createAndAddPerson("Student", "Bakke", 22, "myDog", "poi");
-        StudentRepository.studentList.stream()
-                        .filter(student -> student.getName().equals("Bakke"))
-                        .map(student -> student.getMarks())
-                        .forEach(integerList -> integerList.add(89));
-
-        createAndAddPerson("Teacher", "Jasmin", 22, "myCat", "lkj");
-    }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -63,6 +49,7 @@ public class Authentication extends HttpServlet {
 
     private void setAttribute(HttpSession session, String type, String login, String name, HttpServletResponse response) throws IOException {
         myLogger.info("Setting attributes during authorization");
+        session.removeAttribute("password");
         session.setAttribute(TYPE, type);
         session.setAttribute(LOGIN, login);
         session.setAttribute(NAME, name);

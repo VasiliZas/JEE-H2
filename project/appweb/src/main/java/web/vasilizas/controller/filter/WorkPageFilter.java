@@ -11,7 +11,7 @@ import java.io.IOException;
 public class WorkPageFilter extends AbstractFilter {
 
     @Override
-    public void init(FilterConfig filterConfig)  {
+    public void init(FilterConfig filterConfig) {
 //init
     }
 
