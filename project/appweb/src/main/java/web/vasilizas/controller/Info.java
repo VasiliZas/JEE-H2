@@ -1,33 +1,29 @@
 package web.vasilizas.controller;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.http.HttpSession;
 
+import static java.lang.String.valueOf;
 import static vasilizas.repository.TeacherRepository.teacherList;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-@WebServlet("/admin/info")
+@WebServlet("/info2")
 public class Info extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         myLogger.info("Info about teacher");
-        resp.setContentType("text/html");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter writer = resp.getWriter();
-        writer.write("<html>");
-        writer.write("<head>");
-        writer.write("<title>Teacher info</title>");
-        writer.write("<body align=center>");
-        writer.write("<h1> Teacher Info </h1>");
-        teacherList.forEach(teacher -> writer.write(teacher.toString() + "</p>"));
-        writer.write("<p center><c></c></p>");
-        writer.write("<a href=/myweb/home>Back to HOME</a>");
-        writer.write("<p center>    <c></c>  </p>");
-        writer.write("<a href=/myweb/admin>Back to work page</a>");
+        HttpSession session = req.getSession();
+
+        try {
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/student-page");
+            requestDispatcher.forward(req, resp);
+        } catch (Exception e) {
+            myLogger.warn(valueOf(e));
+        }
     }
 }

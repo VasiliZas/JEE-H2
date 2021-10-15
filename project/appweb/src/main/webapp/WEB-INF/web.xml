@@ -6,7 +6,7 @@
 
   <servlet>
     <servlet-name>Info</servlet-name>
-   <servlet-class>web.vasilizas.controller.Info</servlet-class>
+   <jsp-file>/admin/info.jsp</jsp-file>
   </servlet>
 
   <servlet>
@@ -81,7 +81,7 @@
 
   <servlet-mapping>
     <servlet-name>Info</servlet-name>
-    <url-pattern>/info</url-pattern>
+    <url-pattern>/admin/info</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
@@ -116,7 +116,7 @@
 
   <session-config>
     <session-timeout>
-      30
+      34
     </session-timeout>
   </session-config>
 

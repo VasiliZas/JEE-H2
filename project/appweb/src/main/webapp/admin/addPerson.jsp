@@ -5,8 +5,15 @@
     <meta charset=UTF-8>
     <title>Add person and parameter</title>
     <style>
-        .text {
+        #text {
             text-align:  center;
+        }
+        #footer {
+            position: fixed;
+            bottom: 0;
+            padding: 2px;
+            color: black;
+            width: 100%;
         }
     </style>
 </head>
@@ -43,5 +50,8 @@
        session.setAttribute("add", "There will result your work");} %>
 <h3 style="color: blue"> <%= session.getAttribute("add")%></h3>
 <% session.setAttribute("add",null); %>
+<div id="footer">
+    <jsp:include page="my.jsp"/>
+</div>
 </body>
 </html>

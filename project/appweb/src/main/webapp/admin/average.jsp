@@ -9,6 +9,13 @@
         .text {
             text-align:  center;
         }
+        #footer {
+            position: fixed;
+            bottom: 0;
+            padding: 2px;
+            color: black;
+            width: 100%;
+        }
     </style>
 </head>
 <body align="center" background="img/fon_pero_cvet.jpg">
@@ -26,5 +33,8 @@
     session.setAttribute("avgSalary", "There will result your work");} %>
 <h3 style="color: blue"> <%= session.getAttribute("avgSalary")%></h3>
 <% session.setAttribute("avgSalary",null); %>
+<div id="footer">
+    <jsp:include page="my.jsp"/>
+</div>
 </body>
 </html>

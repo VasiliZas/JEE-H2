@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <style type="text/css">
+        #footer {
+            position: fixed;
+            bottom: 0;
+            padding: 2px;
+            color: black;
+            width: 100%;
+        } </style>
 </head>
-<body align=center>
+<body align=center  background="img/fon_pero_cvet.jpg">
 <jsp:include page="href.html"/>
-<h1 center> Please try again </h1>
+<h1 center style="color: red"> Please try again </h1>
 <h3> Something went wrong. Please try again or email us about the problem. </h3>
+<div id="footer">
+    <jsp:include page="my.jsp"/>
+</div>
 </body>
 </html>

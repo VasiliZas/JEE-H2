@@ -52,9 +52,12 @@ public final class Teacher extends Person {
     @Override
     public String toString() {
         return "Teacher{" +
-                "salary=" + salary +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", salary=" + salary +
                 ", id=" + id +
                 '}';
     }
 }
-

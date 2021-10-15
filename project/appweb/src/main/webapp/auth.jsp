@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Authentication</title>
+    <style type="text/css">
+        #footer {
+            position: fixed;
+            bottom: 0;
+            padding: 2px;
+            color: black;
+            width: 100%;
+        } </style>
 </head>
 <body align=center background="img/fon_pero_cvet.jpg">
 
@@ -16,6 +24,8 @@
     <input required name=password placeholder=password type=password> <br/>
     <input type=submit value=Go!> <input type=reset value=Clean>
 </form>
-
+<div id="footer">
+    <jsp:include page="my.jsp"/>
+</div>
 </body>
 </html>

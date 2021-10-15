@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>My Web Project</title>
+    <style type="text/css">
+        #footer {
+            position: fixed;
+            bottom: 0;
+            padding: 2px;
+            color: black;
+            width: 100%;
+        } </style>
 </head>
 <body align=center background="img/fon_pero_cvet.jpg">
 <jsp:include page="href.html"/>
@@ -14,7 +22,8 @@
 
 <img src="img/03.jpg">
 
-<jsp:include page="my.jsp"/>
-
+<div id="footer">
+    <jsp:include page="my.jsp"/>
+</div>
 </body>
 </html>
