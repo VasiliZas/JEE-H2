@@ -45,12 +45,6 @@ public class StudentSecurity {
                 .forEach(student -> student.setLogin(login));
     }
 
-    public void addPassword(String personName, String password) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(personName))
-                .forEach(student -> student.setPassword(password));
-    }
-
     public boolean check(String name, String login, String password) {
         boolean result = false;
         if (checkName(name) && checkLogin(name, login)) {

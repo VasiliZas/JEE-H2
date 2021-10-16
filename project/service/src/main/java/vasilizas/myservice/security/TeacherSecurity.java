@@ -38,12 +38,6 @@ public class TeacherSecurity {
                 .forEach(t -> t.setLogin(login));
     }
 
-    public void addPassword(String personName, String password) {
-        teacherList.stream()
-                .filter(t -> t.getName().equals(personName))
-                .forEach(t -> t.setPassword(password));
-    }
-
     public void getPassword(String personName) {
         teacherList.stream()
                 .filter(teacher -> teacher.getName().equals(personName))

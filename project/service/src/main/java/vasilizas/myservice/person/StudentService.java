@@ -3,7 +3,6 @@ package vasilizas.myservice.person;
 import vasilizas.bean.Student;
 import vasilizas.exception.MyWebAppException;
 
-import static vasilizas.myservice.person.MyService.log;
 import static vasilizas.myservice.security.PersonSecurity.personSecurity;
 import static vasilizas.repository.StudentRepository.studentList;
 
@@ -13,19 +12,6 @@ public class StudentService {
 
     private StudentService() {
         // blank default constructor for utility class
-    }
-
-    public void getStudentInfo(String name) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(name))
-                .forEach(student -> log.info("{} ", student));
-    }
-
-    public void getStudentMarksInformation(String name) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(name))
-                .map(Student::getMarks)
-                .forEach(stringIntegerMap -> log.info("Student {}  marks {}", name, stringIntegerMap));
     }
 
     public void addStudentMarks(String name, String theme, int mark, int id) {
