@@ -2,15 +2,21 @@ package vasilizas.myservice.security;
 
 import vasilizas.bean.Person;
 
-import static vasilizas.myservice.person.MyService.log;
 import static vasilizas.repository.StudentRepository.studentList;
 
 public class StudentSecurity {
 
-    public static final StudentSecurity studentSecurity = new StudentSecurity();
+    private static StudentSecurity instance;
 
     private StudentSecurity() {
         // blank default constructor for utility class
+    }
+
+    public static synchronized StudentSecurity getInstance() {
+        if (instance == null) {
+            instance = new StudentSecurity();
+        }
+        return instance;
     }
 
     private static boolean checkLogin(String name, String login) {
@@ -30,19 +36,6 @@ public class StudentSecurity {
                 .filter(a -> a.getName().equals(name))
                 .map(Person::getPassword)
                 .allMatch(s -> s.equals(password));
-    }
-
-    public void getPassword(String personName) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(personName))
-                .map(Person::getPassword)
-                .forEach(s -> log.info("{}", s));
-    }
-
-    public void addLogin(String personName, String login) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(personName))
-                .forEach(student -> student.setLogin(login));
     }
 
     public boolean check(String name, String login, String password) {

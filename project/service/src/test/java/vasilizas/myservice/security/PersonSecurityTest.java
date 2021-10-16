@@ -1,33 +1,34 @@
 package vasilizas.myservice.security;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static vasilizas.myservice.person.MyService.myService;
-import static vasilizas.myservice.security.PersonSecurity.personSecurity;
-import static vasilizas.myservice.security.StudentSecurity.studentSecurity;
-import static vasilizas.myservice.security.TeacherSecurity.teacherSecurity;
+import static org.junit.Assert.assertTrue;
+import static vasilizas.myservice.person.MyService.getInstance;
+import static vasilizas.repository.StudentRepository.studentList;
+import static vasilizas.repository.TeacherRepository.teacherList;
 
 public class PersonSecurityTest {
 
-
     @Before
     public void setUp() {
-        myService.createAndAddPerson("Student", "Bakke", 22, "login", "password");
-        myService.createAndAddPerson("Student", "Jasmin", 25, "login", "password");
-        myService.createAndAddPerson("Teacher", "Picasso", 56, "login", "password");
-        myService.createAndAddPerson("Teacher", "Fox", 66, "login", "password");
+        getInstance().createAndAddPerson("Student", "Bakke", 22, "login", "password");
+        getInstance().createAndAddPerson("Teacher", "Picasso", 56, "login", "password");
     }
 
     @Test
-    public void addLoginAndPasswordStudent() {
-        studentSecurity.addLogin("Bakke", "myDog");
-        studentSecurity.getPassword("Bakke");
+    public void getInstancePerson() {
+        Assert.assertNotNull(PersonSecurity.getInstance());
     }
 
     @Test
-    public void addLoginAndPasswordTeacher() {
-        personSecurity.addLogin("Teacher", "Picasso", "car");
-        teacherSecurity.getPassword("Picasso");
+    public void checkStudent() {
+        assertTrue(PersonSecurity.getInstance().checkStudent(studentList, 10000, "Bakke"));
+    }
+
+    @Test
+    public void checkTeacher() {
+        assertTrue(PersonSecurity.getInstance().checkTeacher(teacherList, 20000, "Picasso"));
     }
 }

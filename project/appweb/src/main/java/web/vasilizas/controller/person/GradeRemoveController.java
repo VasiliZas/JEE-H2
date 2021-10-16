@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static vasilizas.myservice.person.StudentService.studentService;
+import static vasilizas.myservice.person.StudentService.getInstance;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/removemarks")
@@ -24,7 +24,7 @@ public class GradeRemoveController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("grade", "You remove grade for student " + name
                     + " theme " + theme + " . ");
-            studentService.removeStudentMarks(name, theme, Integer.parseInt(id));
+            getInstance().removeStudentMarks(name, theme, Integer.parseInt(id));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {

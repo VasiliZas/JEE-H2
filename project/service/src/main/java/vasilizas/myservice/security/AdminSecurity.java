@@ -6,18 +6,17 @@ import static vasilizas.repository.AdminRepository.adminList;
 
 public class AdminSecurity {
 
-    public static final AdminSecurity adminSecurity = new AdminSecurity();
+    private static AdminSecurity instance;
 
     private AdminSecurity() {
         // blank default constructor for utility class
     }
 
-    public boolean check(String name, String login, String password) {
-        boolean result = false;
-        if (checkName(name) && (checkLogin(name, login))) {
-            result = checkPassword(name, password);
+    public static synchronized AdminSecurity getInstance() {
+        if (instance == null) {
+            instance = new AdminSecurity();
         }
-        return result;
+        return instance;
     }
 
     private static boolean checkLogin(String name, String login) {
@@ -37,5 +36,13 @@ public class AdminSecurity {
                 .filter(a -> a.getName().equals(name))
                 .map(Person::getPassword)
                 .allMatch(s -> s.equals(password));
+    }
+
+    public boolean check(String name, String login, String password) {
+        boolean result = false;
+        if (checkName(name) && (checkLogin(name, login))) {
+            result = checkPassword(name, password);
+        }
+        return result;
     }
 }

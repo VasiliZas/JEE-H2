@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static vasilizas.myservice.person.StudentService.studentService;
+import static vasilizas.myservice.person.StudentService.getInstance;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/addmarks")
@@ -26,7 +26,7 @@ public class GradeStudentControlle extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
                     + " theme " + theme + " . ");
-            studentService.addStudentMarks(studentName, theme, parseInt(grade), parseInt(id));
+            getInstance().addStudentMarks(studentName, theme, parseInt(grade), parseInt(id));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
