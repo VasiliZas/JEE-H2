@@ -1,5 +1,7 @@
 package web.vasilizas.controller.person;
 
+import vasilizas.myservice.person.MyService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static vasilizas.myservice.person.MyService.myService;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/add-student")
@@ -25,7 +26,7 @@ public class StudentController extends HttpServlet {
         try {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new student " + name + " with age " + age + " and login " + login);
-            myService.createAndAddPerson("Student", name, parseInt(age), login, password);
+            MyService.getInstance().createAndAddPerson("Student", name, parseInt(age), login, password);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
