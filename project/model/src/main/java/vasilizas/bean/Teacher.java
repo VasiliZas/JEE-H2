@@ -7,13 +7,15 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Teacher extends Person {
+
+    private static int counter = 20000;
     private List<BigDecimal> salary;
     private int id;
 
     public Teacher(String name, int age, String login, String password) {
         super(name, age, login, password);
         this.salary = new ArrayList<>();
-        this.id = 0;
+        this.id = counter++;
     }
 
     public Teacher() {

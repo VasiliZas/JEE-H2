@@ -1,15 +1,19 @@
 package vasilizas.bean;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public final class Student extends Person {
-    private Map<String,Integer> marks;
+
+    private static int counter = 10000;
+    private Map<String, Integer> marks;
     private int id;
 
     public Student(String name, int age, String login, String password) {
         super(name, age, login, password);
         this.marks = new HashMap<>();
-        this.id = 0;
+        this.id = counter ++;
     }
 
     public Student() {
