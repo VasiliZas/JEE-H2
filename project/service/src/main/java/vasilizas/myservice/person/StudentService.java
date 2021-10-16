@@ -23,10 +23,20 @@ public class StudentService {
                 .forEach(stringIntegerMap -> log.info("Student {}  marks {}", name, stringIntegerMap));
     }
 
-    public static void addStudentMarks(String name, String theme, int mark) {
+    public static void addStudentMarks(String name, String theme, int mark, int id ) {
         studentList.stream()
+                .filter(student -> student.getId() == id)
                 .filter(student -> student.getName().equals(name))
                 .map(Student::getMarks)
                 .forEach(integers -> integers.put(theme,mark));
     }
+
+    public static void removeStudentMarks(String name, String theme, int id) {
+        studentList.stream()
+                .filter(student -> student.getId() == id)
+                .filter(student -> student.getName().equals(name))
+                .map(Student::getMarks)
+                .forEach(integers -> integers.remove(theme));
+    }
+
 }

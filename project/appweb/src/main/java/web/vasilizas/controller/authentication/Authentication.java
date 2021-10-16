@@ -8,6 +8,7 @@ import vasilizas.myservice.security.StudentSecurity;
 import vasilizas.myservice.security.TeacherSecurity;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 import static web.vasilizas.UrlRepository.urlMap;
 
+@WebServlet("/auth")
 public class Authentication extends HttpServlet {
 
     @Override

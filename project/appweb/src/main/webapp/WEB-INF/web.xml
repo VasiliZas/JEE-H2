@@ -8,110 +8,100 @@
     <servlet-name>Info</servlet-name>
    <jsp-file>/admin/info.jsp</jsp-file>
   </servlet>
-
-  <servlet>
-    <servlet-name>StudentPage</servlet-name>
-  <jsp-file>/student/student.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>AverageSalary</servlet-name>
-    <jsp-file>/admin/average.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>Error</servlet-name>
-    <jsp-file>/error/eror.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>Home</servlet-name>
-    <jsp-file>/index.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>Start</servlet-name>
-    <jsp-file>/auth.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>Auth</servlet-name>
-    <servlet-class>web.vasilizas.controller.authentication.Authentication</servlet-class>
-    </servlet>
-
-  <servlet>
-    <servlet-name>About</servlet-name>
-    <jsp-file>/about.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>Admin</servlet-name>
-    <jsp-file>/admin/admin.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>AddTeacher</servlet-name>
-    <jsp-file>/admin/addPerson.jsp</jsp-file>
-  </servlet>
-
-  <servlet>
-    <servlet-name>SessionOut</servlet-name>
-    <servlet-class>web.vasilizas.controller.Out</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>AverageSalary</servlet-name>
-    <url-pattern>/admin/avg-salary</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>AddTeacher</servlet-name>
-    <url-pattern>/admin/addpersonpar</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>Auth</servlet-name>
-    <url-pattern>/auth</url-pattern>
-      </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>Error</servlet-name>
-    <url-pattern>/error</url-pattern>
-  </servlet-mapping>
-
   <servlet-mapping>
     <servlet-name>Info</servlet-name>
     <url-pattern>/admin/info</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>Teacher</servlet-name>
+    <jsp-file>/teacher/teacher.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Teacher</servlet-name>
+    <url-pattern>/teacher/teacher</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>StudentPage</servlet-name>
+  <jsp-file>/student/student.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentPage</servlet-name>
+    <url-pattern>/student-page</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AverageSalary</servlet-name>
+    <jsp-file>/admin/average.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AverageSalary</servlet-name>
+    <url-pattern>/admin/avg-salary</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Error</servlet-name>
+    <jsp-file>/error/eror.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Error</servlet-name>
+    <url-pattern>/error</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Home</servlet-name>
+    <jsp-file>/index.jsp</jsp-file>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Home</servlet-name>
     <url-pattern>/home</url-pattern>
   </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>SessionOut</servlet-name>
-    <url-pattern>/out</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>About</servlet-name>
-    <url-pattern>/about</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>Admin</servlet-name>
-    <url-pattern>/admin</url-pattern>
-  </servlet-mapping>
-
+  <servlet>
+    <servlet-name>Start</servlet-name>
+    <jsp-file>/auth.jsp</jsp-file>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Start</servlet-name>
     <url-pattern>/start</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>About</servlet-name>
+    <jsp-file>/about.jsp</jsp-file>
+  </servlet>
   <servlet-mapping>
-    <servlet-name>StudentPage</servlet-name>
-    <url-pattern>/student-page</url-pattern>
+    <servlet-name>About</servlet-name>
+    <url-pattern>/about</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Admin</servlet-name>
+    <jsp-file>/admin/admin.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admin</servlet-name>
+    <url-pattern>/admin/admin</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddTeacher</servlet-name>
+    <jsp-file>/admin/addPerson.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddTeacher</servlet-name>
+    <url-pattern>/admin/addpersonpar</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SessionOut</servlet-name>
+    <servlet-class>web.vasilizas.controller.Out</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SessionOut</servlet-name>
+    <url-pattern>/out</url-pattern>
   </servlet-mapping>
 
   <session-config>

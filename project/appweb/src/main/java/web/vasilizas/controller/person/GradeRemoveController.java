@@ -1,7 +1,5 @@
 package web.vasilizas.controller.person;
 
-import vasilizas.myservice.person.TeacherService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,23 +9,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static java.lang.Double.parseDouble;
+import static vasilizas.myservice.person.StudentService.removeStudentMarks;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-@WebServlet("/teacher-salary")
-public class TeacherSalaryController extends HttpServlet {
-
+@WebServlet("/removemarks")
+public class GradeRemoveController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String name = req.getParameter("name");
-        String salary = req.getParameter("salary");
-        String login = req.getParameter("login");
+        String id = req.getParameter("id");
+        String theme = req.getParameter("theme");
 
         try {
-            TeacherService.setTeacherSalary(name, login, parseDouble(salary));
             HttpSession session = req.getSession();
-            session.setAttribute("add", "You add new teacher " + name + " with salary " + salary);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
+            session.setAttribute("grade", "You remove grade for student " + name
+                    + " theme " + theme + " . ");
+            removeStudentMarks(name, theme, Integer.parseInt(id));
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
             myLogger.warn(String.valueOf(e));

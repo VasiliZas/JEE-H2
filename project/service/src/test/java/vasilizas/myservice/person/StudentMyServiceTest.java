@@ -27,17 +27,17 @@ public class StudentMyServiceTest {
 
     @Test
     public void addStudentMarks() {
-        StudentService.addStudentMarks("Jasmin", "Running", 95);
-        StudentService.addStudentMarks("Jasmin", "Sleeping", 99);
+        StudentService.addStudentMarks("Jasmin", "Running", 95, 0);
+        StudentService.addStudentMarks("Jasmin", "Sleeping", 99, 0);
         Assert.assertEquals(99, getMarks(studentList,"Jasmin","Sleeping"));
         StudentService.getStudentInfo("Bakke");
     }
 
     @Test
     public void getStudentMarks() {
-        StudentService.addStudentMarks("Bakke", "Running", 97);
-        StudentService.addStudentMarks("Bakke", "Sleeping", 88);
-        StudentService.addStudentMarks("Bakke", "Running", 85);
+        StudentService.addStudentMarks("Bakke", "Running", 97, 0);
+        StudentService.addStudentMarks("Bakke", "Sleeping", 88, 0);
+        StudentService.addStudentMarks("Bakke", "Running", 85, 0);
         getStudentMarksInformation("Bakke");
         var mark = getMarks(studentList, "Bakke", "Running");
         Assert.assertEquals(85, mark);

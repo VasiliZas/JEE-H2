@@ -27,12 +27,12 @@ public class WorkPageController extends HttpServlet {
             }
             case "Teacher" -> {
                 myLogger.info("Forward to Teacher page");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
                 requestDispatcher.forward(req, resp);
             }
             case "Admin" -> {
                 myLogger.info("Forward to Admin page");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/admin");
                 requestDispatcher.forward(req, resp);
             }
             default -> {

@@ -2,11 +2,13 @@ package web.vasilizas.controller.person;
 
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 import static vasilizas.myservice.person.MyService.createAndAddPerson;
@@ -29,6 +31,12 @@ public class TeacherController extends HttpServlet {
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
             myLogger.warn(String.valueOf(e));
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
+            try {
+                requestDispatcher.forward(req, resp);
+            } catch (ServletException | IOException ex) {
+                myLogger.warn(String.valueOf(ex));
+            }
         }
     }
 }

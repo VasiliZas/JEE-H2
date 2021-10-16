@@ -1,7 +1,5 @@
 package web.vasilizas.controller.person;
 
-import vasilizas.myservice.person.TeacherService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,23 +9,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
+import static vasilizas.myservice.person.StudentService.addStudentMarks;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-@WebServlet("/teacher-salary")
-public class TeacherSalaryController extends HttpServlet {
+@WebServlet("/addmarks")
+public class GradeStudentControlle extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        String name = req.getParameter("name");
-        String salary = req.getParameter("salary");
-        String login = req.getParameter("login");
-
+        String studentName = req.getParameter("name");
+        String id = req.getParameter("id");
+        String theme = req.getParameter("theme");
+        String grade = req.getParameter("grade");
         try {
-            TeacherService.setTeacherSalary(name, login, parseDouble(salary));
             HttpSession session = req.getSession();
-            session.setAttribute("add", "You add new teacher " + name + " with salary " + salary);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
+            session.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
+                    + " theme " + theme + " . ");
+            addStudentMarks(studentName, theme, parseInt(grade), parseInt(id));
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
             myLogger.warn(String.valueOf(e));
