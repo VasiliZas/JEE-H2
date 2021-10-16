@@ -24,8 +24,7 @@
             <groupId>vasilizas</groupId>
             <artifactId>model</artifactId>
             <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+            </dependency>
     </dependencies>
 
 </project>
