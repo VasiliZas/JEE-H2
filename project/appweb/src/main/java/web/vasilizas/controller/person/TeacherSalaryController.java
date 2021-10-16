@@ -1,7 +1,5 @@
 package web.vasilizas.controller.person;
 
-import vasilizas.myservice.person.TeacherService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Double.parseDouble;
+import static vasilizas.myservice.person.TeacherService.teacherService;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/teacher-salary")
@@ -21,10 +20,10 @@ public class TeacherSalaryController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String name = req.getParameter("name");
         String salary = req.getParameter("salary");
-        String login = req.getParameter("login");
+        String id = req.getParameter("id");
 
         try {
-            TeacherService.setTeacherSalary(name, login, parseDouble(salary));
+            teacherService.setTeacherSalary(name, Integer.parseInt(id), parseDouble(salary));
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new teacher " + name + " with salary " + salary);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");

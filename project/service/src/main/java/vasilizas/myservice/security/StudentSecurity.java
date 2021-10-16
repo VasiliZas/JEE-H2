@@ -7,35 +7,10 @@ import static vasilizas.repository.StudentRepository.studentList;
 
 public class StudentSecurity {
 
+    public static final StudentSecurity studentSecurity = new StudentSecurity();
+
     private StudentSecurity() {
         // blank default constructor for utility class
-    }
-
-    static void getPassword(String personName) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(personName))
-                .map(Person::getPassword)
-                .forEach(s -> log.info("{}", s));
-    }
-
-    public static void addLogin(String personName, String login) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(personName))
-                .forEach(student -> student.setLogin(login));
-    }
-
-    public static void addPassword(String personName, String password) {
-        studentList.stream()
-                .filter(student -> student.getName().equals(personName))
-                .forEach(student -> student.setPassword(password));
-    }
-
-    public static boolean check(String name, String login, String password) {
-        boolean result = false;
-        if (checkName(name) && checkLogin(name, login)) {
-            result = checkPassword(name, password);
-        }
-        return result;
     }
 
     private static boolean checkLogin(String name, String login) {
@@ -55,5 +30,32 @@ public class StudentSecurity {
                 .filter(a -> a.getName().equals(name))
                 .map(Person::getPassword)
                 .allMatch(s -> s.equals(password));
+    }
+
+    public void getPassword(String personName) {
+        studentList.stream()
+                .filter(student -> student.getName().equals(personName))
+                .map(Person::getPassword)
+                .forEach(s -> log.info("{}", s));
+    }
+
+    public void addLogin(String personName, String login) {
+        studentList.stream()
+                .filter(student -> student.getName().equals(personName))
+                .forEach(student -> student.setLogin(login));
+    }
+
+    public void addPassword(String personName, String password) {
+        studentList.stream()
+                .filter(student -> student.getName().equals(personName))
+                .forEach(student -> student.setPassword(password));
+    }
+
+    public boolean check(String name, String login, String password) {
+        boolean result = false;
+        if (checkName(name) && checkLogin(name, login)) {
+            result = checkPassword(name, password);
+        }
+        return result;
     }
 }

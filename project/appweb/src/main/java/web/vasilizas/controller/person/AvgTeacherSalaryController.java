@@ -10,11 +10,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static vasilizas.myservice.person.TeacherService.averageSalary;
+import static vasilizas.myservice.person.TeacherService.teacherService;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/averagesalary")
-public class TeacherSalary extends HttpServlet {
+public class AvgTeacherSalaryController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
@@ -22,7 +22,7 @@ public class TeacherSalary extends HttpServlet {
         String name = req.getParameter("name");
 
         try {
-            double average = averageSalary(name, parseInt(number));
+            double average = teacherService.averageSalary(name, parseInt(number));
             HttpSession session = req.getSession();
             session.setAttribute("avgSalary", "Average salary " + name + " teacher  is " + average + " eur");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/avg-salary");

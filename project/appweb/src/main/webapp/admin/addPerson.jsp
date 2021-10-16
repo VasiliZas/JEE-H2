@@ -32,7 +32,7 @@
 <h2 align="center"> Please enter name, login and salary teacher </h2>
 <form action="/myweb/teacher-salary" method=post>
     <input required name=name placeholder=name type=text> <br/>
-    <input required name=login placeholder=login type=text> <br/>
+    <input required name=id placeholder=id type=text> <br/>
     <input required name=salary placeholder=salary type=text> <br/>
     <input type=submit value=Add!> <input type=reset value=Clean>
 </form>

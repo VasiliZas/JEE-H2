@@ -5,11 +5,14 @@ import vasilizas.bean.Person;
 import static vasilizas.repository.AdminRepository.adminList;
 
 public class AdminSecurity {
+
+    public static final AdminSecurity adminSecurity = new AdminSecurity();
+
     private AdminSecurity() {
         // blank default constructor for utility class
     }
 
-    public static boolean check(String name, String login, String password) {
+    public boolean check(String name, String login, String password) {
         boolean result = false;
         if (checkName(name) && (checkLogin(name, login))) {
             result = checkPassword(name, password);

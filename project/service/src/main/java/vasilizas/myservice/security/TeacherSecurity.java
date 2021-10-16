@@ -7,34 +7,10 @@ import static vasilizas.repository.TeacherRepository.teacherList;
 
 public class TeacherSecurity {
 
+    public static final TeacherSecurity teacherSecurity = new TeacherSecurity();
+
     private TeacherSecurity() {
         // blank default constructor for utility class
-    }
-
-    public static void addLogin(String personName, String login) {
-        teacherList.stream()
-                .filter(t -> t.getName().equals(personName))
-                .forEach(t -> t.setLogin(login));
-    }
-
-    public static void addPassword(String personName, String password) {
-        teacherList.stream()
-                .filter(t -> t.getName().equals(personName))
-                .forEach(t -> t.setPassword(password));
-    }
-
-    static void getPassword(String personName) {
-        teacherList.stream()
-                .filter(teacher -> teacher.getName().equals(personName))
-                .forEach(s -> log.info("{}", s.getPassword()));
-    }
-
-    public static boolean check(String name, String login, String password) {
-        boolean result = false;
-        if (checkName(name) && (checkLogin(name, login))) {
-            result = checkPassword(name, password);
-        }
-        return result;
     }
 
     private static boolean checkLogin(String name, String login) {
@@ -54,5 +30,31 @@ public class TeacherSecurity {
                 .filter(a -> a.getName().equals(name))
                 .map(Person::getPassword)
                 .allMatch(s -> s.equals(password));
+    }
+
+    public void addLogin(String personName, String login) {
+        teacherList.stream()
+                .filter(t -> t.getName().equals(personName))
+                .forEach(t -> t.setLogin(login));
+    }
+
+    public void addPassword(String personName, String password) {
+        teacherList.stream()
+                .filter(t -> t.getName().equals(personName))
+                .forEach(t -> t.setPassword(password));
+    }
+
+    public void getPassword(String personName) {
+        teacherList.stream()
+                .filter(teacher -> teacher.getName().equals(personName))
+                .forEach(s -> log.info("{}", s.getPassword()));
+    }
+
+    public boolean check(String name, String login, String password) {
+        boolean result = false;
+        if (checkName(name) && (checkLogin(name, login))) {
+            result = checkPassword(name, password);
+        }
+        return result;
     }
 }

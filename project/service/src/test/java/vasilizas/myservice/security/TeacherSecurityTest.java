@@ -1,15 +1,16 @@
 package vasilizas.myservice.security;
 
 import org.junit.Test;
-import vasilizas.myservice.person.MyService;
 
 import static org.junit.Assert.assertTrue;
+import static vasilizas.myservice.person.MyService.myService;
+import static vasilizas.myservice.security.TeacherSecurity.teacherSecurity;
 
 public class TeacherSecurityTest {
 
     @Test
     public void check() {
-        MyService.createAndAddPerson("Teacher", "Bakke", 22, "login", "123456");
-        assertTrue(TeacherSecurity.check("Bakke", "login", "123456"));
+        myService.createAndAddPerson("Teacher", "Bakke", 22, "login", "123456");
+        assertTrue(teacherSecurity.check("Bakke", "login", "123456"));
     }
 }

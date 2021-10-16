@@ -12,11 +12,13 @@ public class MyService {
 
     public static final Logger log = LoggerFactory.getLogger("Service");
 
+    public static final MyService myService = new MyService();
+
     private MyService() {
         // blank default constructor for utility class
     }
 
-    public static void createAndAddPerson(String typePerson, String namePerson, int agePerson, String login, String password) {
+    public void createAndAddPerson(String typePerson, String namePerson, int agePerson, String login, String password) {
 
         switch (typePerson) {
             case "Student" -> studentList.add(createStudent(namePerson, agePerson, login, password));
