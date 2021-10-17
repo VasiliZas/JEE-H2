@@ -2,7 +2,7 @@ package web.vasilizas.controller.authentication;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vasilizas.myservice.security.PersonCheck;
+import vasilizas.myservice.security.PersonAuthentication;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,15 +33,15 @@ public class Authentication extends HttpServlet {
 
         HttpSession session = request.getSession();
         myLogger.info("Passing authorization");
-        if (type.equals("Student") && PersonCheck.getInstance().check(name, login, password, studentList)) {
+        if (type.equals("Student") && PersonAuthentication.getInstance().check(name, login, password, studentList)) {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Admin") && PersonCheck.getInstance().check(name, login, password, adminList)) {
+        if (type.equals("Admin") && PersonAuthentication.getInstance().check(name, login, password, adminList)) {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Teacher") && PersonCheck.getInstance().check(name, login, password, teacherList)) {
+        if (type.equals("Teacher") && PersonAuthentication.getInstance().check(name, login, password, teacherList)) {
             setAttribute(session, type, login, name, response);
         } else {
             setAttribute(session, "Error", LOGIN, NAME, response);

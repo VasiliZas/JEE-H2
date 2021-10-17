@@ -11,6 +11,6 @@ public class TeacherSecurityTest {
     @Test
     public void check() {
         getInstance().createAndAddPerson("Teacher", "Bakke", 22, "login", "123456");
-        assertTrue(PersonCheck.getInstance().check("Bakke", "login", "123456", teacherList));
+        assertTrue(PersonAuthentication.getInstance().check("Bakke", "login", "123456", teacherList));
     }
 }

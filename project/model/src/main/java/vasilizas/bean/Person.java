@@ -8,6 +8,7 @@ public abstract class Person {
     protected int age;
     protected String login;
     protected String password;
+    protected int id;
 
 
     protected Person() {
@@ -75,7 +76,11 @@ public abstract class Person {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }
-
-

@@ -8,6 +8,7 @@ import java.util.List;
 public class PersonSecurityCheck implements Checkable {
 
     private PersonSecurityCheck() {
+        // blank default constructor for utility class
     }
 
     public static PersonSecurityCheck getInstance() {

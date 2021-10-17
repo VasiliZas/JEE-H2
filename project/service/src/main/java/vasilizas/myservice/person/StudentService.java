@@ -2,7 +2,7 @@ package vasilizas.myservice.person;
 
 import vasilizas.bean.Student;
 import vasilizas.exception.MyWebAppException;
-import vasilizas.myservice.security.PersonSecurity;
+import vasilizas.myservice.security.CheckPerson;
 
 import static vasilizas.repository.StudentRepository.studentList;
 
@@ -21,7 +21,7 @@ public class StudentService {
     }
 
     public void addStudentMarks(String name, String theme, int mark, int id) {
-        if (PersonSecurity.getInstance().checkStudent(studentList, id, name)) {
+        if (CheckPerson.getInstance().checkPerson(studentList, id, name)) {
             studentList.stream()
                     .filter(student -> student.getId() == id)
                     .filter(student -> student.getName().equals(name))
@@ -33,7 +33,7 @@ public class StudentService {
     }
 
     public void removeStudentMarks(String name, String theme, int id) {
-        if (PersonSecurity.getInstance().checkStudent(studentList, id, name)) {
+        if (CheckPerson.getInstance().checkPerson(studentList, id, name)) {
             studentList.stream()
                     .filter(student -> student.getId() == id)
                     .filter(student -> student.getName().equals(name))

@@ -2,7 +2,7 @@ package vasilizas.myservice.person;
 
 import vasilizas.bean.Teacher;
 import vasilizas.exception.MyWebAppException;
-import vasilizas.myservice.security.PersonSecurity;
+import vasilizas.myservice.security.CheckPerson;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class TeacherService {
     }
 
     public void setTeacherSalary(String name, int id, double salary) {
-        if (PersonSecurity.getInstance().checkTeacher(teacherList, id, name)) {
+        if (CheckPerson.getInstance().checkPerson(teacherList, id, name)) {
             teacherList.stream()
                     .filter(t -> t.getId() == id)
                     .filter(t -> t.getName().equals(name))

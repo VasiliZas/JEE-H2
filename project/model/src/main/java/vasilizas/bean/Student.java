@@ -8,12 +8,11 @@ public final class Student extends Person {
 
     private static int counter = 10000;
     private Map<String, Integer> marks;
-    private int id;
 
     public Student(String name, int age, String login, String password) {
         super(name, age, login, password);
         this.marks = new HashMap<>();
-        this.id = counter ++;
+        id = counter++;
     }
 
     public Student() {

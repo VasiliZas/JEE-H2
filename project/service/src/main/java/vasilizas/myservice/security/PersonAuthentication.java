@@ -1,18 +1,18 @@
 package vasilizas.myservice.security;
 
 import vasilizas.bean.Person;
-import vasilizas.myservice.interfece.PersonCheckable;
+import vasilizas.myservice.interfece.PersonAuth;
 
 import java.util.List;
 
-public class PersonCheck implements PersonCheckable {
+public class PersonAuthentication implements PersonAuth {
 
-    private PersonCheck() {
+    private PersonAuthentication() {
         // blank default constructor for utility class
     }
 
-    public static PersonCheck getInstance() {
-        return PersonCheck.SingletonHelper.instance;
+    public static PersonAuthentication getInstance() {
+        return PersonAuthentication.SingletonHelper.instance;
     }
 
     @Override
@@ -26,6 +26,6 @@ public class PersonCheck implements PersonCheckable {
     }
 
     private static class SingletonHelper {
-        private static final PersonCheck instance = new PersonCheck();
+        private static final PersonAuthentication instance = new PersonAuthentication();
     }
 }
