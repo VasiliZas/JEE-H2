@@ -6,17 +6,16 @@ import static vasilizas.repository.StudentRepository.studentList;
 
 public class StudentSecurity {
 
-    private static StudentSecurity instance;
-
     private StudentSecurity() {
         // blank default constructor for utility class
     }
 
-    public static synchronized StudentSecurity getInstance() {
-        if (instance == null) {
-            instance = new StudentSecurity();
-        }
-        return instance;
+    public static StudentSecurity getInstance() {
+        return StudentSecurity.SingletonHelper.instance;
+    }
+
+    private static class SingletonHelper {
+        private static final StudentSecurity instance = new StudentSecurity();
     }
 
     private static boolean checkLogin(String name, String login) {

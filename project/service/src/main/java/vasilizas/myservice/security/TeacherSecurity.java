@@ -6,17 +6,12 @@ import static vasilizas.repository.TeacherRepository.teacherList;
 
 public class TeacherSecurity {
 
-    private static TeacherSecurity instance;
-
     private TeacherSecurity() {
         // blank default constructor for utility class
     }
 
-    public static synchronized TeacherSecurity getInstance() {
-        if (instance == null) {
-            instance = new TeacherSecurity();
-        }
-        return instance;
+    public static TeacherSecurity getInstance() {
+        return TeacherSecurity.SingletonHelper.instance;
     }
 
     private static boolean checkLogin(String name, String login) {
@@ -44,5 +39,9 @@ public class TeacherSecurity {
             result = checkPassword(name, password);
         }
         return result;
+    }
+
+    private static class SingletonHelper {
+        private static final TeacherSecurity instance = new TeacherSecurity();
     }
 }

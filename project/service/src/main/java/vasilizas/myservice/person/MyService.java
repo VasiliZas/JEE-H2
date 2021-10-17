@@ -12,17 +12,16 @@ public class MyService {
 
     public static final Logger log = LoggerFactory.getLogger("Service");
 
-    private static MyService myService;
-
     private MyService() {
         // blank default constructor for utility class
     }
 
-    public static synchronized MyService getInstance() {
-        if (myService == null) {
-            myService = new MyService();
-        }
-        return myService;
+    public static MyService getInstance() {
+        return SingletonHelper.myService;
+    }
+
+    private static class SingletonHelper {
+        private static final MyService myService = new MyService();
     }
 
     public void createAndAddPerson(String typePerson, String namePerson, int agePerson, String login, String password) {

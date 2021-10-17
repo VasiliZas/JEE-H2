@@ -8,17 +8,16 @@ import static vasilizas.repository.StudentRepository.studentList;
 
 public class StudentService {
 
-    private static StudentService instance;
-
     private StudentService() {
         // blank default constructor for utility class
     }
 
-    public static synchronized StudentService getInstance() {
-        if (instance == null) {
-            instance = new StudentService();
-        }
-        return instance;
+    public static StudentService getInstance() {
+        return SingletonHelper.instance;
+    }
+
+    private static class SingletonHelper {
+        private static final StudentService instance = new StudentService();
     }
 
     public void addStudentMarks(String name, String theme, int mark, int id) {

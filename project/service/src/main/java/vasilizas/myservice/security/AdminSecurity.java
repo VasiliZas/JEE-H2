@@ -6,17 +6,16 @@ import static vasilizas.repository.AdminRepository.adminList;
 
 public class AdminSecurity {
 
-    private static AdminSecurity instance;
-
     private AdminSecurity() {
         // blank default constructor for utility class
     }
 
-    public static synchronized AdminSecurity getInstance() {
-        if (instance == null) {
-            instance = new AdminSecurity();
-        }
-        return instance;
+    public static AdminSecurity getInstance() {
+        return AdminSecurity.SingletonHelper.instance;
+    }
+
+    private static class SingletonHelper {
+        private static final AdminSecurity instance = new AdminSecurity();
     }
 
     private static boolean checkLogin(String name, String login) {

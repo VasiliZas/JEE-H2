@@ -13,18 +13,14 @@ import static vasilizas.repository.TeacherRepository.teacherList;
 
 public class TeacherService {
 
-    private static TeacherService instance;
     private static Teacher teacher;
 
     private TeacherService() {
         // blank default constructor for utility class
     }
 
-    public static synchronized TeacherService getInstance() {
-        if (instance == null) {
-            instance = new TeacherService();
-        }
-        return instance;
+    public static TeacherService getInstance() {
+        return TeacherService.SingletonHelper.instance;
     }
 
     private static void getTeacher(String name) {
@@ -62,5 +58,9 @@ public class TeacherService {
             list = new ArrayList<>();
         }
         return getAverage(list, finish);
+    }
+
+    private static class SingletonHelper {
+        private static final TeacherService instance = new TeacherService();
     }
 }

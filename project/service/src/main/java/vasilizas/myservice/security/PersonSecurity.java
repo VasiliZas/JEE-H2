@@ -7,17 +7,16 @@ import java.util.List;
 
 public class PersonSecurity {
 
-    private static PersonSecurity instance;
-
     private PersonSecurity() {
         // blank default constructor for utility class
     }
 
-    public static synchronized PersonSecurity getInstance() {
-        if (instance == null) {
-            instance = new PersonSecurity();
-        }
-        return instance;
+    public static PersonSecurity getInstance() {
+        return PersonSecurity.SingletonHelper.instance;
+    }
+
+    private static class SingletonHelper {
+        private static final PersonSecurity instance = new PersonSecurity();
     }
 
     public boolean checkStudent(List<Student> list, int id, String name) {
