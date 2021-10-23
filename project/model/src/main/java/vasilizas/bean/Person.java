@@ -10,8 +10,15 @@ public abstract class Person {
     protected String password;
     protected int id;
 
-
     protected Person() {
+    }
+
+    public Person(String name, int age, String login, String password, int id) {
+        this.name = name;
+        this.age = age;
+        this.login = login;
+        this.password = password;
+        this.id = id;
     }
 
     protected Person(String name, int age, String login, String password) {

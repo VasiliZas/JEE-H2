@@ -44,10 +44,12 @@ public final class Student extends Person {
         return Objects.hash(super.hashCode(), marks, id);
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
