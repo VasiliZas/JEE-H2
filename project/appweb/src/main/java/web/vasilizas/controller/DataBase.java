@@ -20,19 +20,25 @@ public class DataBase {
     private static final String PASSWORDT = "password";
     private static final String ID = "id";
 
-    public DataBase() {
-        //hh
+    private DataBase() {
+        //singleton
+    }
+
+    public static DataBase getInstance() {
+        return SingletonHelper.instance;
     }
 
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public void getPersonFromDb() {
-
+    public void getStudentFromDb(String personName) {
+        var sql = "select * from my.student where name = ?";
         try (Connection con = getConnection();
-             PreparedStatement ps = con.prepareStatement("select name, age, login, password, id from my.student");
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(sql)
+        ) {
+            ps.setString(1, personName);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 studentDbList.add(new StudentDb(
                         rs.getString(NAME),
@@ -44,10 +50,13 @@ public class DataBase {
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);
         }
+    }
 
+    public void getTeacherFromDb(String personName) {
         try (Connection con2 = getConnection();
-             PreparedStatement ps2 = con2.prepareStatement("select name, age, login, password, id from my.teacher");
-             ResultSet rs2 = ps2.executeQuery()) {
+             PreparedStatement ps2 = con2.prepareStatement("select * from my.teacher where name = ?")) {
+            ps2.setString(1, personName);
+            ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 teacherDbList.add(new TeacherDb(
                         rs2.getString(NAME),
@@ -59,5 +68,9 @@ public class DataBase {
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);
         }
+    }
+
+    private static class SingletonHelper {
+        private static final DataBase instance = new DataBase();
     }
 }

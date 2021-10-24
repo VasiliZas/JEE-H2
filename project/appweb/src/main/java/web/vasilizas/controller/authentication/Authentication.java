@@ -33,13 +33,13 @@ public class Authentication extends HttpServlet {
         } catch (ClassNotFoundException e) {
             myLogger.error(String.valueOf(e));
         }
-        new DataBase().getPersonFromDb();
 
-        myLogger.info("{} ", studentDbList.get(1));
         String name = request.getParameter(NAME);
         String type = request.getParameter(TYPE);
         String login = request.getParameter(LOGIN);
         String password = request.getParameter("password");
+
+        getPersonFromDbInMemory(type, name);
 
         HttpSession session = request.getSession();
         myLogger.info("Passing authorization");
@@ -65,5 +65,14 @@ public class Authentication extends HttpServlet {
         session.setAttribute(LOGIN, login);
         session.setAttribute(NAME, name);
         response.sendRedirect(urlMap.get(type));
+    }
+
+    private void getPersonFromDbInMemory(String type, String name) {
+        if (type.equals("Student")) {
+            DataBase.getInstance().getStudentFromDb(name);
+        }
+        if (type.equals("Teacher")) {
+            DataBase.getInstance().getTeacherFromDb(name);
+        }
     }
 }
