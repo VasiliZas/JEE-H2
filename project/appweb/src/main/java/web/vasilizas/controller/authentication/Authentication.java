@@ -3,7 +3,7 @@ package web.vasilizas.controller.authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.myservice.security.PersonAuthentication;
-import web.vasilizas.controller.DataBase;
+import web.vasilizas.controller.dataBase.DataBase;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

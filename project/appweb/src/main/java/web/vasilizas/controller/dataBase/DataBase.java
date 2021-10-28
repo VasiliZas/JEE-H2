@@ -1,19 +1,20 @@
-package web.vasilizas.controller;
+package web.vasilizas.controller.dataBase;
 
 import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
+import web.vasilizas.controller.ConnectionPool;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static vasilizas.repository.StudentDbRepository.studentDbList;
 import static vasilizas.repository.TeacherDbRepository.teacherDbList;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 public class DataBase {
-    private static final String URL = "jdbc:postgresql://localhost:5432/itdatabase";
-    private static final String USER = "vasili";
-    private static final String PASSWORD = "123";
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
@@ -28,13 +29,9 @@ public class DataBase {
         return SingletonHelper.instance;
     }
 
-    private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
-
     public void getStudentFromDb(String personName) {
         var sql = "select * from my.student where name = ?";
-        try (Connection con = getConnection();
+        try (Connection con = ConnectionPool.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)
         ) {
             ps.setString(1, personName);
@@ -53,7 +50,7 @@ public class DataBase {
     }
 
     public void getTeacherFromDb(String personName) {
-        try (Connection con2 = getConnection();
+        try (Connection con2 = ConnectionPool.getInstance().getConnection();
              PreparedStatement ps2 = con2.prepareStatement("select * from my.teacher where name = ?")) {
             ps2.setString(1, personName);
             ResultSet rs2 = ps2.executeQuery();
