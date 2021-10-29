@@ -37,12 +37,12 @@ public class DataBase {
             ps.setString(1, personName);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                studentDbList.add(new StudentDb(
-                        rs.getString(NAME),
-                        rs.getInt(AGE),
-                        rs.getString(LOGIN),
-                        rs.getString(PASSWORDT),
-                        rs.getInt(ID)));
+                studentDbList.add(
+                        new StudentDb().withName(rs.getString(NAME))
+                                .withLogin(rs.getString(LOGIN))
+                                .withPassword(rs.getString(PASSWORDT))
+                                .withAge(rs.getInt(AGE))
+                                .withId(rs.getInt(ID)));
             }
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);
@@ -55,12 +55,11 @@ public class DataBase {
             ps2.setString(1, personName);
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
-                teacherDbList.add(new TeacherDb(
-                        rs2.getString(NAME),
-                        rs2.getInt(AGE),
-                        rs2.getString(LOGIN),
-                        rs2.getString(PASSWORDT),
-                        rs2.getInt(ID)));
+                teacherDbList.add(new TeacherDb().withName(rs2.getString(NAME))
+                        .withLogin(rs2.getString(LOGIN))
+                        .withPassword(rs2.getString(PASSWORDT))
+                        .withAge(rs2.getInt(AGE))
+                        .withId(rs2.getInt(ID)));
             }
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);

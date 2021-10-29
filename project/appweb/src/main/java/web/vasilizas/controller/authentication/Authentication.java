@@ -43,7 +43,7 @@ public class Authentication extends HttpServlet {
 
         HttpSession session = request.getSession();
         myLogger.info("Passing authorization");
-        if (type.equals("Student") && PersonAuthentication.getInstance().check(name, login, password, studentDbList)) {
+        if (type.equals("Student") && PersonAuthentication.getInstance().checkStudentDb(name, login, password, studentDbList)) {
             setAttribute(session, type, login, name, response);
             return;
         }
@@ -51,7 +51,7 @@ public class Authentication extends HttpServlet {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Teacher") && PersonAuthentication.getInstance().check(name, login, password, teacherDbList)) {
+        if (type.equals("Teacher") && PersonAuthentication.getInstance().checkTeacherDb(name, login, password, teacherDbList)) {
             setAttribute(session, type, login, name, response);
         } else {
             setAttribute(session, "Error", LOGIN, NAME, response);
