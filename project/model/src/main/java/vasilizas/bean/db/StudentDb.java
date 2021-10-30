@@ -16,6 +16,8 @@ import java.util.Map;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class StudentDb extends MyAbstractEntity {
 
+    private static int counter = 10010;
+
     private String name;
     private String login;
     private String password;
@@ -29,6 +31,11 @@ public class StudentDb extends MyAbstractEntity {
 
     public StudentDb withAge(Integer age) {
         setAge(age);
+        return this;
+    }
+
+    public StudentDb setStudentId() {
+        setId(counter++);
         return this;
     }
 
