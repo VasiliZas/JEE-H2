@@ -1,13 +1,14 @@
 package web.vasilizas.repositories;
 
+import vasilizas.bean.db.MyAbstractEntity;
+
+import java.util.List;
 import java.util.Optional;
 
-public interface Repository<T> {
-    void findAll();
+public interface Repository<T extends MyAbstractEntity> {
+    List<T> findAll();
 
     Optional<T> find(int id);
 
-    T save(T entity);
-
-    Optional<T> remove(T entity);
+    void remove(int id);
 }

@@ -4,7 +4,6 @@ import vasilizas.bean.db.MyAbstractEntity;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.controller.MyConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

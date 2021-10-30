@@ -1,6 +1,7 @@
 package web.vasilizas.repositories;
 
 import vasilizas.bean.db.TeacherDb;
+import vasilizas.exception.MyWebAppException;
 import web.vasilizas.controller.dataBase.DataBase;
 
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-public class DbTeacherRepository {
+public class DbTeacherRepository implements Repository {
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
@@ -27,7 +28,8 @@ public class DbTeacherRepository {
         return SingletonHelper.instance;
     }
 
-    public List findAll() {
+    @Override
+    public List<TeacherDb> findAll() {
         List<TeacherDb> myTeacherDbList = new LinkedList<>();
         var sql = "select * from my.teacher";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql);
@@ -40,13 +42,14 @@ public class DbTeacherRepository {
                                 .withAge(rs.getInt(AGE))
                                 .withId(rs.getInt(ID)));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | MyWebAppException e) {
             myLogger.error(e.getMessage());
         }
         return myTeacherDbList;
     }
 
-    public Optional find(int id) {
+    @Override
+    public Optional<TeacherDb> find(int id) {
         TeacherDb user = new TeacherDb();
         var sql = "select * from my.teacher where id = ?";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)
@@ -60,26 +63,34 @@ public class DbTeacherRepository {
                         .withAge(rs.getInt(AGE))
                         .withId(rs.getInt(ID));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | MyWebAppException e) {
             myLogger.error(e.getMessage());
         }
         return Optional.of(user);
     }
 
-    public void addTeacherInDb(TeacherDb teacherDb) {
+    public void addPersonInDb(TeacherDb teacherDb) {
         var sql = "insert into my.teacher (id, name , login, password, age ) values (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)
         ) {
             DataBase.getInstance().addParameterInSql(teacherDb, ps);
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate {} ", result);
-        } catch (SQLException e) {
-            myLogger.error("Error !!!!  {} ", e);
+        } catch (SQLException | MyWebAppException e) {
+            myLogger.error("Error ", e);
         }
     }
 
-    public Optional remove(TeacherDb teacherDb) {
-        return Optional.empty();
+    @Override
+    public void remove(int id) {
+        var sql = "delete from my.teacher where id = ?";
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
+            ps.setInt(1, id);
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate {} ", result);
+        } catch (SQLException | MyWebAppException e) {
+            myLogger.error("Error ", e);
+        }
     }
 
     private static class SingletonHelper {

@@ -29,7 +29,7 @@ public class TeacherController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new teacher " + name + " with age " + age + " and login " + login);
             //MyService.getInstance().createAndAddPerson("Teacher", name, parseInt(age), login, password); - need when you work in memory
-            DbTeacherRepository.getInstance().addTeacherInDb(new TeacherDb().setTeacherId()
+            DbTeacherRepository.getInstance().addPersonInDb(new TeacherDb().setTeacherId()
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password)

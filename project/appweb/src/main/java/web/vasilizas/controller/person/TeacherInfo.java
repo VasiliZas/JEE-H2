@@ -1,4 +1,4 @@
-package web.vasilizas.controller;
+package web.vasilizas.controller.person;
 
 import web.vasilizas.repositories.DbTeacherRepository;
 
@@ -13,7 +13,7 @@ import static java.lang.String.valueOf;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/info2")
-public class Info extends HttpServlet {
+public class TeacherInfo extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

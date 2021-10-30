@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import static vasilizas.repository.StudentDbRepository.studentDbList;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
+import static web.vasilizas.repositories.DbStudentRepository.getInstance;
 
 @WebServlet("/student")
 public class StudentPage extends HttpServlet {
@@ -20,14 +21,17 @@ public class StudentPage extends HttpServlet {
         myLogger.info("Arrive to Student page");
         HttpSession session = req.getSession();
         String type = (String) session.getAttribute("type");
-        String name = (String) session.getAttribute("name");
-        String login = (String) session.getAttribute("login");
+//        String name = (String) session.getAttribute("name"); - need for work with memory
+//        String login = (String) session.getAttribute("login");
 
         if (type.equals("Student")) {
-            studentDbList.stream()
-                    .filter(student -> student.getName().equals(name))
-                    .filter(student -> student.getLogin().equals(login))
-                    .forEach(student -> session.setAttribute("marks", student.getMarks().toString()));
+//            studentDbList.stream()
+//                    .filter(student -> student.getName().equals(name))
+//                    .filter(student -> student.getLogin().equals(login))
+//                    .forEach(student -> session.setAttribute("marks", student.getMarks().toString()));
+
+
+            session.setAttribute("marks", getInstance().getStudentMarks(studentDbList.get(0)));
             myLogger.info("Go to Student work page");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/student-page");
             requestDispatcher.forward(req, resp);

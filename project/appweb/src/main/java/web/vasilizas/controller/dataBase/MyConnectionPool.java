@@ -1,4 +1,4 @@
-package web.vasilizas.controller;
+package web.vasilizas.controller.dataBase;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

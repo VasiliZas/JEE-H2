@@ -28,7 +28,7 @@ public class StudentController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new student " + name + " with age " + age + " and login " + login);
             //MyService.getInstance().createAndAddPerson("Student", name, parseInt(age), login, password); - need when you work in memory
-            DbStudentRepository.getInstance().addStudentInDb(new StudentDb().withName(name)
+            DbStudentRepository.getInstance().addPersonInDb(new StudentDb().withName(name)
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password)
