@@ -1,9 +1,8 @@
 package web.vasilizas.repositories;
 
 import vasilizas.bean.db.TeacherDb;
-import web.vasilizas.controller.MyConnectionPool;
+import web.vasilizas.controller.dataBase.DataBase;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,8 +30,7 @@ public class DbTeacherRepository {
     public List findAll() {
         List<TeacherDb> myTeacherDbList = new LinkedList<>();
         var sql = "select * from my.teacher";
-        try (Connection con = MyConnectionPool.getInstance().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 myTeacherDbList.add(
@@ -51,8 +49,7 @@ public class DbTeacherRepository {
     public Optional find(int id) {
         TeacherDb user = new TeacherDb();
         var sql = "select * from my.teacher where id = ?";
-        try (Connection con = MyConnectionPool.getInstance().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)
         ) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -71,22 +68,17 @@ public class DbTeacherRepository {
 
     public void addTeacherInDb(TeacherDb teacherDb) {
         var sql = "insert into my.teacher (id, name , login, password, age ) values (?, ?, ?, ?, ?)";
-        try (Connection con = MyConnectionPool.getInstance().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)
         ) {
-            ps.setInt(1, teacherDb.getId());
-            ps.setString(2, teacherDb.getName());
-            ps.setString(3, teacherDb.getLogin());
-            ps.setString(4, teacherDb.getPassword());
-            ps.setInt(5, teacherDb.getAge());
+            DataBase.getInstance().addParameterInSql(teacherDb, ps);
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate {} ", result);
         } catch (SQLException e) {
-            myLogger.error(e.getMessage());
+            myLogger.error("Error !!!!  {} ", e);
         }
     }
 
-    public Optional remove(Object entity) {
+    public Optional remove(TeacherDb teacherDb) {
         return Optional.empty();
     }
 
