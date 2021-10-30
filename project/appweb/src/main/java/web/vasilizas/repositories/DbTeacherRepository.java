@@ -49,7 +49,7 @@ public class DbTeacherRepository {
     }
 
     public Optional find(int id) {
-        List<TeacherDb> myTeacherDbList = new LinkedList<>();
+        TeacherDb user = new TeacherDb();
         var sql = "select * from my.teacher where id = ?";
         try (Connection con = MyConnectionPool.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)
@@ -57,17 +57,16 @@ public class DbTeacherRepository {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                myTeacherDbList.add(
-                        new TeacherDb().withName(rs.getString(NAME))
-                                .withLogin(rs.getString(LOGIN))
-                                .withPassword(rs.getString(PASSWORD))
-                                .withAge(rs.getInt(AGE))
-                                .withId(rs.getInt(ID)));
+                user.withName(rs.getString(NAME))
+                        .withLogin(rs.getString(LOGIN))
+                        .withPassword(rs.getString(PASSWORD))
+                        .withAge(rs.getInt(AGE))
+                        .withId(rs.getInt(ID));
             }
         } catch (SQLException e) {
             myLogger.error(e.getMessage());
         }
-        return Optional.ofNullable(myTeacherDbList.get(0));
+        return Optional.of(user);
     }
 
     public void addTeacherInDb(TeacherDb teacherDb) {
