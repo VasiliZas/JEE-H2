@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class TeacherDb extends MyAbstractEntity {
+    private static int counter = 20010;
     private String name;
     private String login;
     private String password;
@@ -25,6 +26,11 @@ public class TeacherDb extends MyAbstractEntity {
 
     public TeacherDb withId(int id) {
         setId(id);
+        return this;
+    }
+
+    public TeacherDb setTeacherId() {
+        setId(counter++);
         return this;
     }
 

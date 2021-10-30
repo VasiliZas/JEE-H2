@@ -14,12 +14,19 @@ import java.util.Optional;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 public class DbStudentRepository {
-
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
-    private static final String PASSWORDT = "password";
+    private static final String PASSWORD = "password";
     private static final String ID = "id";
+
+    private DbStudentRepository() {
+        //singleton
+    }
+
+    public static DbStudentRepository getInstance() {
+        return SingletonHelper.instance;
+    }
 
     public List findAll() {
         List<StudentDb> myStudentDbList = new LinkedList<>();
@@ -31,7 +38,7 @@ public class DbStudentRepository {
                 myStudentDbList.add(
                         new StudentDb().withName(rs.getString(NAME))
                                 .withLogin(rs.getString(LOGIN))
-                                .withPassword(rs.getString(PASSWORDT))
+                                .withPassword(rs.getString(PASSWORD))
                                 .withAge(rs.getInt(AGE))
                                 .withId(rs.getInt(ID)));
             }
@@ -42,7 +49,7 @@ public class DbStudentRepository {
     }
 
     public Optional find(int id) {
-        List<StudentDb> myStudentDblist = new LinkedList<>();
+        StudentDb user = new StudentDb();
         var sql = "select * from my.student where id = ?";
         try (Connection con = MyConnectionPool.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)
@@ -50,24 +57,40 @@ public class DbStudentRepository {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                myStudentDblist.add(
-                        new StudentDb().withName(rs.getString(NAME))
-                                .withLogin(rs.getString(LOGIN))
-                                .withPassword(rs.getString(PASSWORDT))
-                                .withAge(rs.getInt(AGE))
-                                .withId(rs.getInt(ID)));
+                user.withName(rs.getString(NAME))
+                        .withLogin(rs.getString(LOGIN))
+                        .withPassword(rs.getString(PASSWORD))
+                        .withAge(rs.getInt(AGE))
+                        .withId(rs.getInt(ID));
             }
         } catch (SQLException e) {
             myLogger.error(e.getMessage());
         }
-        return Optional.ofNullable(myStudentDblist.get(0));
+        return Optional.of(user);
     }
 
-    public Object save(Object entity) {
-        return null;
+    public void addStudentInDb(StudentDb studentDb) {
+        var sql = "insert into my.student (id, name , login, password, age ) values (?, ?, ?, ?, ?)";
+        try (Connection con = MyConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)
+        ) {
+            ps.setInt(1, studentDb.getId());
+            ps.setString(2, studentDb.getName());
+            ps.setString(3, studentDb.getLogin());
+            ps.setString(4, studentDb.getPassword());
+            ps.setInt(5, studentDb.getAge());
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate {} ", result);
+        } catch (SQLException e) {
+            myLogger.error(e.getMessage());
+        }
     }
 
     public Optional remove(Object entity) {
         return Optional.empty();
+    }
+
+    private static class SingletonHelper {
+        private static final DbStudentRepository instance = new DbStudentRepository();
     }
 }

@@ -20,7 +20,7 @@ public class Info extends HttpServlet {
         myLogger.info("Info about teacher");
         HttpSession session = req.getSession();
         try {
-            var list = new DbTeacherRepository().findAll();
+            var list = DbTeacherRepository.getInstance().findAll();
             session.setAttribute("teacherInfo", list);
             myLogger.info("Go to page with all teacher info");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/info");

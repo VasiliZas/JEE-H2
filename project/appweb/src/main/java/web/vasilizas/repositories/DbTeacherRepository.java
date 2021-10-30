@@ -17,8 +17,16 @@ public class DbTeacherRepository {
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
-    private static final String PASSWORDT = "password";
+    private static final String PASSWORD = "password";
     private static final String ID = "id";
+
+    private DbTeacherRepository() {
+        //singleton
+    }
+
+    public static DbTeacherRepository getInstance() {
+        return SingletonHelper.instance;
+    }
 
     public List findAll() {
         List<TeacherDb> myTeacherDbList = new LinkedList<>();
@@ -30,7 +38,7 @@ public class DbTeacherRepository {
                 myTeacherDbList.add(
                         new TeacherDb().withName(rs.getString(NAME))
                                 .withLogin(rs.getString(LOGIN))
-                                .withPassword(rs.getString(PASSWORDT))
+                                .withPassword(rs.getString(PASSWORD))
                                 .withAge(rs.getInt(AGE))
                                 .withId(rs.getInt(ID)));
             }
@@ -52,7 +60,7 @@ public class DbTeacherRepository {
                 myTeacherDbList.add(
                         new TeacherDb().withName(rs.getString(NAME))
                                 .withLogin(rs.getString(LOGIN))
-                                .withPassword(rs.getString(PASSWORDT))
+                                .withPassword(rs.getString(PASSWORD))
                                 .withAge(rs.getInt(AGE))
                                 .withId(rs.getInt(ID)));
             }
@@ -62,11 +70,28 @@ public class DbTeacherRepository {
         return Optional.ofNullable(myTeacherDbList.get(0));
     }
 
-    public Object save(Object entity) {
-        return null;
+    public void addTeacherInDb(TeacherDb teacherDb) {
+        var sql = "insert into my.teacher (id, name , login, password, age ) values (?, ?, ?, ?, ?)";
+        try (Connection con = MyConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)
+        ) {
+            ps.setInt(1, teacherDb.getId());
+            ps.setString(2, teacherDb.getName());
+            ps.setString(3, teacherDb.getLogin());
+            ps.setString(4, teacherDb.getPassword());
+            ps.setInt(5, teacherDb.getAge());
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate {} ", result);
+        } catch (SQLException e) {
+            myLogger.error(e.getMessage());
+        }
     }
 
     public Optional remove(Object entity) {
         return Optional.empty();
+    }
+
+    private static class SingletonHelper {
+        private static final DbTeacherRepository instance = new DbTeacherRepository();
     }
 }
