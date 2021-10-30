@@ -1,5 +1,7 @@
 package web.vasilizas.controller.person;
 
+import web.vasilizas.repositories.DbTeacherRepository;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 
-import static java.lang.Double.parseDouble;
-import static vasilizas.myservice.person.TeacherService.getInstance;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/teacher-salary")
@@ -23,9 +24,10 @@ public class TeacherSalaryController extends HttpServlet {
         String id = req.getParameter("id");
 
         try {
-            getInstance().setTeacherSalary(name, Integer.parseInt(id), parseDouble(salary));
+            //getInstance().setTeacherSalary(name, Integer.parseInt(id), parseDouble(salary)); - need when work with memory
+            DbTeacherRepository.getInstance().setTeachersSalary(Integer.parseInt(id), BigDecimal.valueOf(Double.parseDouble(salary)));
             HttpSession session = req.getSession();
-            session.setAttribute("add", "You add new teacher " + name + " with salary " + salary);
+            session.setAttribute("add", "You add for teacher " + name + "  salary " + salary);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {

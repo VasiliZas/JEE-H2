@@ -4,6 +4,7 @@ import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.controller.dataBase.DataBase;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.math.BigDecimal.valueOf;
+import static vasilizas.myservice.person.TeacherService.getAverage;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 public class DbTeacherRepository implements Repository {
@@ -43,7 +46,7 @@ public class DbTeacherRepository implements Repository {
                                 .withId(rs.getInt(ID)));
             }
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error(e.getMessage());
+            myLogger.error("Error find all: ", e);
         }
         return myTeacherDbList;
     }
@@ -64,7 +67,7 @@ public class DbTeacherRepository implements Repository {
                         .withId(rs.getInt(ID));
             }
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error(e.getMessage());
+            myLogger.error("Error find: ", e);
         }
         return Optional.of(user);
     }
@@ -77,7 +80,7 @@ public class DbTeacherRepository implements Repository {
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate {} ", result);
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error("Error ", e);
+            myLogger.error("Error add: ", e);
         }
     }
 
@@ -89,7 +92,35 @@ public class DbTeacherRepository implements Repository {
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate {} ", result);
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error("Error ", e);
+            myLogger.error("Error remove: ", e);
+        }
+    }
+
+    public double getAvgTeachersSalary(int id, int number) {
+        List<BigDecimal> salary = new LinkedList<>();
+        var sql = "select * from my.salary where id = ?";
+        try (var ps = DataBase.getInstance().connectionDataBase(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                salary.add(valueOf(rs.getLong("salary")));
+            }
+        } catch (SQLException | MyWebAppException e) {
+            myLogger.error("Error get salary: ", e);
+        }
+        return getAverage(salary, number);
+    }
+
+    public void setTeachersSalary(int id, BigDecimal salary) {
+        var sql = "insert into my.salary (id, salary ) values (?, ?)";
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)
+        ) {
+            ps.setInt(1, id);
+            ps.setBigDecimal(2, salary);
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate {} ", result);
+        } catch (SQLException | MyWebAppException e) {
+            myLogger.error("Error set salary: ", e);
         }
     }
 

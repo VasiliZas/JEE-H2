@@ -54,7 +54,7 @@ public class TeacherDb extends MyAbstractEntity {
         return this;
     }
 
-    public TeacherDb addGrade(BigDecimal salarys) {
+    public TeacherDb addSalary(BigDecimal salarys) {
         if (salary != null) {
             salary.add(salarys);
         }
