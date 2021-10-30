@@ -1,7 +1,7 @@
 package vasilizas.myservice.security;
 
 import vasilizas.bean.Person;
-import vasilizas.bean.db.AbstractEntity;
+import vasilizas.bean.db.MyAbstractEntity;
 import vasilizas.myservice.interfece.PersonCheckable;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class CheckPerson implements PersonCheckable {
     }
 
     @Override
-    public boolean checkPersonDb(List<? extends AbstractEntity> list, int id) {
+    public boolean checkPersonDb(List<? extends MyAbstractEntity> list, int id) {
         return list.stream().anyMatch(s -> s.getId() == id);
     }
 

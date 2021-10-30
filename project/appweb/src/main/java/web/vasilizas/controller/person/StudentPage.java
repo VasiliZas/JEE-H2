@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static vasilizas.repository.StudentRepository.studentList;
+import static vasilizas.repository.StudentDbRepository.studentDbList;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/student")
@@ -24,7 +24,7 @@ public class StudentPage extends HttpServlet {
         String login = (String) session.getAttribute("login");
 
         if (type.equals("Student")) {
-            studentList.stream()
+            studentDbList.stream()
                     .filter(student -> student.getName().equals(name))
                     .filter(student -> student.getLogin().equals(login))
                     .forEach(student -> session.setAttribute("marks", student.getMarks().toString()));

@@ -2,19 +2,21 @@ package vasilizas.bean.db;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class TeacherDb extends AbstractEntity {
+public class TeacherDb extends MyAbstractEntity {
     private String name;
     private String login;
     private String password;
@@ -51,5 +53,16 @@ public class TeacherDb extends AbstractEntity {
             salary.add(salarys);
         }
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name = " + name +
+                ", login = " + login +
+                ", password = " + password +
+                ", age = " + age +
+                ", salary = " + salary +
+                " " + " id = " + getId() + "}" + "\n";
     }
 }

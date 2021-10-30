@@ -16,9 +16,9 @@
 <jsp:include page="href.html"/>
 <h1 center> Admin work page </h1>
 <nav><a href="/myweb/admin/addpersonpar">Add teacher and salary</a> |
-    <a href="/myweb/admin/avg-salary">Teacher's salary average</a>  |
-    <a href="/myweb/admin/info">Teacher's info</a>
-    </nav>
+    <a href="/myweb/admin/avg-salary">Teacher's salary average</a> |
+    <a href="/myweb/info2">Teacher's info</a>
+</nav>
 <div id="footer">
     <jsp:include page="my.jsp"/>
 </div>

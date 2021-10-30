@@ -14,13 +14,13 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class StudentDb extends AbstractEntity {
+public class StudentDb extends MyAbstractEntity {
 
     private String name;
     private String login;
     private String password;
     private int age;
-    private Map<String, Integer> grade = new LinkedHashMap<>();
+    private Map<String, Integer> marks = new LinkedHashMap<>();
 
     public StudentDb withId(int id) {
         setId(id);
@@ -48,8 +48,8 @@ public class StudentDb extends AbstractEntity {
     }
 
     public StudentDb addGrade(String theme, Integer grades) {
-        if (grade != null) {
-            grade.put(theme, grades);
+        if (marks != null) {
+            marks.put(theme, grades);
         }
         return this;
     }

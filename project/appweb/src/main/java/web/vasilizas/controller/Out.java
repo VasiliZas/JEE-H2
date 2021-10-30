@@ -14,7 +14,7 @@ public class Out extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            ConnectionPool.getInstance().getConnection().close();
+            MyConnectionPool.getInstance().getConnection().close();
             myLogger.info("Out session");
             HttpSession session = req.getSession();
             session.invalidate();

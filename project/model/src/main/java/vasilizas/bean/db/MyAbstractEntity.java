@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AbstractEntity {
+public class MyAbstractEntity {
     private Integer id;
 
-    public AbstractEntity withId(Integer id) {
+    public MyAbstractEntity withId(Integer id) {
         setId(id);
         return this;
     }

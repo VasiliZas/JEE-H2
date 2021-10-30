@@ -1,5 +1,6 @@
+<%@ page import="static vasilizas.repository.TeacherRepository.teacherList" %>
+<%@ page import="web.vasilizas.repositories.DbStudentRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
     <meta charset=UTF-8>
@@ -21,17 +22,12 @@
 </p>
 <br>
 <br>
-<h3 style="color: blue">
-    <table border="1">
-        <%= session.getAttribute("teacherInfo") %>
-    </table>
-</h3>
-<br/>
-<p center>
-    <c></c>
-</p>
-<div id="footer">
-    <jsp:include page="my.jsp"/>
-</div>
+<h3 style="color: blue"> <%= session.getAttribute("studentInfo") %> <br/>
+    <p center>
+        <c></c>
+    </p>
+    <div id="footer">
+        <jsp:include page="my.jsp"/>
+    </div>
 </body>
 </html>

@@ -7,16 +7,16 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ConnectionPool {
-    private static ConnectionPool instance;
+public class MyConnectionPool {
+    private static MyConnectionPool instance;
 
-    private ConnectionPool() {
+    private MyConnectionPool() {
         //private constructor
     }
 
-    public static synchronized ConnectionPool getInstance() {
+    public static synchronized MyConnectionPool getInstance() {
         if (instance == null)
-            instance = new ConnectionPool();
+            instance = new MyConnectionPool();
         return instance;
     }
 

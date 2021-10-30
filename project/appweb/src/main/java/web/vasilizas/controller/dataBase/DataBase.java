@@ -3,7 +3,7 @@ package web.vasilizas.controller.dataBase;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.controller.ConnectionPool;
+import web.vasilizas.controller.MyConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +31,7 @@ public class DataBase {
 
     public void getStudentFromDb(String personName) {
         var sql = "select * from my.student where name = ?";
-        try (Connection con = ConnectionPool.getInstance().getConnection();
+        try (Connection con = MyConnectionPool.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)
         ) {
             ps.setString(1, personName);
@@ -50,7 +50,7 @@ public class DataBase {
     }
 
     public void getTeacherFromDb(String personName) {
-        try (Connection con2 = ConnectionPool.getInstance().getConnection();
+        try (Connection con2 = MyConnectionPool.getInstance().getConnection();
              PreparedStatement ps2 = con2.prepareStatement("select * from my.teacher where name = ?")) {
             ps2.setString(1, personName);
             ResultSet rs2 = ps2.executeQuery();

@@ -24,13 +24,19 @@
             <groupId>vasilizas</groupId>
             <artifactId>model</artifactId>
             <version>1.0.0</version>
-            </dependency>
+        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>vasilizas</groupId>-->
+        <!--            <artifactId>appweb</artifactId>-->
+        <!--            <version>1.0.0</version>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
     </dependencies>
 
 </project>
