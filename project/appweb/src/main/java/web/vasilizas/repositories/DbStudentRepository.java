@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-public class DbStudentRepository implements Repository {
+public class DbStudentRepository implements Repository<StudentDb> {
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
@@ -29,6 +29,17 @@ public class DbStudentRepository implements Repository {
 
     public static DbStudentRepository getInstance() {
         return SingletonHelper.instance;
+    }
+
+    private static void removeMarks(int id) {
+        var sql = "delete from my.grade where id = ?";
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
+            ps.setInt(1, id);
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate remove marks {} ", result);
+        } catch (SQLException | MyWebAppException e) {
+            myLogger.error("Error remove: ", e);
+        }
     }
 
     @Override
@@ -71,13 +82,12 @@ public class DbStudentRepository implements Repository {
         return Optional.of(user);
     }
 
-
     public void addPersonInDb(StudentDb studentDb) {
         var sql = "insert into my.student (id, name , login, password, age ) values (?, ?, ?, ?, ?)";
         try (var ps = DataBase.getInstance().connectionDataBase(sql)) {
             DataBase.getInstance().addParameterInSql(studentDb, ps);
             var result = ps.executeUpdate();
-            myLogger.info("Result executeUpdate {} ", result);
+            myLogger.info("Result executeUpdate add {} ", result);
         } catch (SQLException | MyWebAppException e) {
             myLogger.error("Error add: ", e);
         }
@@ -85,6 +95,7 @@ public class DbStudentRepository implements Repository {
 
     @Override
     public void remove(int id) {
+        removeMarks(id);
         var sql = "delete from my.student where id = ?";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, id);
@@ -95,7 +106,7 @@ public class DbStudentRepository implements Repository {
         }
     }
 
-    public Map getStudentMarks(StudentDb studentDb) {
+    public Map<String, Integer> getStudentMarks(StudentDb studentDb) {
         var sql = "select * from my.grade where id = ?";
         try (var ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, studentDb.getId());

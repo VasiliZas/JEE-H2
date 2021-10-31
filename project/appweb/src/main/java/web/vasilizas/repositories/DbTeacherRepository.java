@@ -16,7 +16,7 @@ import static java.math.BigDecimal.valueOf;
 import static vasilizas.myservice.person.TeacherService.getAverage;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-public class DbTeacherRepository implements Repository {
+public class DbTeacherRepository implements Repository<TeacherDb> {
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
@@ -29,6 +29,17 @@ public class DbTeacherRepository implements Repository {
 
     public static DbTeacherRepository getInstance() {
         return SingletonHelper.instance;
+    }
+
+    private static void removeSalary(int id) {
+        var sql = "delete from my.salary where id = ?";
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
+            ps.setInt(1, id);
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate {} ", result);
+        } catch (SQLException | MyWebAppException e) {
+            myLogger.error("Error remove: ", e);
+        }
     }
 
     @Override
@@ -78,7 +89,7 @@ public class DbTeacherRepository implements Repository {
         ) {
             DataBase.getInstance().addParameterInSql(teacherDb, ps);
             var result = ps.executeUpdate();
-            myLogger.info("Result executeUpdate {} ", result);
+            myLogger.info("Result executeUpdate add {} ", result);
         } catch (SQLException | MyWebAppException e) {
             myLogger.error("Error add: ", e);
         }
@@ -86,11 +97,12 @@ public class DbTeacherRepository implements Repository {
 
     @Override
     public void remove(int id) {
+        removeSalary(id);
         var sql = "delete from my.teacher where id = ?";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, id);
             var result = ps.executeUpdate();
-            myLogger.info("Result executeUpdate {} ", result);
+            myLogger.info("Result executeUpdate remove {} ", result);
         } catch (SQLException | MyWebAppException e) {
             myLogger.error("Error remove: ", e);
         }
