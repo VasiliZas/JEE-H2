@@ -4,17 +4,14 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="vasilizas.bean.db.StudentDb" table="student">
+    <class name="vasilizas.bean.db.Marks" table="grade">
 
         <id name="id" type="int">
             <column name="id"/>
-            <generator class="identity"/>
         </id>
 
-        <property name="name" column="name"/>
-        <property name="login" column="login"/>
-        <property name="age" column="age"/>
-        <property name="password" column="password"/>
+        <property name="theme" column="theme"/>
+        <property name="grade" column="grade"/>
 
     </class>
 </hibernate-mapping>
