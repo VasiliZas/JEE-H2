@@ -1,7 +1,9 @@
 package web.vasilizas.controller.person;
 
-import web.vasilizas.repositories.DbTeacherRepository;
+import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.jpa.DbTeacherRepository;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
@@ -25,7 +26,10 @@ public class TeacherSalaryController extends HttpServlet {
 
         try {
             //getInstance().setTeacherSalary(name, Integer.parseInt(id), parseDouble(salary)); - need when work with memory
-            DbTeacherRepository.getInstance().setTeachersSalary(Integer.parseInt(id), BigDecimal.valueOf(Double.parseDouble(salary)));
+            if (DbTeacherRepository.getInstance().find(Integer.parseInt(id)).isPresent()) {
+                var teacher = DbTeacherRepository.getInstance().find(Integer.parseInt(id)).get();
+                DbTeacherRepository.getInstance().addTeacherSalary(teacher, Double.parseDouble(salary));
+            } else throw new NullPointerException();
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add for teacher " + name + "  salary " + salary);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
@@ -35,7 +39,7 @@ public class TeacherSalaryController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException ex) {
+            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

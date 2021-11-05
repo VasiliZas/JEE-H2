@@ -1,6 +1,6 @@
 package web.vasilizas.controller.person;
 
-import web.vasilizas.repositories.DbTeacherRepository;
+import web.vasilizas.repositories.jpa.DbTeacherRepository;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

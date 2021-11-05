@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import static vasilizas.repository.StudentDbRepository.studentDbList;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
-import static web.vasilizas.repositories.DbStudentRepository.getInstance;
+import static web.vasilizas.repositories.jpa.DbStudentRepository.getInstance;
 
 @WebServlet("/student")
 public class StudentPage extends HttpServlet {

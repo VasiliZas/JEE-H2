@@ -2,35 +2,26 @@ package vasilizas.bean.db;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Entity
+@Table(name = "teacher")
 public class TeacherDb extends MyAbstractEntity {
-    private static int counter = 20010;
-    private String name;
-    private String login;
-    private String password;
-    private int age;
-    private List<BigDecimal> salary = new LinkedList<>();
+
+    @OneToMany(mappedBy = "teacher", targetEntity = Salary.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Salary> salary = new LinkedList<>();
 
     public TeacherDb withId(int id) {
         setId(id);
-        return this;
-    }
-
-    public TeacherDb setTeacherId() {
-        setId(counter++);
         return this;
     }
 
@@ -54,7 +45,7 @@ public class TeacherDb extends MyAbstractEntity {
         return this;
     }
 
-    public TeacherDb addSalary(BigDecimal salarys) {
+    public TeacherDb addSalary(Salary salarys) {
         if (salary != null) {
             salary.add(salarys);
         }
@@ -62,13 +53,26 @@ public class TeacherDb extends MyAbstractEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TeacherDb teacherDb = (TeacherDb) o;
+        return Objects.equals(salary, teacherDb.salary);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), salary);
+    }
+
+    @Override
     public String toString() {
-        return "{" +
-                "name = " + name +
-                ", login = " + login +
-                ", password = " + password +
-                ", age = " + age +
-                ", salary = " + salary +
-                " " + " id = " + getId() + "}" + "\n";
+        return "Teacher name = " + getName() +
+                ", id = " + getId() +
+                ", login = " + getLogin() +
+                ", password = " + getPassword() +
+                ", age = " + getAge() +
+                ", salary = " + salary;
     }
 }

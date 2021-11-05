@@ -1,8 +1,8 @@
 package vasilizas.myservice.security;
 
-import vasilizas.bean.Person;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
+import vasilizas.bean.memory.Person;
 import vasilizas.myservice.interfece.PersonAuth;
 
 import java.util.List;

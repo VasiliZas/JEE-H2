@@ -8,7 +8,7 @@
 
         <id name="id" type="int">
             <column name="id"/>
-            <generator class="identity"/>
+            <generator class="increment"/>
         </id>
 
         <property name="name" column="name"/>

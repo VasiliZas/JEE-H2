@@ -8,10 +8,14 @@
 
         <id name="id" type="int">
             <column name="id"/>
+            <generator class="increment"/>
         </id>
 
         <property name="theme" column="theme"/>
         <property name="grade" column="grade"/>
+        <property name="getStuid" column="studentid"/>
+
+        <many-to-one name="getStuid" insert="false" update="false" class="vasilizas.bean.db.StudentDb"/>
 
     </class>
 </hibernate-mapping>

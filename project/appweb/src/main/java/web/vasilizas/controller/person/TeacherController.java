@@ -2,8 +2,10 @@ package web.vasilizas.controller.person;
 
 
 import vasilizas.bean.db.TeacherDb;
-import web.vasilizas.repositories.DbTeacherRepository;
+import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.jpa.DbTeacherRepository;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +31,7 @@ public class TeacherController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new teacher " + name + " with age " + age + " and login " + login);
             //MyService.getInstance().createAndAddPerson("Teacher", name, parseInt(age), login, password); - need when you work in memory
-            DbTeacherRepository.getInstance().addPersonInDb(new TeacherDb().setTeacherId()
+            DbTeacherRepository.getInstance().addPersonInDb(new TeacherDb()
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password)
@@ -41,7 +43,7 @@ public class TeacherController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException ex) {
+            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

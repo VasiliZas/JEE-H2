@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.EntityManagerHelper;
+import web.vasilizas.repositories.jpa.EntityManagerHelper;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

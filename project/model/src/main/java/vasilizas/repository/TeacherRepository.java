@@ -1,6 +1,6 @@
 package vasilizas.repository;
 
-import vasilizas.bean.Teacher;
+import vasilizas.bean.memory.Teacher;
 
 import java.util.ArrayList;
 import java.util.List;

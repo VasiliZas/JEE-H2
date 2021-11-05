@@ -1,8 +1,9 @@
-package web.vasilizas.repositories;
+package web.vasilizas.repositories.sql;
 
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.controller.dataBase.DataBase;
+import web.vasilizas.repositories.jpa.Repository;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -16,18 +17,18 @@ import static java.math.BigDecimal.valueOf;
 import static vasilizas.myservice.person.TeacherService.getAverage;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-public class DbTeacherRepository implements Repository<TeacherDb> {
+public class SqlTeacherRepository implements Repository {
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String ID = "id";
 
-    private DbTeacherRepository() {
+    private SqlTeacherRepository() {
         //singleton
     }
 
-    public static DbTeacherRepository getInstance() {
+    public static SqlTeacherRepository getInstance() {
         return SingletonHelper.instance;
     }
 
@@ -137,6 +138,6 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
     }
 
     private static class SingletonHelper {
-        private static final DbTeacherRepository instance = new DbTeacherRepository();
+        private static final SqlTeacherRepository instance = new SqlTeacherRepository();
     }
 }

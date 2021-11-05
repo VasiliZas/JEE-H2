@@ -1,8 +1,10 @@
 package web.vasilizas.controller.person;
 
 import vasilizas.bean.db.StudentDb;
-import web.vasilizas.repositories.DbStudentRepository;
+import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.jpa.DbStudentRepository;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,8 +33,7 @@ public class StudentController extends HttpServlet {
             DbStudentRepository.getInstance().addPersonInDb(new StudentDb().withName(name)
                     .withAge(parseInt(age))
                     .withLogin(login)
-                    .withPassword(password)
-                    .setStudentId());
+                    .withPassword(password));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
@@ -40,7 +41,7 @@ public class StudentController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException ex) {
+            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
                 ex.printStackTrace();
                 myLogger.warn(String.valueOf(ex));
             }

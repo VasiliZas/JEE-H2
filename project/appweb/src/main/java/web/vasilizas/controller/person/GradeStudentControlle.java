@@ -1,5 +1,8 @@
 package web.vasilizas.controller.person;
 
+import vasilizas.exception.MyWebAppException;
+
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +37,7 @@ public class GradeStudentControlle extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException ex) {
+            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

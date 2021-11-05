@@ -1,6 +1,6 @@
 package vasilizas.myservice.interfece;
 
-import vasilizas.bean.Person;
+import vasilizas.bean.memory.Person;
 
 import java.util.List;
 

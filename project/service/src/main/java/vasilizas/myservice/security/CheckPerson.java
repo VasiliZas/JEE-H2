@@ -1,7 +1,7 @@
 package vasilizas.myservice.security;
 
-import vasilizas.bean.Person;
 import vasilizas.bean.db.MyAbstractEntity;
+import vasilizas.bean.memory.Person;
 import vasilizas.myservice.interfece.PersonCheckable;
 
 import java.util.List;
