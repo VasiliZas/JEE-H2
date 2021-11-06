@@ -4,7 +4,6 @@ import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.jpa.DbStudentRepository;
 
-import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,7 +40,7 @@ public class StudentController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
+            } catch (ServletException | IOException | MyWebAppException ex) {
                 ex.printStackTrace();
                 myLogger.warn(String.valueOf(ex));
             }

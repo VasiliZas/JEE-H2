@@ -3,7 +3,7 @@ package web.vasilizas.repositories.sql;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.controller.dataBase.DataBase;
-import web.vasilizas.repositories.jpa.Repository;
+import web.vasilizas.repositories.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

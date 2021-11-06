@@ -3,7 +3,7 @@ package web.vasilizas.repositories.sql;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.controller.dataBase.DataBase;
-import web.vasilizas.repositories.jpa.Repository;
+import web.vasilizas.repositories.Repository;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;

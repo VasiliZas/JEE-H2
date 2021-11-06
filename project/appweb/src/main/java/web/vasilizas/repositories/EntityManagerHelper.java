@@ -1,4 +1,4 @@
-package web.vasilizas.repositories.jpa;
+package web.vasilizas.repositories;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

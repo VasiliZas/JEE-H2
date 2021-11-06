@@ -3,14 +3,17 @@ package web.vasilizas.repositories.jpa;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.EntityManagerHelper;
+import web.vasilizas.repositories.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
-import java.util.*;
-
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class DbStudentRepository implements Repository<StudentDb> {
 
@@ -32,13 +35,13 @@ public class DbStudentRepository implements Repository<StudentDb> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception remove marks: ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
     }
 
     @Override
     public List<StudentDb> findAll() {
-        List<StudentDb> dbList = new ArrayList<>();
+        List<StudentDb> dbList;
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -46,14 +49,14 @@ public class DbStudentRepository implements Repository<StudentDb> {
             TypedQuery<StudentDb> fromStudentDb = em.createQuery("from StudentDb ", StudentDb.class);
             dbList = fromStudentDb.getResultList();
         } catch (MyWebAppException | PersistenceException e) {
-            myLogger.error("Error find all : ", e);
+            throw new MyWebAppException(e.getMessage());
         }
         return dbList;
     }
 
     @Override
     public Optional<StudentDb> find(int id) {
-        StudentDb user = new StudentDb();
+        StudentDb user;
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -62,7 +65,7 @@ public class DbStudentRepository implements Repository<StudentDb> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception find : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
         return Optional.of(user);
     }
@@ -77,7 +80,7 @@ public class DbStudentRepository implements Repository<StudentDb> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception add : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
     }
 
@@ -92,7 +95,7 @@ public class DbStudentRepository implements Repository<StudentDb> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception remove : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
     }
 
@@ -111,7 +114,7 @@ public class DbStudentRepository implements Repository<StudentDb> {
                 userMarks.put(m.getTheme(), m.getGrade());
             }
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception get student marks : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
         return userMarks;
     }

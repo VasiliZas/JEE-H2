@@ -3,19 +3,19 @@ package web.vasilizas.repositories.jpa;
 import vasilizas.bean.db.Salary;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.EntityManagerHelper;
+import web.vasilizas.repositories.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import static vasilizas.myservice.person.TeacherService.getAverage;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 public class DbTeacherRepository implements Repository<TeacherDb> {
 
@@ -28,24 +28,24 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
     }
 
     public static void removeSalary(int id) {
-//        try {
-//
-//            List<Salary> salary = DbTeacherRepository.getInstance().getAllSalary(id);
-//            for (Salary list : salary) {
-//                if (list.getId() == id) {
-//                    em.remove(list);
-//                    tx.commit();
-//                }
-//            }
-//
-//            em.close();
-//        } catch (MyWebAppException | PersistenceException exception) {
-//            myLogger.error("Exception remove salary : ", exception);
-//        }
+        List<Salary> salary;
+        DbTeacherRepository.getInstance().find(id).orElseThrow(MyWebAppException::new);
+        salary = DbTeacherRepository.getInstance().find(id).get().getSalary();
+        try {
+            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            em.remove(salary);
+            tx.commit();
+            em.close();
+        } catch (MyWebAppException | PersistenceException exception) {
+            throw new MyWebAppException(exception.getMessage());
+        }
     }
 
+
     public List<Salary> getAllSalary() {
-        List<Salary> userSalary = new LinkedList<>();
+        List<Salary> userSalary;
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -55,14 +55,14 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception find : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
         return userSalary;
     }
 
     @Override
     public List<TeacherDb> findAll() {
-        List<TeacherDb> dbList = new ArrayList<>();
+        List<TeacherDb> dbList;
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -70,14 +70,14 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
             TypedQuery<TeacherDb> fromTeacherDb = em.createQuery("from TeacherDb ", TeacherDb.class);
             dbList = fromTeacherDb.getResultList();
         } catch (MyWebAppException | PersistenceException e) {
-            myLogger.error("Error find all : ", e);
+            throw new MyWebAppException(e.getMessage());
         }
         return dbList;
     }
 
     @Override
     public Optional<TeacherDb> find(int id) {
-        TeacherDb user = new TeacherDb();
+        TeacherDb user;
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -86,7 +86,7 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception find : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
         return Optional.of(user);
     }
@@ -100,7 +100,7 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
             trx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException ex) {
-            myLogger.error("Exception add : ", ex);
+            throw new MyWebAppException(ex.getMessage());
         }
     }
 
@@ -113,7 +113,7 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
             trx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException ex) {
-            myLogger.error("Exception add : ", ex);
+            throw new MyWebAppException(ex.getMessage());
         }
     }
 
@@ -128,7 +128,7 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception remove : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
     }
 
@@ -147,7 +147,7 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
                 salary.add(s.getSalary());
             }
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error("Exception get avg salary : ", exception);
+            throw new MyWebAppException(exception.getMessage());
         }
         return getAverage(salary, number);
     }
