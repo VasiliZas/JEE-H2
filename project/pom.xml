@@ -37,11 +37,18 @@
             <version>1.7.25</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <version>1.18.16</version>-->
-<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.projectlombok</groupId>-->
+        <!--            <artifactId>lombok</artifactId>-->
+        <!--            <version>1.18.16</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -98,6 +105,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.4.27.Final</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
