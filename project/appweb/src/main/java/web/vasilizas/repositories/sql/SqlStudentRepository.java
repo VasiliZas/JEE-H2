@@ -1,20 +1,22 @@
 package web.vasilizas.repositories.sql;
 
+import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.controller.dataBase.DataBase;
-import web.vasilizas.repositories.Repository;
+import web.vasilizas.repositories.interfaces.StudentRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-public class SqlStudentRepository implements Repository<StudentDb> {
+public class SqlStudentRepository implements StudentRepository {
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
@@ -29,14 +31,29 @@ public class SqlStudentRepository implements Repository<StudentDb> {
         return SingletonHelper.instance;
     }
 
-    public static void removeMarks(int id) {
+    public void addStudentMarks(String theme, int mark, int id) {
+        var sql = "insert into my.grade (id, theme, grade, stuid ) values (?, ?, ?, ?)";
+        try (var ps = DataBase.getInstance().connectionDataBase(sql)) {
+            ps.setInt(1, mark + id);
+            ps.setString(2, theme);
+            ps.setInt(3, mark);
+            ps.setInt(4, id);
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate add {} ", result);
+        } catch (SQLException | MyWebAppException e) {
+            throw new MyWebAppException(e.getMessage());
+        }
+
+    }
+
+    public void removeMarks(int id) {
         var sql = "delete from my.grade where id = ?";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, id);
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate remove marks {} ", result);
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error("SQL Error remove: ", e);
+            throw new MyWebAppException(e.getMessage());
         }
     }
 
@@ -55,7 +72,7 @@ public class SqlStudentRepository implements Repository<StudentDb> {
                                 .withId(rs.getInt(ID)));
             }
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error("Error find all: ", e);
+            throw new MyWebAppException(e.getMessage());
         }
         return myStudentDbList;
     }
@@ -75,7 +92,7 @@ public class SqlStudentRepository implements Repository<StudentDb> {
                         .withId(rs.getInt(ID));
             }
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error("Error find: ", e);
+            throw new MyWebAppException(e.getMessage());
         }
         return Optional.of(user);
     }
@@ -88,7 +105,7 @@ public class SqlStudentRepository implements Repository<StudentDb> {
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate {} ", result);
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error("Error remove: ", e);
+            throw new MyWebAppException(e.getMessage());
         }
     }
 
@@ -99,8 +116,25 @@ public class SqlStudentRepository implements Repository<StudentDb> {
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate add {} ", result);
         } catch (SQLException | MyWebAppException e) {
-            myLogger.error("Error add: ", e);
+            throw new MyWebAppException(e.getMessage());
         }
+    }
+
+    public List<Marks> getStudentMarks(StudentDb studentDb) {
+        List<Marks> marks = new ArrayList<>();
+        var sql = "select * from my.grade where stuid = ?";
+        try (var ps = DataBase.getInstance().connectionDataBase(sql)) {
+            ps.setInt(1, studentDb.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                marks.add(new Marks().withStudentId(rs.getInt(ID))
+                        .withGrade(rs.getInt("grade"))
+                        .withTheme(rs.getString("theme")));
+            }
+        } catch (SQLException | MyWebAppException e) {
+            throw new MyWebAppException(e.getMessage());
+        }
+        return marks;
     }
 
     private static class SingletonHelper {

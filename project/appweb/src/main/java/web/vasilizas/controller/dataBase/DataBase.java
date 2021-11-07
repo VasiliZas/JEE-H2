@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import static vasilizas.repository.StudentDbRepository.studentDbList;
 import static vasilizas.repository.TeacherDbRepository.teacherDbList;
@@ -34,7 +35,7 @@ public class DataBase<T extends MyAbstractEntity> {
         return con.prepareStatement(sql);
     }
 
-    public void getStudentFromDb(String personName) {
+    public List<StudentDb> getStudentFromDb(String personName) {
         var sql = "select * from my.student where name = ?";
         try (PreparedStatement ps = connectionDataBase(sql)
         ) {
@@ -51,9 +52,10 @@ public class DataBase<T extends MyAbstractEntity> {
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);
         }
+        return studentDbList;
     }
 
-    public void getTeacherFromDb(String personName) {
+    public List<TeacherDb> getTeacherFromDb(String personName) {
         var sql = "select * from my.teacher where name = ?";
         try (PreparedStatement ps2 = connectionDataBase(sql)) {
             ps2.setString(1, personName);
@@ -68,6 +70,7 @@ public class DataBase<T extends MyAbstractEntity> {
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);
         }
+        return teacherDbList;
     }
 
     public void addParameterInSql(T entity, PreparedStatement ps) throws SQLException {

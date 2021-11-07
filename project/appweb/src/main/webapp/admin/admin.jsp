@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>admin</title>
     <style type="text/css">
+        BODY {
+            background-image: url(/img/fon_pero_cvet.jpg); /* Путь к фоновому рисунку */
+        }
+
         #footer {
             position: fixed;
             bottom: 0;
@@ -12,7 +16,7 @@
             width: 100%;
         } </style>
 </head>
-<body align=center background="img/fon_pero_cvet.jpg">
+<body align=center background="/img/fon_pero_cvet.jpg">
 <jsp:include page="href.html"/>
 <h1 center> Admin work page </h1>
 <nav><a href="/myweb/admin/addpersonpar">Add student, teacher and teacher's salary</a> |

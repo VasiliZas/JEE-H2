@@ -1,6 +1,6 @@
 package web.vasilizas.controller.person;
 
-import web.vasilizas.repositories.jpa.DbTeacherRepository;
+import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,8 +23,7 @@ public class AvgTeacherSalaryController extends HttpServlet {
         String id = req.getParameter("id");
 
         try {
-            //double average = getInstance().averageSalary(name, parseInt(number)); - need when work with memory
-            double average = DbTeacherRepository.getInstance().getAvgTeachersSalary(parseInt(id), parseInt(number));
+            double average = RepositoryFactory.getTeacherRepository("JPA").getAvgTeachersSalary(parseInt(id), parseInt(number));
             HttpSession session = req.getSession();
             session.setAttribute("avgSalary", "Average salary teacher with id " + id + " is " + average + " eur");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/avg-salary");

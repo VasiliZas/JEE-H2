@@ -4,7 +4,7 @@ import vasilizas.bean.db.Salary;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.EntityManagerHelper;
-import web.vasilizas.repositories.Repository;
+import web.vasilizas.repositories.interfaces.TeacherRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -17,20 +17,20 @@ import java.util.Optional;
 
 import static vasilizas.myservice.person.TeacherService.getAverage;
 
-public class DbTeacherRepository implements Repository<TeacherDb> {
+public class JpaTeacherRepository implements TeacherRepository {
 
-    private DbTeacherRepository() {
+    private JpaTeacherRepository() {
         //singleton
     }
 
-    public static DbTeacherRepository getInstance() {
+    public static JpaTeacherRepository getInstance() {
         return SingletonHelper.instance;
     }
 
-    public static void removeSalary(int id) {
+    public void removeSalary(int id) {
         List<Salary> salary;
-        DbTeacherRepository.getInstance().find(id).orElseThrow(MyWebAppException::new);
-        salary = DbTeacherRepository.getInstance().find(id).get().getSalary();
+        JpaTeacherRepository.getInstance().find(id).orElseThrow(MyWebAppException::new);
+        salary = JpaTeacherRepository.getInstance().find(id).get().getSalary();
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -104,7 +104,8 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
         }
     }
 
-    public void addTeacherSalary(TeacherDb teacherDb, double salary) {
+    @Override
+    public void addTeachersSalary(TeacherDb teacherDb, double salary) {
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction trx = em.getTransaction();
@@ -153,6 +154,6 @@ public class DbTeacherRepository implements Repository<TeacherDb> {
     }
 
     private static class SingletonHelper {
-        private static final DbTeacherRepository instance = new DbTeacherRepository();
+        private static final JpaTeacherRepository instance = new JpaTeacherRepository();
     }
 }

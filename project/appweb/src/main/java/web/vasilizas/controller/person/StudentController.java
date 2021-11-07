@@ -2,7 +2,7 @@ package web.vasilizas.controller.person;
 
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.jpa.DbStudentRepository;
+import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,8 +28,7 @@ public class StudentController extends HttpServlet {
         try {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new student " + name + " with age " + age + " and login " + login);
-            //MyService.getInstance().createAndAddPerson("Student", name, parseInt(age), login, password); - need when you work in memory
-            DbStudentRepository.getInstance().addPersonInDb(new StudentDb().withName(name)
+            RepositoryFactory.getStudentRepository("JPA").addPersonInDb(new StudentDb().withName(name)
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password));
@@ -41,7 +40,6 @@ public class StudentController extends HttpServlet {
             try {
                 requestDispatcher.forward(req, resp);
             } catch (ServletException | IOException | MyWebAppException ex) {
-                ex.printStackTrace();
                 myLogger.warn(String.valueOf(ex));
             }
         }

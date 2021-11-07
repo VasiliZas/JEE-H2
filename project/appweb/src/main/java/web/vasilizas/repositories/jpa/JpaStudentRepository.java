@@ -4,28 +4,40 @@ import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.EntityManagerHelper;
-import web.vasilizas.repositories.Repository;
+import web.vasilizas.repositories.interfaces.StudentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-public class DbStudentRepository implements Repository<StudentDb> {
+public class JpaStudentRepository implements StudentRepository {
 
-    private DbStudentRepository() {
+    private JpaStudentRepository() {
         //singleton
     }
 
-    public static DbStudentRepository getInstance() {
+    public static JpaStudentRepository getInstance() {
         return SingletonHelper.instance;
     }
 
-    public static void removeMarks(int id) {
+    public void addStudentMarks(String theme, int mark, int id) {
+        try {
+            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            em.persist(new Marks().withStudentId(id).withTheme(theme).withGrade(mark));
+            tx.commit();
+            em.close();
+        } catch (MyWebAppException | PersistenceException exception) {
+            throw new MyWebAppException(exception.getMessage());
+        }
+
+    }
+
+    public void removeMarks(int id) {
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -99,27 +111,24 @@ public class DbStudentRepository implements Repository<StudentDb> {
         }
     }
 
-    public Map<String, Integer> getStudentMarks(StudentDb studentDb) {
-        Map<String, Integer> userMarks = new LinkedHashMap<>();
+    public List<Marks> getStudentMarks(StudentDb studentDb) {
+        List<Marks> marks;
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
             TypedQuery<Marks> fromMarks = em.createQuery("from Marks where stuid = ?1", Marks.class)
                     .setParameter(1, studentDb.getId());
-            var marks = fromMarks.getResultList();
+            marks = fromMarks.getResultList();
             tx.commit();
             em.close();
-            for (Marks m : marks) {
-                userMarks.put(m.getTheme(), m.getGrade());
-            }
         } catch (MyWebAppException | PersistenceException exception) {
             throw new MyWebAppException(exception.getMessage());
         }
-        return userMarks;
+        return marks;
     }
 
     private static class SingletonHelper {
-        private static final DbStudentRepository instance = new DbStudentRepository();
+        private static final JpaStudentRepository instance = new JpaStudentRepository();
     }
 }

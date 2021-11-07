@@ -1,5 +1,5 @@
 <%@ page import="static vasilizas.repository.TeacherRepository.teacherList" %>
-<%@ page import="web.vasilizas.repositories.jpa.DbStudentRepository" %>
+<%@ page import="web.vasilizas.repositories.jpa.JpaStudentRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

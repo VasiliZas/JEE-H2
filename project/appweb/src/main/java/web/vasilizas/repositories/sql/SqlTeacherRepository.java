@@ -3,7 +3,7 @@ package web.vasilizas.repositories.sql;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.controller.dataBase.DataBase;
-import web.vasilizas.repositories.Repository;
+import web.vasilizas.repositories.interfaces.TeacherRepository;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ import static java.math.BigDecimal.valueOf;
 import static vasilizas.myservice.person.TeacherService.getAverage;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
-public class SqlTeacherRepository implements Repository {
+public class SqlTeacherRepository implements TeacherRepository {
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
@@ -32,7 +32,7 @@ public class SqlTeacherRepository implements Repository {
         return SingletonHelper.instance;
     }
 
-    private static void removeSalary(int id) {
+    public void removeSalary(int id) {
         var sql = "delete from my.salary where id = ?";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, id);
@@ -124,12 +124,12 @@ public class SqlTeacherRepository implements Repository {
         return getAverage(salary, number);
     }
 
-    public void setTeachersSalary(int id, BigDecimal salary) {
+    public void addTeachersSalary(TeacherDb teacherDb, double salary) {
         var sql = "insert into my.salary (id, salary ) values (?, ?)";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)
         ) {
-            ps.setInt(1, id);
-            ps.setBigDecimal(2, salary);
+            ps.setInt(1, teacherDb.getId());
+            ps.setBigDecimal(2, BigDecimal.valueOf(salary));
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate {} ", result);
         } catch (SQLException | MyWebAppException e) {

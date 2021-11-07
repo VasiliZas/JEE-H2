@@ -6,12 +6,36 @@
     <meta charset=UTF-8>
     <title>Teacher info</title>
     <style>
+        BODY {
+            background-image: url(/img/fon_pero_cvet.jpg); /* Путь к фоновому рисунку */
+        }
+
         #footer {
             position: fixed;
             bottom: 0;
             padding: 2px;
             color: black;
             width: 100%;
+        }
+
+        TABLE {
+            border-collapse: collapse; /* Убираем двойные границы между ячейками */
+            background: beige; /* Цвет фона таблицы */
+            border: 4px solid #000; /* Рамка вокруг таблицы */
+        }
+
+        TH {
+            size: A3;
+            color: black;
+            padding: 5px; /* Поля вокруг текста */
+            border: 2px solid green; /* Рамка вокруг ячеек */
+        }
+
+        TD {
+            size: A3;
+            color: blue;
+            padding: 5px; /* Поля вокруг текста */
+            border: 2px solid green; /* Рамка вокруг ячеек */
         }
     </style>
 </head>
@@ -22,16 +46,16 @@
 </p>
 <br>
 <br>
+
 <table align="center">
-    <h2 align="center" style="color: black">
-        <th>Id</th>
-        <th>Name</th>
-        <th>Login</th>
-        <th>Password</th>
-        <th>Salary</th>
-    </h2>
-    <h3 align="center" style="color: blue">
-        <c:forEach var="teacher" items="${teacherInfo}">
+
+    <th>Id</th>
+    <th>Name</th>
+    <th>Login</th>
+    <th>Password</th>
+    <th>Salary</th>
+
+    <c:forEach var="teacher" items="${teacherInfo}">
             <tr>
                 <td><c:out value="${teacher.id}"/></td>
                 <td><c:out value="${teacher.name}"/></td>
@@ -40,7 +64,7 @@
                 <td><c:out value="${teacher.salary}"/></td>
             </tr>
         </c:forEach>
-    </h3>
+
 </table>
 <br/>
 <p center>

@@ -1,7 +1,7 @@
 package web.vasilizas.controller.person;
 
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.jpa.DbTeacherRepository;
+import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -25,11 +25,10 @@ public class TeacherSalaryController extends HttpServlet {
         String id = req.getParameter("id");
 
         try {
-            //getInstance().setTeacherSalary(name, Integer.parseInt(id), parseDouble(salary)); - need when work with memory
-            if (DbTeacherRepository.getInstance().find(Integer.parseInt(id)).isPresent()) {
-                var teacher = DbTeacherRepository.getInstance().find(Integer.parseInt(id)).get();
-                DbTeacherRepository.getInstance().addTeacherSalary(teacher, Double.parseDouble(salary));
-            } else throw new NullPointerException();
+            RepositoryFactory.getTeacherRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+            var teacher = RepositoryFactory.getTeacherRepository("JPA").find(Integer.parseInt(id)).get();
+            RepositoryFactory.getTeacherRepository("JPA").addTeachersSalary(teacher, Double.parseDouble(salary));
+
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add for teacher " + name + "  salary " + salary);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");

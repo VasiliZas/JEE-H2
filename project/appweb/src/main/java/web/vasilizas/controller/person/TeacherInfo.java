@@ -1,7 +1,7 @@
 package web.vasilizas.controller.person;
 
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.jpa.DbTeacherRepository;
+import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -24,7 +24,7 @@ public class TeacherInfo extends HttpServlet {
         myLogger.info("Info about teacher");
         HttpSession session = req.getSession();
         try {
-            var list = DbTeacherRepository.getInstance().findAll();
+            var list = RepositoryFactory.getTeacherRepository("JPA").findAll();
             session.setAttribute("teacherInfo", list);
             myLogger.info("Go to page with all teacher info");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/info");

@@ -1,6 +1,7 @@
 package web.vasilizas.controller.person;
 
 import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static vasilizas.myservice.person.StudentService.getInstance;
 import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/addmarks")
@@ -29,7 +29,7 @@ public class GradeStudentControlle extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
                     + " theme " + theme + " . ");
-            getInstance().addStudentMarks(studentName, theme, parseInt(grade), parseInt(id));
+            RepositoryFactory.getStudentRepository("JPA").addStudentMarks(theme, parseInt(grade), parseInt(id));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {

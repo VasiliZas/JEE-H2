@@ -3,7 +3,7 @@ package web.vasilizas.controller.person;
 
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.jpa.DbTeacherRepository;
+import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -31,7 +31,7 @@ public class TeacherController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new teacher " + name + " with age " + age + " and login " + login);
             //MyService.getInstance().createAndAddPerson("Teacher", name, parseInt(age), login, password); - need when you work in memory
-            DbTeacherRepository.getInstance().addPersonInDb(new TeacherDb()
+            RepositoryFactory.getTeacherRepository("JPA").addPersonInDb(new TeacherDb()
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password)

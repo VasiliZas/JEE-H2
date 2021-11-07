@@ -49,7 +49,7 @@ public class Salary {
 
     @Override
     public String toString() {
-        return " salary = " + salary;
+        return " " + salary;
     }
 
     @Override
