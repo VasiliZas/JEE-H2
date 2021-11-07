@@ -40,6 +40,7 @@ public class JpaStudentRepository implements StudentRepository {
     public void removeMarks(int id) {
         try {
             List<Marks> dbList;
+            Marks userMarks = null;
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
@@ -47,17 +48,19 @@ public class JpaStudentRepository implements StudentRepository {
             dbList = fromMarks.getResultList();
             for (Marks marks : dbList) {
                 if (marks.getStuid() == id) {
-                    em.remove(marks);
+                    userMarks = marks;
                 }
             }
+            em.remove(userMarks);
             tx.commit();
             em.close();
-        } catch (MyWebAppException | PersistenceException exception) {
+        } catch (MyWebAppException | PersistenceException | IllegalArgumentException exception) {
             throw new MyWebAppException(exception.getMessage());
         }
     }
 
     public void removeThemeMarks(int id, String theme) {
+        Marks userMarks = null;
         try {
             List<Marks> dbList;
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
@@ -67,12 +70,13 @@ public class JpaStudentRepository implements StudentRepository {
             dbList = fromMarks.getResultList();
             for (Marks marks : dbList) {
                 if (marks.getTheme().equals(theme) && marks.getStuid() == id) {
-                    em.remove(marks);
+                    userMarks = marks;
                 }
             }
+            em.remove(userMarks);
             tx.commit();
             em.close();
-        } catch (MyWebAppException | PersistenceException exception) {
+        } catch (MyWebAppException | PersistenceException | IllegalArgumentException exception) {
             throw new MyWebAppException(exception.getMessage());
         }
     }
