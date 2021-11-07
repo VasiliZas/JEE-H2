@@ -69,6 +69,16 @@ public class MemoryStudentRepository implements StudentRepository {
         return studentDb.getGrade();
     }
 
+    @Override
+    public void removeThemeMarks(int id, String theme) {
+        for (int i = 0; i < studentList.size(); i++) {
+            List<Marks> list = studentList.get(i).getGrade();
+            if (list.get(i).getStuid() == id && list.get(i).getTheme().equals(theme)) {
+                list.remove(i);
+            }
+        }
+    }
+
     private static class SingletonHelper {
         private static final MemoryStudentRepository instance = new MemoryStudentRepository();
     }

@@ -39,11 +39,37 @@ public class JpaStudentRepository implements StudentRepository {
 
     public void removeMarks(int id) {
         try {
+            List<Marks> dbList;
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
-            Marks marks = em.find(Marks.class, id);
-            em.remove(marks);
+            TypedQuery<Marks> fromMarks = em.createQuery("from Marks ", Marks.class);
+            dbList = fromMarks.getResultList();
+            for (Marks marks : dbList) {
+                if (marks.getStuid() == id) {
+                    em.remove(marks);
+                }
+            }
+            tx.commit();
+            em.close();
+        } catch (MyWebAppException | PersistenceException exception) {
+            throw new MyWebAppException(exception.getMessage());
+        }
+    }
+
+    public void removeThemeMarks(int id, String theme) {
+        try {
+            List<Marks> dbList;
+            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            TypedQuery<Marks> fromMarks = em.createQuery("from Marks ", Marks.class);
+            dbList = fromMarks.getResultList();
+            for (Marks marks : dbList) {
+                if (marks.getTheme().equals(theme) && marks.getStuid() == id) {
+                    em.remove(marks);
+                }
+            }
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {

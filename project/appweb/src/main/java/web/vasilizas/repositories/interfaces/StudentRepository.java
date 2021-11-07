@@ -21,4 +21,6 @@ public interface StudentRepository extends Repository<StudentDb> {
     void addStudentMarks(String theme, int mark, int id);
 
     List<Marks> getStudentMarks(StudentDb studentDb);
+
+    void removeThemeMarks(int id, String theme);
 }

@@ -47,7 +47,7 @@ public class SqlStudentRepository implements StudentRepository {
     }
 
     public void removeMarks(int id) {
-        var sql = "delete from my.grade where id = ?";
+        var sql = "delete from my.grade where stuid = ?";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, id);
             var result = ps.executeUpdate();
@@ -135,6 +135,19 @@ public class SqlStudentRepository implements StudentRepository {
             throw new MyWebAppException(e.getMessage());
         }
         return marks;
+    }
+
+    @Override
+    public void removeThemeMarks(int id, String theme) {
+        var sql = "delete from my.grade where stuid = ? and theme = ?";
+        try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
+            ps.setInt(1, id);
+            ps.setString(2, theme);
+            var result = ps.executeUpdate();
+            myLogger.info("Result executeUpdate remove marks {} ", result);
+        } catch (SQLException | MyWebAppException e) {
+            throw new MyWebAppException(e.getMessage());
+        }
     }
 
     private static class SingletonHelper {
