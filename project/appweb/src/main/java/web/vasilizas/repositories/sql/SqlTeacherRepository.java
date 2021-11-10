@@ -1,8 +1,10 @@
 package web.vasilizas.repositories.sql;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.controller.dataBase.DataBase;
+import web.vasilizas.controller.database.DataBase;
 import web.vasilizas.repositories.interfaces.TeacherRepository;
 
 import java.math.BigDecimal;
@@ -15,14 +17,16 @@ import java.util.Optional;
 
 import static java.math.BigDecimal.valueOf;
 import static vasilizas.myservice.person.TeacherService.getAverage;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 public class SqlTeacherRepository implements TeacherRepository {
+
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String ID = "id";
+
+    private final Logger myLogger = LoggerFactory.getLogger(SqlTeacherRepository.class);
 
     private SqlTeacherRepository() {
         //singleton

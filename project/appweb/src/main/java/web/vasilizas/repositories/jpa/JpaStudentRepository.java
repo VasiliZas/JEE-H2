@@ -15,12 +15,21 @@ import java.util.Optional;
 
 public class JpaStudentRepository implements StudentRepository {
 
+    private static volatile JpaStudentRepository instance;
+
     private JpaStudentRepository() {
         //singleton
     }
 
     public static JpaStudentRepository getInstance() {
-        return SingletonHelper.instance;
+        if (instance == null) {
+            synchronized (JpaStudentRepository.class) {
+                if (instance == null) {
+                    instance = new JpaStudentRepository();
+                }
+            }
+        }
+        return instance;
     }
 
     public void addStudentMarks(String theme, int mark, int id) {
@@ -38,20 +47,13 @@ public class JpaStudentRepository implements StudentRepository {
     }
 
     public void removeMarks(int id) {
+        StudentDb user;
         try {
-            List<Marks> dbList;
-            Marks userMarks = null;
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
-            TypedQuery<Marks> fromMarks = em.createQuery("from Marks ", Marks.class);
-            dbList = fromMarks.getResultList();
-            for (Marks marks : dbList) {
-                if (marks.getStuid() == id) {
-                    userMarks = marks;
-                }
-            }
-            em.remove(userMarks);
+            user = em.find(StudentDb.class, id);
+            em.remove(user.getGrade());
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException | IllegalArgumentException exception) {
@@ -60,23 +62,20 @@ public class JpaStudentRepository implements StudentRepository {
     }
 
     public void removeThemeMarks(int id, String theme) {
-        Marks userMarks = null;
+        java.util.concurrent.atomic.AtomicReference<vasilizas.bean.db.Marks> userMarks = null;
+        StudentDb user;
         try {
-            List<Marks> dbList;
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
-            TypedQuery<Marks> fromMarks = em.createQuery("from Marks ", Marks.class);
-            dbList = fromMarks.getResultList();
-            for (Marks marks : dbList) {
-                if (marks.getTheme().equals(theme) && marks.getStuid() == id) {
-                    userMarks = marks;
-                }
-            }
+            user = em.find(StudentDb.class, id);
+            user.getGrade().stream()
+                    .filter(marks -> marks.getTheme().equals(theme))
+                    .forEach(userMarks::set);
             em.remove(userMarks);
             tx.commit();
             em.close();
-        } catch (MyWebAppException | PersistenceException | IllegalArgumentException exception) {
+        } catch (Exception exception) {
             throw new MyWebAppException(exception.getMessage());
         }
     }
@@ -156,9 +155,5 @@ public class JpaStudentRepository implements StudentRepository {
             throw new MyWebAppException(exception.getMessage());
         }
         return marks;
-    }
-
-    private static class SingletonHelper {
-        private static final JpaStudentRepository instance = new JpaStudentRepository();
     }
 }

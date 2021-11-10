@@ -1,5 +1,7 @@
 package web.vasilizas.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vasilizas.exception.MyWebAppException;
 
 import javax.servlet.RequestDispatcher;
@@ -11,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
-
 @WebServlet("/work")
 public class WorkPageController extends HttpServlet {
+
+    private final Logger myLogger = LoggerFactory.getLogger(WorkPageController.class);
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {

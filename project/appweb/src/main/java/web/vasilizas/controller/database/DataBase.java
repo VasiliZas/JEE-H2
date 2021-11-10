@@ -1,5 +1,7 @@
-package web.vasilizas.controller.dataBase;
+package web.vasilizas.controller.database;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.MyAbstractEntity;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
@@ -13,7 +15,6 @@ import java.util.List;
 
 import static vasilizas.repository.StudentDbRepository.studentDbList;
 import static vasilizas.repository.TeacherDbRepository.teacherDbList;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 public class DataBase<T extends MyAbstractEntity> {
     private static final String AGE = "age";
@@ -21,13 +22,23 @@ public class DataBase<T extends MyAbstractEntity> {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String ID = "id";
+    private static volatile DataBase instance;
 
     private DataBase() {
         //singleton
     }
 
+    private final Logger myLogger = LoggerFactory.getLogger(DataBase.class);
+
     public static DataBase getInstance() {
-        return SingletonHelper.instance;
+        if (instance == null) {
+            synchronized (DataBase.class) {
+                if (instance == null) {
+                    instance = new DataBase();
+                }
+            }
+        }
+        return instance;
     }
 
     public PreparedStatement connectionDataBase(String sql) throws SQLException {
@@ -37,8 +48,7 @@ public class DataBase<T extends MyAbstractEntity> {
 
     public List<StudentDb> getStudentFromDb(String personName) {
         var sql = "select * from my.student where name = ?";
-        try (PreparedStatement ps = connectionDataBase(sql)
-        ) {
+        try (PreparedStatement ps = connectionDataBase(sql)) {
             ps.setString(1, personName);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -51,6 +61,7 @@ public class DataBase<T extends MyAbstractEntity> {
             }
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);
+            throw new MyWebAppException(e.getMessage());
         }
         return studentDbList;
     }
@@ -69,6 +80,7 @@ public class DataBase<T extends MyAbstractEntity> {
             }
         } catch (MyWebAppException | SQLException e) {
             myLogger.error("Connection error ", e);
+            throw new MyWebAppException(e.getMessage());
         }
         return teacherDbList;
     }
@@ -79,9 +91,5 @@ public class DataBase<T extends MyAbstractEntity> {
         ps.setString(3, entity.getLogin());
         ps.setString(4, entity.getPassword());
         ps.setInt(5, entity.getAge());
-    }
-
-    private static class SingletonHelper {
-        private static final DataBase instance = new DataBase();
     }
 }

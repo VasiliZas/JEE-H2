@@ -1,16 +1,26 @@
 package web.vasilizas.controller.filter;
 
-import javax.servlet.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
+import static web.vasilizas.UrlRepository.urlMap;
 
 @WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter extends AbstractFilter {
+
+    private final Logger myLogger = LoggerFactory.getLogger(LoginFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -29,8 +39,8 @@ public class LoginFilter extends AbstractFilter {
 
         HttpSession session = request.getSession();
 
-        String loginURI = "/myweb/auth";
-        String loginUri2 = "/myweb/start";
+        String loginURI = urlMap.get("Auth");
+        String loginUri2 = urlMap.get("Start");
         String type;
 
         if (session == null) {

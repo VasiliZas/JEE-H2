@@ -1,9 +1,11 @@
 package web.vasilizas.repositories.sql;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.controller.dataBase.DataBase;
+import web.vasilizas.controller.database.DataBase;
 import web.vasilizas.repositories.interfaces.StudentRepository;
 
 import java.sql.PreparedStatement;
@@ -14,14 +16,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
-
 public class SqlStudentRepository implements StudentRepository {
+
     private static final String AGE = "age";
     private static final String NAME = "name";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String ID = "id";
+    private final Logger myLogger = LoggerFactory.getLogger(SqlStudentRepository.class);
 
     private SqlStudentRepository() {
         //singleton

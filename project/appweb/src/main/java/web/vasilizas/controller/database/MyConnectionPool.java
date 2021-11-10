@@ -1,4 +1,4 @@
-package web.vasilizas.controller.dataBase;
+package web.vasilizas.controller.database;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -8,15 +8,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MyConnectionPool {
-    private static MyConnectionPool instance;
+    private static volatile MyConnectionPool instance;
 
     private MyConnectionPool() {
         //private constructor
     }
 
-    public static synchronized MyConnectionPool getInstance() {
-        if (instance == null)
-            instance = new MyConnectionPool();
+    public static MyConnectionPool getInstance() {
+        if (instance == null) {
+            synchronized (MyConnectionPool.class) {
+                if (instance == null) {
+                    instance = new MyConnectionPool();
+                }
+            }
+        }
         return instance;
     }
 

@@ -3,7 +3,7 @@ package web.vasilizas.controller.authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.myservice.security.PersonAuthentication;
-import web.vasilizas.controller.dataBase.DataBase;
+import web.vasilizas.controller.database.DataBase;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,10 +21,11 @@ import static web.vasilizas.UrlRepository.urlMap;
 @WebServlet("/auth")
 public class Authentication extends HttpServlet {
 
-    public static final Logger myLogger = LoggerFactory.getLogger("webLogger");
     private static final String LOGIN = "login";
     private static final String NAME = "name";
     private static final String TYPE = "type";
+    private final Logger myLogger = LoggerFactory.getLogger(Authentication.class);
+    private final PersonAuthentication personAuthentication = PersonAuthentication.getInstance();
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,15 +42,15 @@ public class Authentication extends HttpServlet {
 
         HttpSession session = request.getSession();
         myLogger.info("Passing authorization");
-        if (type.equals("Student") && PersonAuthentication.getInstance().checkStudentDb(name, login, password, getPersonFromDbInMemory(type, name))) {
+        if (type.equals("Student") && personAuthentication.checkStudentDb(name, login, password, getPersonFromDbInMemory(type, name))) {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Admin") && PersonAuthentication.getInstance().check(name, login, password, adminList)) {
+        if (type.equals("Admin") && personAuthentication.check(name, login, password, adminList)) {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Teacher") && PersonAuthentication.getInstance().checkTeacherDb(name, login, password, getPersonFromDbInMemory(type, name))) {
+        if (type.equals("Teacher") && personAuthentication.checkTeacherDb(name, login, password, getPersonFromDbInMemory(type, name))) {
             setAttribute(session, type, login, name, response);
         } else {
             setAttribute(session, "Error", LOGIN, NAME, response);

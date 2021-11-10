@@ -1,5 +1,7 @@
 package web.vasilizas.controller.person;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.servlet.RequestDispatcher;
@@ -12,10 +14,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/averagesalary")
 public class AvgTeacherSalaryController extends HttpServlet {
+
+    private final Logger myLogger = LoggerFactory.getLogger(AvgTeacherSalaryController.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {

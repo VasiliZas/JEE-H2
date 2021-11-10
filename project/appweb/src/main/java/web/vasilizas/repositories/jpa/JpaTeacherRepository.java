@@ -19,12 +19,21 @@ import static vasilizas.myservice.person.TeacherService.getAverage;
 
 public class JpaTeacherRepository implements TeacherRepository {
 
+    private static volatile JpaTeacherRepository instance;
+
     private JpaTeacherRepository() {
         //singleton
     }
 
     public static JpaTeacherRepository getInstance() {
-        return SingletonHelper.instance;
+        if (instance == null) {
+            synchronized (JpaTeacherRepository.class) {
+                if (instance == null) {
+                    instance = new JpaTeacherRepository();
+                }
+            }
+        }
+        return instance;
     }
 
     public void removeSalary(int id) {

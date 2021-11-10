@@ -1,6 +1,8 @@
 package web.vasilizas.controller.person;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.factory.RepositoryFactory;
@@ -16,10 +18,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/addteacher")
 public class TeacherController extends HttpServlet {
+
+    private final Logger myLogger = LoggerFactory.getLogger(TeacherController.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String name = req.getParameter("name");
