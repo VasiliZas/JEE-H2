@@ -42,7 +42,7 @@ public class Authentication extends HttpServlet {
 
         HttpSession session = request.getSession();
         myLogger.info("Passing authorization");
-        if (type.equals("Student") && personAuthentication.checkStudentDb(name, login, password, getPersonFromDbInMemory(type, name))) {
+        if (type.equals("Student") && personAuthentication.checkStudentDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
             setAttribute(session, type, login, name, response);
             return;
         }
@@ -50,7 +50,7 @@ public class Authentication extends HttpServlet {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Teacher") && personAuthentication.checkTeacherDb(name, login, password, getPersonFromDbInMemory(type, name))) {
+        if (type.equals("Teacher") && personAuthentication.checkTeacherDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
             setAttribute(session, type, login, name, response);
         } else {
             setAttribute(session, "Error", LOGIN, NAME, response);
@@ -66,13 +66,13 @@ public class Authentication extends HttpServlet {
         response.sendRedirect(urlMap.get(type));
     }
 
-    private List getPersonFromDbInMemory(String type, String name) {
+    private List getPersonFromDbInMemory(String type, String name, String login) {
         List list = new ArrayList();
         if (type.equals("Student")) {
-            list = DataBase.getInstance().getStudentFromDb(name);
+            list = DataBase.getInstance().getStudentFromDb(name, login);
         }
         if (type.equals("Teacher")) {
-            list = DataBase.getInstance().getTeacherFromDb(name);
+            list = DataBase.getInstance().getTeacherFromDb(name, login);
         }
         return list;
     }
