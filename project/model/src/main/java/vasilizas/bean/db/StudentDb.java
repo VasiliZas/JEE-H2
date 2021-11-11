@@ -6,7 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -19,8 +25,13 @@ import java.util.Objects;
 @Table(name = "student")
 public class StudentDb extends MyAbstractEntity {
 
+    private Integer idgroup;
 
-    @OneToMany(mappedBy = "student", targetEntity = Marks.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idgroup", insertable = false, updatable = false)
+    private Group group;
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Marks> grade = new LinkedList<>();
 
     public StudentDb withId(int id) {
@@ -63,7 +74,8 @@ public class StudentDb extends MyAbstractEntity {
                 ", login = " + getLogin() + '\'' +
                 ", password =  " + getPassword() + '\'' +
                 ", age = " + getAge() +
-                ", marks = " + grade;
+                ", marks = " + grade + '\'' +
+                ", group = " + group;
     }
 
     @Override
@@ -72,11 +84,11 @@ public class StudentDb extends MyAbstractEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         StudentDb studentDb = (StudentDb) o;
-        return Objects.equals(grade, studentDb.grade);
+        return Objects.equals(idgroup, studentDb.idgroup) && Objects.equals(group, studentDb.group) && Objects.equals(grade, studentDb.grade);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), grade);
+        return Objects.hash(super.hashCode(), idgroup, group, grade);
     }
 }

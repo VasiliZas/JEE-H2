@@ -15,7 +15,6 @@ import java.util.Objects;
 
 @Data
 @NoArgsConstructor
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "grade")
 public class Marks {
@@ -26,6 +25,7 @@ public class Marks {
     private String theme;
     private Integer grade;
     private Integer stuid;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "stuid", insertable = false, updatable = false)
     private StudentDb student;
@@ -46,11 +46,6 @@ public class Marks {
 
     public Marks withTheme(String theme) {
         setTheme(theme);
-        return this;
-    }
-
-    public Marks withId(Integer id) {
-        setId(id);
         return this;
     }
 
