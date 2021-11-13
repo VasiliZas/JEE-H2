@@ -1,10 +1,27 @@
 package web.vasilizas;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import vasilizas.bean.db.TeacherDb;
+import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.EntityManagerHelper;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 
 public class Start {
     public static void main(String[] args) {
-        Logger log = LoggerFactory.getLogger("Hibernet work :");
+
+        TeacherDb group;
+        try {
+            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            group = em.find(TeacherDb.class, 20001);
+            tx.commit();
+            em.close();
+        } catch (MyWebAppException | PersistenceException exception) {
+            throw new MyWebAppException(exception.getMessage());
+        }
+        System.out.println(group);
     }
 }

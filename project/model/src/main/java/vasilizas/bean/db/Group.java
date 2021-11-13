@@ -2,6 +2,8 @@ package vasilizas.bean.db;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -19,18 +23,29 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "group")
-public class Group {
+public class Group implements Serializable {
+
+    @OneToOne(mappedBy = "group")
+    @Fetch(value = FetchMode.SELECT)
+    private TeacherDb teacherDb;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private List<StudentDb> studentDbLis = new LinkedList<>();
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<StudentDb> students = new LinkedList<>();
+
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Themes> them = new LinkedList<>();
 
     @Override
     public String toString() {
-        return name;
+        return "name='" + name + '\'' +
+                ", themes = " + them;
     }
 
     @Override
@@ -38,11 +53,11 @@ public class Group {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
-        return Objects.equals(id, group.id) && Objects.equals(name, group.name) && Objects.equals(studentDbLis, group.studentDbLis);
+        return Objects.equals(id, group.id) && Objects.equals(name, group.name) && Objects.equals(students, group.students);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, studentDbLis);
+        return Objects.hash(id, name, students);
     }
 }

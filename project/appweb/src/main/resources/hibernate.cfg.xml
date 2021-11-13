@@ -36,6 +36,7 @@
         <mapping class="vasilizas.bean.db.TeacherDb"/>
         <mapping class="vasilizas.bean.db.Salary"/>
         <mapping class="vasilizas.bean.db.Group"/>
+        <mapping class="vasilizas.bean.db.Themes"/>
 
     </session-factory>
 
