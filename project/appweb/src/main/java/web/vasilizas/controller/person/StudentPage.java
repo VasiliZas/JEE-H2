@@ -28,7 +28,8 @@ public class StudentPage extends HttpServlet {
         String type = (String) session.getAttribute("type");
         try {
             if (type.equals("Student")) {
-                session.setAttribute("marks", getStudentRepository("JPA").getStudentMarks(studentDbList.get(0)));
+                req.setAttribute("marks", getStudentRepository("JPA").getStudentMarks(studentDbList.get(0)));
+                req.setAttribute("Group", studentDbList.get(0).getGroups());
                 myLogger.info("Go to Student work page");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/student-page");
                 requestDispatcher.forward(req, resp);

@@ -25,6 +25,7 @@ public class Marks {
     private String theme;
     private Integer grade;
     private Integer stuid;
+    private String group;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "stuid", insertable = false, updatable = false)
