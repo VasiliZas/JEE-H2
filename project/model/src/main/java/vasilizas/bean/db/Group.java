@@ -11,10 +11,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -34,9 +36,8 @@ public class Group implements Serializable {
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<StudentDb> students = new LinkedList<>();
+    @ManyToMany(mappedBy = "groups")
+    private List<StudentDb> students = new ArrayList<>();
 
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @Fetch(value = FetchMode.SUBSELECT)

@@ -37,7 +37,7 @@
         <mapping class="vasilizas.bean.db.Salary"/>
         <mapping class="vasilizas.bean.db.Group"/>
         <mapping class="vasilizas.bean.db.Themes"/>
-
+        <mapping class="vasilizas.bean.db.Themes"/>
     </session-factory>
 
 </hibernate-configuration>
