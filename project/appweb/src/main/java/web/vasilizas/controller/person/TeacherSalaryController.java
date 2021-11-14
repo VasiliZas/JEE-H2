@@ -1,5 +1,11 @@
 package web.vasilizas.controller.person;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.factory.RepositoryFactory;
+
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static java.lang.Double.parseDouble;
-import static vasilizas.myservice.person.TeacherService.getInstance;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
-
 @WebServlet("/teacher-salary")
 public class TeacherSalaryController extends HttpServlet {
+
+    private final Logger myLogger = LoggerFactory.getLogger(TeacherSalaryController.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
@@ -23,9 +27,10 @@ public class TeacherSalaryController extends HttpServlet {
         String id = req.getParameter("id");
 
         try {
-            getInstance().setTeacherSalary(name, Integer.parseInt(id), parseDouble(salary));
+            var teacher = RepositoryFactory.getTeacherRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+            RepositoryFactory.getTeacherRepository("JPA").addTeachersSalary(teacher, Double.parseDouble(salary));
             HttpSession session = req.getSession();
-            session.setAttribute("add", "You add new teacher " + name + " with salary " + salary);
+            session.setAttribute("add", "You add for teacher " + name + "  salary " + salary);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
@@ -33,7 +38,7 @@ public class TeacherSalaryController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException ex) {
+            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

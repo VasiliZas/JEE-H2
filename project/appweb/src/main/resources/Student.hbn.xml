@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="vasilizas.bean.db.StudentDb" table="student">
+
+        <id name="id" type="int">
+            <column name="id"/>
+            <generator class="increment"/>
+        </id>
+
+        <property name="name" column="name"/>
+        <property name="login" column="login"/>
+        <property name="age" column="age"/>
+        <property name="password" column="password"/>
+
+        <!--        <many-to-one name="marks" insert="false" update="false" class="vasilizas.bean.db.Marks"/>-->
+
+    </class>
+</hibernate-mapping>

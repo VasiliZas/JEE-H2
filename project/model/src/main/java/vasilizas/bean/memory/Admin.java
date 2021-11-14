@@ -1,4 +1,4 @@
-package vasilizas.bean;
+package vasilizas.bean.memory;
 
 public class Admin extends Person {
     public Admin() {

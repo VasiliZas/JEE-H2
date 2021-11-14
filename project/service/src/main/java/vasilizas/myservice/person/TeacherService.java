@@ -1,6 +1,6 @@
 package vasilizas.myservice.person;
 
-import vasilizas.bean.Teacher;
+import vasilizas.bean.memory.Teacher;
 import vasilizas.exception.MyWebAppException;
 import vasilizas.myservice.security.CheckPerson;
 
@@ -31,7 +31,7 @@ public class TeacherService {
         }
     }
 
-    private static double getAverage(List<BigDecimal> list, int finish) {
+    public static double getAverage(List<BigDecimal> list, int finish) {
         int summ = 0;
         for (int i = 0; i < finish; i++) {
             summ = summ + list.get(i).intValueExact();

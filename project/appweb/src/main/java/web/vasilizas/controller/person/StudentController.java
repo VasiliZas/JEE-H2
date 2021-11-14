@@ -1,6 +1,10 @@
 package web.vasilizas.controller.person;
 
-import vasilizas.myservice.person.MyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import vasilizas.bean.db.StudentDb;
+import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,10 +16,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
 
 @WebServlet("/add-student")
 public class StudentController extends HttpServlet {
+
+    private final Logger myLogger = LoggerFactory.getLogger(StudentController.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
@@ -26,7 +31,10 @@ public class StudentController extends HttpServlet {
         try {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new student " + name + " with age " + age + " and login " + login);
-            MyService.getInstance().createAndAddPerson("Student", name, parseInt(age), login, password);
+            RepositoryFactory.getStudentRepository("JPA").addPersonInDb(new StudentDb().withName(name)
+                    .withAge(parseInt(age))
+                    .withLogin(login)
+                    .withPassword(password));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
@@ -34,8 +42,7 @@ public class StudentController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException ex) {
-                ex.printStackTrace();
+            } catch (ServletException | IOException | MyWebAppException ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

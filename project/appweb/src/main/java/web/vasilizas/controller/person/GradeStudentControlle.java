@@ -1,5 +1,13 @@
 package web.vasilizas.controller.person;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import vasilizas.bean.db.Group;
+import vasilizas.bean.db.StudentDb;
+import vasilizas.exception.MyWebAppException;
+import web.vasilizas.repositories.factory.RepositoryFactory;
+
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,23 +18,29 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static vasilizas.myservice.person.StudentService.getInstance;
-import static web.vasilizas.controller.authentication.Authentication.myLogger;
+import static vasilizas.repository.TeacherDbRepository.teacherDbList;
 
 @WebServlet("/addmarks")
 public class GradeStudentControlle extends HttpServlet {
 
+    private final Logger myLogger = LoggerFactory.getLogger(GradeStudentControlle.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        String studentName = req.getParameter("name");
+
         String id = req.getParameter("id");
         String theme = req.getParameter("theme");
         String grade = req.getParameter("grade");
+
         try {
             HttpSession session = req.getSession();
-            session.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
+            StudentDb user = RepositoryFactory.getStudentRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+            String studentName = user.getName();
+            Group groups = (Group) session.getAttribute("yourGroup");
+            req.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
                     + " theme " + theme + " . ");
-            getInstance().addStudentMarks(studentName, theme, parseInt(grade), parseInt(id));
+            RepositoryFactory.getStudentRepository("JPA").addStudentMarks(theme, parseInt(grade), parseInt(id), groups.getName());
+            session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {
@@ -34,7 +48,7 @@ public class GradeStudentControlle extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException ex) {
+            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

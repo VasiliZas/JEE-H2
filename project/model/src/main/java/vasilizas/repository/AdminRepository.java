@@ -1,6 +1,6 @@
 package vasilizas.repository;
 
-import vasilizas.bean.Admin;
+import vasilizas.bean.memory.Admin;
 
 import java.util.List;
 

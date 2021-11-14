@@ -76,7 +76,6 @@
     <url-pattern>/about</url-pattern>
   </servlet-mapping>
 
-
   <servlet>
     <servlet-name>Admin</servlet-name>
     <jsp-file>/admin/admin.jsp</jsp-file>
@@ -95,19 +94,26 @@
     <url-pattern>/admin/addpersonpar</url-pattern>
   </servlet-mapping>
 
-  <servlet>
-    <servlet-name>SessionOut</servlet-name>
-    <servlet-class>web.vasilizas.controller.Out</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SessionOut</servlet-name>
-    <url-pattern>/out</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>SessionOut</servlet-name>
+        <servlet-class>web.vasilizas.controller.Out</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SessionOut</servlet-name>
+        <url-pattern>/out</url-pattern>
+    </servlet-mapping>
 
-  <session-config>
-    <session-timeout>
-      34
-    </session-timeout>
-  </session-config>
+    <resource-ref>
+        <description>DB Connection</description>
+        <res-ref-name>jdbc/myPool</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 
-  </web-app>
+    <session-config>
+        <session-timeout>
+            34
+        </session-timeout>
+    </session-config>
+
+</web-app>

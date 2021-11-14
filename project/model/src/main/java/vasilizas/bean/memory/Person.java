@@ -1,4 +1,4 @@
-package vasilizas.bean;
+package vasilizas.bean.memory;
 
 import java.util.Objects;
 

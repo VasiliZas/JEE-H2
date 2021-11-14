@@ -1,6 +1,6 @@
 package vasilizas.factory;
 
-import vasilizas.bean.*;
+import vasilizas.bean.memory.*;
 
 public final class Factory {
 

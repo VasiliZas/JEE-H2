@@ -1,6 +1,6 @@
 package vasilizas.myservice.person;
 
-import vasilizas.bean.Student;
+import vasilizas.bean.memory.Student;
 import vasilizas.exception.MyWebAppException;
 import vasilizas.myservice.security.CheckPerson;
 

@@ -3,7 +3,7 @@ package web.vasilizas.controller.authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.myservice.security.PersonAuthentication;
-import web.vasilizas.controller.DataBase;
+import web.vasilizas.controller.database.DataBase;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,20 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Class.forName;
 import static vasilizas.repository.AdminRepository.adminList;
-import static vasilizas.repository.StudentDbRepository.studentDbList;
 import static vasilizas.repository.TeacherDbRepository.teacherDbList;
 import static web.vasilizas.UrlRepository.urlMap;
 
 @WebServlet("/auth")
 public class Authentication extends HttpServlet {
 
-    public static final Logger myLogger = LoggerFactory.getLogger("webLogger");
     private static final String LOGIN = "login";
     private static final String NAME = "name";
     private static final String TYPE = "type";
+    private final Logger myLogger = LoggerFactory.getLogger(Authentication.class);
+    private final PersonAuthentication personAuthentication = PersonAuthentication.getInstance();
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -39,19 +41,20 @@ public class Authentication extends HttpServlet {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter("password");
 
-        getPersonFromDbInMemory(type, name);
-
         HttpSession session = request.getSession();
         myLogger.info("Passing authorization");
-        if (type.equals("Student") && PersonAuthentication.getInstance().check(name, login, password, studentDbList)) {
+        if (type.equals("Student") && personAuthentication.checkStudentDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Admin") && PersonAuthentication.getInstance().check(name, login, password, adminList)) {
+        if (type.equals("Admin") && personAuthentication.check(name, login, password, adminList)) {
             setAttribute(session, type, login, name, response);
             return;
         }
-        if (type.equals("Teacher") && PersonAuthentication.getInstance().check(name, login, password, teacherDbList)) {
+        if (type.equals("Teacher") && personAuthentication.checkTeacherDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
+            session.setAttribute("groups", teacherDbList);
+            session.setAttribute("yourGroup", teacherDbList.get(0).getGroup());
+            session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             setAttribute(session, type, login, name, response);
         } else {
             setAttribute(session, "Error", LOGIN, NAME, response);
@@ -67,12 +70,14 @@ public class Authentication extends HttpServlet {
         response.sendRedirect(urlMap.get(type));
     }
 
-    private void getPersonFromDbInMemory(String type, String name) {
+    private List getPersonFromDbInMemory(String type, String name, String login) {
+        List list = new ArrayList();
         if (type.equals("Student")) {
-            DataBase.getInstance().getStudentFromDb(name);
+            list = DataBase.getInstance().getStudentFromDb(name, login);
         }
         if (type.equals("Teacher")) {
-            DataBase.getInstance().getTeacherFromDb(name);
+            list = DataBase.getInstance().getTeacherFromDb(name, login);
         }
+        return list;
     }
 }

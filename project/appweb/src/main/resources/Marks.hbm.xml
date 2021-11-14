@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="vasilizas.bean.db.Marks" table="grade">
+
+        <id name="id" type="int">
+            <column name="id"/>
+            <generator class="increment"/>
+        </id>
+
+        <property name="theme" column="theme"/>
+        <property name="grade" column="grade"/>
+        <property name="getStuid" column="studentid"/>
+
+        <many-to-one name="getStuid" insert="false" update="false" class="vasilizas.bean.db.StudentDb"/>
+
+    </class>
+</hibernate-mapping>

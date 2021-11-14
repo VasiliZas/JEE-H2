@@ -1,6 +1,7 @@
 package vasilizas.myservice.security;
 
-import vasilizas.bean.Person;
+import vasilizas.bean.db.MyAbstractEntity;
+import vasilizas.bean.memory.Person;
 import vasilizas.myservice.interfece.PersonCheckable;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public class CheckPerson implements PersonCheckable {
                 && list.stream()
                 .filter(s -> s.getId() == id)
                 .anyMatch(s -> s.getName().equals(name));
+    }
+
+    @Override
+    public boolean checkPersonDb(List<? extends MyAbstractEntity> list, int id) {
+        return list.stream().anyMatch(s -> s.getId() == id);
     }
 
     private static class SingletonHelper {
