@@ -3,6 +3,7 @@ package web.vasilizas.controller.person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.Group;
+import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.factory.RepositoryFactory;
 
@@ -26,13 +27,15 @@ public class GradeStudentControlle extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        String studentName = req.getParameter("name");
+
         String id = req.getParameter("id");
         String theme = req.getParameter("theme");
         String grade = req.getParameter("grade");
 
         try {
             HttpSession session = req.getSession();
+            StudentDb user = RepositoryFactory.getStudentRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+            String studentName = user.getName();
             Group groups = (Group) session.getAttribute("yourGroup");
             req.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
                     + " theme " + theme + " . ");

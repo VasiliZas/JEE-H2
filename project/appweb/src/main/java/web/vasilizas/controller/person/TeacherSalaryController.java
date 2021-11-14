@@ -27,10 +27,8 @@ public class TeacherSalaryController extends HttpServlet {
         String id = req.getParameter("id");
 
         try {
-            RepositoryFactory.getTeacherRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
-            var teacher = RepositoryFactory.getTeacherRepository("JPA").find(Integer.parseInt(id)).get();
+            var teacher = RepositoryFactory.getTeacherRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
             RepositoryFactory.getTeacherRepository("JPA").addTeachersSalary(teacher, Double.parseDouble(salary));
-
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add for teacher " + name + "  salary " + salary);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");
