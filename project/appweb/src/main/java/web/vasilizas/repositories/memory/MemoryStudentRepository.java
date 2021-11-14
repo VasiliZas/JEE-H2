@@ -18,11 +18,11 @@ public class MemoryStudentRepository implements StudentRepository {
         return SingletonHelper.instance;
     }
 
-    public void addStudentMarks(String theme, int mark, int id) {
+    public void addStudentMarks(String theme, int mark, int id, String group) {
         studentList.stream()
                 .filter(student -> student.getId() == id)
                 .map(StudentDb::getGrade)
-                .forEach(marks -> marks.add(new Marks().withGrade(mark).withStudentId(id)));
+                .forEach(marks -> marks.add(new Marks().withGrade(mark).withStudentId(id).withGroup(group)));
     }
 
     @Override
@@ -70,10 +70,10 @@ public class MemoryStudentRepository implements StudentRepository {
     }
 
     @Override
-    public void removeThemeMarks(int id, String theme) {
+    public void removeThemeMarks(int id, String theme, String groups) {
         for (int i = 0; i < studentList.size(); i++) {
             List<Marks> list = studentList.get(i).getGrade();
-            if (list.get(i).getStuid() == id && list.get(i).getTheme().equals(theme)) {
+            if (list.get(i).getStuid() == id && list.get(i).getTheme().equals(theme) && list.get(i).getGroups().equals(groups)) {
                 list.remove(i);
             }
         }

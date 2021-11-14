@@ -16,6 +16,7 @@ import java.util.List;
 
 import static java.lang.Class.forName;
 import static vasilizas.repository.AdminRepository.adminList;
+import static vasilizas.repository.TeacherDbRepository.teacherDbList;
 import static web.vasilizas.UrlRepository.urlMap;
 
 @WebServlet("/auth")
@@ -51,6 +52,9 @@ public class Authentication extends HttpServlet {
             return;
         }
         if (type.equals("Teacher") && personAuthentication.checkTeacherDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
+            session.setAttribute("groups", teacherDbList);
+            session.setAttribute("yourGroup", teacherDbList.get(0).getGroup());
+            session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             setAttribute(session, type, login, name, response);
         } else {
             setAttribute(session, "Error", LOGIN, NAME, response);

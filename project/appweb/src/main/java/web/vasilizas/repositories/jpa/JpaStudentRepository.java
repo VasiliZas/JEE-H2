@@ -32,12 +32,12 @@ public class JpaStudentRepository implements StudentRepository {
         return instance;
     }
 
-    public void addStudentMarks(String theme, int mark, int id) {
+    public void addStudentMarks(String theme, int mark, int id, String group) {
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
-            em.persist(new Marks().withStudentId(id).withTheme(theme).withGrade(mark));
+            em.persist(new Marks().withStudentId(id).withTheme(theme).withGrade(mark).withGroup(group));
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
@@ -61,17 +61,21 @@ public class JpaStudentRepository implements StudentRepository {
         }
     }
 
-    public void removeThemeMarks(int id, String theme) {
-        java.util.concurrent.atomic.AtomicReference<vasilizas.bean.db.Marks> userMarks = null;
-        StudentDb user;
+    public void removeThemeMarks(int id, String theme, String groups) {
+
+        List<Marks> marks;
         try {
             EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
-            user = em.find(StudentDb.class, id);
-            user.getGrade().stream()
-                    .filter(marks -> marks.getTheme().equals(theme))
-                    .forEach(userMarks::set);
+            TypedQuery<Marks> fromMarks = em.createQuery("from Marks where stuid = ?1", Marks.class)
+                    .setParameter(1, id);
+            marks = fromMarks.getResultList();
+            Marks userMarks = null;
+            for (Marks mark : marks) {
+                if (mark.getGroups().equals(groups) && mark.getTheme().equals(theme))
+                    userMarks = mark;
+            }
             em.remove(userMarks);
             tx.commit();
             em.close();

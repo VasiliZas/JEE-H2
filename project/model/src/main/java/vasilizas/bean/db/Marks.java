@@ -25,7 +25,7 @@ public class Marks {
     private String theme;
     private Integer grade;
     private Integer stuid;
-    private String group;
+    private String groups;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "stuid", insertable = false, updatable = false)
@@ -39,9 +39,13 @@ public class Marks {
         this.student = student;
     }
 
-
     public Marks withGrade(Integer grade) {
         setGrade(grade);
+        return this;
+    }
+
+    public Marks withGroup(String group) {
+        setGroups(group);
         return this;
     }
 
@@ -57,7 +61,8 @@ public class Marks {
 
     @Override
     public String toString() {
-        return " theme = " + theme +
+        return " group = " + groups +
+                " theme = " + theme +
                 " , grade = " + grade;
     }
 
@@ -66,11 +71,11 @@ public class Marks {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Marks marks = (Marks) o;
-        return Objects.equals(id, marks.id) && Objects.equals(theme, marks.theme) && Objects.equals(grade, marks.grade) && Objects.equals(stuid, marks.stuid) && Objects.equals(student, marks.student);
+        return Objects.equals(id, marks.id) && Objects.equals(theme, marks.theme) && Objects.equals(grade, marks.grade) && Objects.equals(stuid, marks.stuid) && Objects.equals(groups, marks.groups) && Objects.equals(student, marks.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, theme, grade, stuid, student);
+        return Objects.hash(id, theme, grade, stuid, groups, student);
     }
 }

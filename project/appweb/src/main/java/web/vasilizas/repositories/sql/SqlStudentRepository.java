@@ -33,13 +33,14 @@ public class SqlStudentRepository implements StudentRepository {
         return SingletonHelper.instance;
     }
 
-    public void addStudentMarks(String theme, int mark, int id) {
-        var sql = "insert into my.grade (id, theme, grade, stuid ) values (?, ?, ?, ?)";
+    public void addStudentMarks(String theme, int mark, int id, String group) {
+        var sql = "insert into my.grade (id, theme, grade, stuid, group ) values (?, ?, ?, ?, ?)";
         try (var ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, mark + id);
             ps.setString(2, theme);
             ps.setInt(3, mark);
             ps.setInt(4, id);
+            ps.setString(5, group);
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate add {} ", result);
         } catch (SQLException | MyWebAppException e) {
@@ -140,11 +141,12 @@ public class SqlStudentRepository implements StudentRepository {
     }
 
     @Override
-    public void removeThemeMarks(int id, String theme) {
-        var sql = "delete from my.grade where stuid = ? and theme = ?";
+    public void removeThemeMarks(int id, String theme, String groups) {
+        var sql = "delete from my.grade where stuid = ? and theme = ? and group = ?";
         try (PreparedStatement ps = DataBase.getInstance().connectionDataBase(sql)) {
             ps.setInt(1, id);
             ps.setString(2, theme);
+            ps.setString(3, groups);
             var result = ps.executeUpdate();
             myLogger.info("Result executeUpdate remove marks {} ", result);
         } catch (SQLException | MyWebAppException e) {

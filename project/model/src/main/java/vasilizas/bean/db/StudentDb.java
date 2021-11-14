@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,6 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static org.hibernate.annotations.FetchMode.SUBSELECT;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +32,7 @@ public class StudentDb extends MyAbstractEntity {
 
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH}, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @Fetch(value = SUBSELECT)
     @JoinTable(
             name = "studgr",
             joinColumns = @JoinColumn(name = "student_id"),

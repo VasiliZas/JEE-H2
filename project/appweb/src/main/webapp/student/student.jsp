@@ -61,7 +61,7 @@
 
     <c:forEach var="value" items="${marks}">
         <tr>
-            <td><c:out value="${value.group}"/></td>
+            <td><c:out value="${value.groups}"/></td>
             <td><c:out value="${value.theme}"/></td>
             <td><c:out value="${value.grade}"/></td>
         </tr>

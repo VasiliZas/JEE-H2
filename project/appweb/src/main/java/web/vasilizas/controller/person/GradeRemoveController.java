@@ -2,6 +2,7 @@ package web.vasilizas.controller.person;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vasilizas.bean.db.Group;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.factory.RepositoryFactory;
 
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+import static vasilizas.repository.TeacherDbRepository.teacherDbList;
 
 @WebServlet("/removemarks")
 public class GradeRemoveController extends HttpServlet {
@@ -28,9 +31,11 @@ public class GradeRemoveController extends HttpServlet {
 
         try {
             HttpSession session = req.getSession();
-            session.setAttribute("grade", "You remove grade for student " + name
+            Group groups = (Group) session.getAttribute("yourGroup");
+            req.setAttribute("grade", "You remove grade for student " + name
                     + " theme " + theme + " . ");
-            RepositoryFactory.getStudentRepository("JPA").removeThemeMarks(Integer.parseInt(id), theme);
+            RepositoryFactory.getStudentRepository("JPA").removeThemeMarks(Integer.parseInt(id), theme, groups.getName());
+            session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException | MyWebAppException | PersistenceException e) {

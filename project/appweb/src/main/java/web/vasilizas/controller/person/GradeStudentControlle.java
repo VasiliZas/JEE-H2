@@ -2,6 +2,7 @@ package web.vasilizas.controller.person;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vasilizas.bean.db.Group;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.factory.RepositoryFactory;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
+import static vasilizas.repository.TeacherDbRepository.teacherDbList;
 
 @WebServlet("/addmarks")
 public class GradeStudentControlle extends HttpServlet {
@@ -28,11 +30,14 @@ public class GradeStudentControlle extends HttpServlet {
         String id = req.getParameter("id");
         String theme = req.getParameter("theme");
         String grade = req.getParameter("grade");
+
         try {
             HttpSession session = req.getSession();
-            session.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
+            Group groups = (Group) session.getAttribute("yourGroup");
+            req.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
                     + " theme " + theme + " . ");
-            RepositoryFactory.getStudentRepository("JPA").addStudentMarks(theme, parseInt(grade), parseInt(id));
+            RepositoryFactory.getStudentRepository("JPA").addStudentMarks(theme, parseInt(grade), parseInt(id), groups.getName());
+            session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
         } catch (Exception e) {

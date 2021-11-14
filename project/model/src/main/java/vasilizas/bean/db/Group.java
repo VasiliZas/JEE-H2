@@ -16,10 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -36,8 +37,8 @@ public class Group implements Serializable {
     private Integer id;
     private String name;
 
-    @ManyToMany(mappedBy = "groups")
-    private List<StudentDb> students = new ArrayList<>();
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
+    private Set<StudentDb> students = new HashSet<>();
 
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @Fetch(value = FetchMode.SUBSELECT)
