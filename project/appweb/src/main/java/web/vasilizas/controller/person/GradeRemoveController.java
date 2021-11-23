@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static vasilizas.repository.TeacherDbRepository.teacherDbList;
+import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
+import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/removemarks")
 public class GradeRemoveController extends HttpServlet {
@@ -31,7 +33,7 @@ public class GradeRemoveController extends HttpServlet {
 
         try {
             HttpSession session = req.getSession();
-            StudentDb user = RepositoryFactory.getStudentRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+            StudentDb user = getStrategyInstance().setStudentRepository(getInstance()).find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
             String name = user.getName();
             Group groups = (Group) session.getAttribute("yourGroup");
             req.setAttribute("grade", "You remove grade for student " + name

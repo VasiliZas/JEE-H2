@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -18,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
+import static web.vasilizas.repositories.jpa.JpaTeacherRepository.getInstance;
+import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/addteacher")
 public class TeacherController extends HttpServlet {
@@ -35,7 +36,7 @@ public class TeacherController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new teacher " + name + " with age " + age + " and login " + login);
             //MyService.getInstance().createAndAddPerson("Teacher", name, parseInt(age), login, password); - need when you work in memory
-            RepositoryFactory.getTeacherRepository("JPA").addPersonInDb(new TeacherDb()
+            getStrategyInstance().setTeacherRepository(getInstance()).addPersonInDb(new TeacherDb()
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password)

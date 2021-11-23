@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
+import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
+import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/add-student")
 public class StudentController extends HttpServlet {
@@ -31,7 +32,7 @@ public class StudentController extends HttpServlet {
         try {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new student " + name + " with age " + age + " and login " + login);
-            RepositoryFactory.getStudentRepository("JPA").addPersonInDb(new StudentDb().withName(name)
+            getStrategyInstance().setStudentRepository(getInstance()).addPersonInDb(new StudentDb().withName(name)
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password));

@@ -14,7 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static vasilizas.repository.StudentDbRepository.studentDbList;
-import static web.vasilizas.repositories.factory.RepositoryFactory.getStudentRepository;
+import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
+import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/student")
 public class StudentPage extends HttpServlet {
@@ -28,7 +29,7 @@ public class StudentPage extends HttpServlet {
         String type = (String) session.getAttribute("type");
         try {
             if (type.equals("Student")) {
-                req.setAttribute("marks", getStudentRepository("JPA").getStudentMarks(studentDbList.get(0)));
+                req.setAttribute("marks", getStrategyInstance().setStudentRepository(getInstance()).getStudentMarks(studentDbList.get(0)));
                 req.setAttribute("Group", studentDbList.get(0).getGroups());
                 myLogger.info("Go to Student work page");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/student-page");

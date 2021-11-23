@@ -20,6 +20,8 @@ import static vasilizas.myservice.person.TeacherService.getAverage;
 public class JpaTeacherRepository implements TeacherRepository {
 
     private static volatile JpaTeacherRepository instance;
+    EntityManager em;
+    EntityTransaction tx;
 
     private JpaTeacherRepository() {
         //singleton
@@ -38,17 +40,18 @@ public class JpaTeacherRepository implements TeacherRepository {
 
     public void removeSalary(int id) {
         List<Salary> salary;
-        JpaTeacherRepository.getInstance().find(id).orElseThrow(MyWebAppException::new);
-        salary = JpaTeacherRepository.getInstance().find(id).get().getSalary();
+        salary = JpaTeacherRepository.getInstance().find(id).orElseThrow(MyWebAppException::new).getSalary();
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             em.remove(salary);
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
     }
 
@@ -56,15 +59,17 @@ public class JpaTeacherRepository implements TeacherRepository {
     public List<Salary> getAllSalary() {
         List<Salary> userSalary;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             TypedQuery<Salary> fromSalary = em.createQuery("from Salary ", Salary.class);
             userSalary = fromSalary.getResultList();
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
         return userSalary;
     }
@@ -73,13 +78,17 @@ public class JpaTeacherRepository implements TeacherRepository {
     public List<TeacherDb> findAll() {
         List<TeacherDb> dbList;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             TypedQuery<TeacherDb> fromTeacherDb = em.createQuery("from TeacherDb ", TeacherDb.class);
             dbList = fromTeacherDb.getResultList();
+            tx.commit();
         } catch (MyWebAppException | PersistenceException e) {
+            tx.rollback();
             throw new MyWebAppException(e.getMessage());
+        } finally {
+            em.close();
         }
         return dbList;
     }
@@ -88,81 +97,87 @@ public class JpaTeacherRepository implements TeacherRepository {
     public Optional<TeacherDb> find(int id) {
         TeacherDb user;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             user = em.find(TeacherDb.class, id);
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
         return Optional.of(user);
     }
 
     public void addPersonInDb(TeacherDb teacherDb) {
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction trx = em.getTransaction();
-            trx.begin();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
             em.persist(teacherDb);
-            trx.commit();
-            em.close();
+            tx.commit();
         } catch (MyWebAppException | PersistenceException ex) {
+            tx.rollback();
             throw new MyWebAppException(ex.getMessage());
+        } finally {
+            em.close();
         }
     }
 
     @Override
     public void addTeachersSalary(TeacherDb teacherDb, double salary) {
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction trx = em.getTransaction();
-            trx.begin();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
             em.persist(new Salary().withTid(teacherDb.getId()).withSalary(BigDecimal.valueOf(salary)));
-            trx.commit();
-            em.close();
+            tx.commit();
         } catch (MyWebAppException | PersistenceException ex) {
+            tx.rollback();
             throw new MyWebAppException(ex.getMessage());
+        } finally {
+            em.close();
         }
     }
 
     @Override
     public void remove(int id) {
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             var teacherDb = em.find(TeacherDb.class, id);
             em.remove(teacherDb);
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
     }
 
     public double getAvgTeachersSalary(int id, int number) {
         List<BigDecimal> salary = new LinkedList<>();
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             TypedQuery<Salary> fromSalary = em.createQuery("from Salary where sid = ?1", Salary.class);
             fromSalary.setParameter(1, id);
             var userSalary = fromSalary.getResultList();
             tx.commit();
-            em.close();
             for (Salary s : userSalary) {
                 salary.add(s.getSalary());
             }
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
         return getAverage(salary, number);
-    }
-
-    private static class SingletonHelper {
-        private static final JpaTeacherRepository instance = new JpaTeacherRepository();
     }
 }

@@ -3,7 +3,6 @@ package web.vasilizas.controller.person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -16,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.String.valueOf;
+import static web.vasilizas.repositories.jpa.JpaTeacherRepository.getInstance;
+import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/info2")
 public class TeacherInfo extends HttpServlet {
@@ -27,7 +28,7 @@ public class TeacherInfo extends HttpServlet {
         myLogger.info("Info about teacher");
         HttpSession session = req.getSession();
         try {
-            var list = RepositoryFactory.getTeacherRepository("JPA").findAll();
+            var list = getStrategyInstance().setTeacherRepository(getInstance()).findAll();
             session.setAttribute("teacherInfo", list);
             myLogger.info("Go to page with all teacher info");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/info");

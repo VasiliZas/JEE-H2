@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static web.vasilizas.repositories.jpa.JpaTeacherRepository.getInstance;
+import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getStrategyInstance;
+
 @WebServlet("/teacher-salary")
 public class TeacherSalaryController extends HttpServlet {
 
@@ -28,7 +31,7 @@ public class TeacherSalaryController extends HttpServlet {
 
         try {
             var teacher = RepositoryFactory.getTeacherRepository("JPA").find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
-            RepositoryFactory.getTeacherRepository("JPA").addTeachersSalary(teacher, Double.parseDouble(salary));
+            getStrategyInstance().setTeacherRepository(getInstance()).addTeachersSalary(teacher, Double.parseDouble(salary));
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add for teacher " + name + "  salary " + salary);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/addpersonpar");

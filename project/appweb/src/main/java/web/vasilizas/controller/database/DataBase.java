@@ -57,7 +57,7 @@ public class DataBase<T extends MyAbstractEntity> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error(" ", exception);
+            myLogger.error(exception.getMessage());
             throw new MyWebAppException(exception.getMessage());
         }
         return StudentDbRepository.studentDbList;
@@ -75,7 +75,7 @@ public class DataBase<T extends MyAbstractEntity> {
             tx.commit();
             em.close();
         } catch (MyWebAppException | PersistenceException exception) {
-            myLogger.error(" ", exception);
+            myLogger.error(exception.getMessage());
             throw new MyWebAppException(exception.getMessage());
         }
         return teacherDbList;

@@ -2,7 +2,6 @@ package web.vasilizas.controller.person;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
+import static web.vasilizas.repositories.jpa.JpaTeacherRepository.getInstance;
+import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/averagesalary")
 public class AvgTeacherSalaryController extends HttpServlet {
@@ -26,7 +27,7 @@ public class AvgTeacherSalaryController extends HttpServlet {
         String id = req.getParameter("id");
 
         try {
-            double average = RepositoryFactory.getTeacherRepository("JPA").getAvgTeachersSalary(parseInt(id), parseInt(number));
+            double average = getStrategyInstance().setTeacherRepository(getInstance()).getAvgTeachersSalary(parseInt(id), parseInt(number));
             HttpSession session = req.getSession();
             session.setAttribute("avgSalary", "Average salary teacher with id " + id + " is " + average + " eur");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin/avg-salary");
