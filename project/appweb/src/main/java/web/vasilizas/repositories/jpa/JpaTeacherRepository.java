@@ -1,5 +1,6 @@
 package web.vasilizas.repositories.jpa;
 
+import org.springframework.stereotype.Repository;
 import vasilizas.bean.db.Salary;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 import static vasilizas.myservice.person.TeacherService.getAverage;
 
+@Repository
 public class JpaTeacherRepository implements TeacherRepository {
 
     private static volatile JpaTeacherRepository instance;

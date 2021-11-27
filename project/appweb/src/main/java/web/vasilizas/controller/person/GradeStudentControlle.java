@@ -5,21 +5,16 @@ import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.Group;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.factory.RepositoryFactory;
 
-import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 import static vasilizas.repository.TeacherDbRepository.teacherDbList;
-import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
 import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/addmarks")
@@ -36,12 +31,12 @@ public class GradeStudentControlle extends HttpServlet {
 
         try {
             HttpSession session = req.getSession();
-            StudentDb user = getStrategyInstance().setStudentRepository(getInstance()).find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+            StudentDb user = getStrategyInstance().find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
             String studentName = user.getName();
             Group groups = (Group) session.getAttribute("yourGroup");
             req.setAttribute("grade", "You add grade " + grade + "  for student " + studentName
                     + " theme " + theme + " . ");
-            RepositoryFactory.getStudentRepository("JPA").addStudentMarks(theme, parseInt(grade), parseInt(id), groups.getName());
+            getStrategyInstance().addStudentMarks(theme, parseInt(grade), parseInt(id), groups.getName());
             session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
@@ -50,7 +45,7 @@ public class GradeStudentControlle extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
+            } catch (Exception ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

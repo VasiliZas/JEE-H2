@@ -1,5 +1,6 @@
 package web.vasilizas.repositories.jpa;
 
+import org.springframework.stereotype.Repository;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
@@ -13,6 +14,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class JpaStudentRepository implements StudentRepository {
 
     private static volatile JpaStudentRepository instance;

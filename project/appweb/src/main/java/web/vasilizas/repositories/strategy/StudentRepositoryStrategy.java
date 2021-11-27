@@ -7,6 +7,8 @@ import web.vasilizas.repositories.interfaces.StudentRepository;
 import java.util.List;
 import java.util.Optional;
 
+import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
+
 public class StudentRepositoryStrategy {
 
     private static volatile StudentRepositoryStrategy instance;
@@ -16,15 +18,11 @@ public class StudentRepositoryStrategy {
         //singleton
     }
 
-    public StudentRepositoryStrategy(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
-
     public static StudentRepositoryStrategy getStrategyInstance() {
         if (instance == null) {
             synchronized (StudentRepositoryStrategy.class) {
                 if (instance == null) {
-                    instance = new StudentRepositoryStrategy();
+                    instance = new StudentRepositoryStrategy().setStudentRepository(getInstance());
                 }
             }
         }

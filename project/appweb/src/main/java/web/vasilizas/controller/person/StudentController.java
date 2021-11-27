@@ -3,19 +3,15 @@ package web.vasilizas.controller.person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.StudentDb;
-import vasilizas.exception.MyWebAppException;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
 import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/add-student")
@@ -32,7 +28,7 @@ public class StudentController extends HttpServlet {
         try {
             HttpSession session = req.getSession();
             session.setAttribute("add", "You add new student " + name + " with age " + age + " and login " + login);
-            getStrategyInstance().setStudentRepository(getInstance()).addPersonInDb(new StudentDb().withName(name)
+            getStrategyInstance().addPersonInDb(new StudentDb().withName(name)
                     .withAge(parseInt(age))
                     .withLogin(login)
                     .withPassword(password));
@@ -43,7 +39,7 @@ public class StudentController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException | MyWebAppException ex) {
+            } catch (Exception ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.Group;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.repositories.factory.RepositoryFactory;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static vasilizas.repository.TeacherDbRepository.teacherDbList;
-import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
 import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/removemarks")
@@ -33,12 +31,12 @@ public class GradeRemoveController extends HttpServlet {
 
         try {
             HttpSession session = req.getSession();
-            StudentDb user = getStrategyInstance().setStudentRepository(getInstance()).find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+            StudentDb user = getStrategyInstance().find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
             String name = user.getName();
             Group groups = (Group) session.getAttribute("yourGroup");
             req.setAttribute("grade", "You remove grade for student " + name
                     + " theme " + theme + " . ");
-            RepositoryFactory.getStudentRepository("JPA").removeThemeMarks(Integer.parseInt(id), theme, groups.getName());
+            getStrategyInstance().removeThemeMarks(Integer.parseInt(id), theme, groups.getName());
             session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher/teacher");
             requestDispatcher.forward(req, resp);
@@ -47,7 +45,7 @@ public class GradeRemoveController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException | MyWebAppException | PersistenceException ex) {
+            } catch (Exception ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

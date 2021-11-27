@@ -20,10 +20,6 @@ public class MyService {
         return SingletonHelper.myService;
     }
 
-    private static class SingletonHelper {
-        private static final MyService myService = new MyService();
-    }
-
     public void createAndAddPerson(String typePerson, String namePerson, int agePerson, String login, String password) {
 
         switch (typePerson) {
@@ -31,6 +27,10 @@ public class MyService {
             case "Teacher" -> teacherList.add(createTeacher(namePerson, agePerson, login, password));
             default -> log.warn("Incorrect variable entered");
         }
+    }
+
+    private static class SingletonHelper {
+        private static final MyService myService = new MyService();
     }
 }
 

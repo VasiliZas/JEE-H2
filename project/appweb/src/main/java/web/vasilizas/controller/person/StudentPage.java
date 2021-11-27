@@ -2,19 +2,15 @@ package web.vasilizas.controller.person;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vasilizas.exception.MyWebAppException;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 import static vasilizas.repository.StudentDbRepository.studentDbList;
-import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
 import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/student")
@@ -29,7 +25,7 @@ public class StudentPage extends HttpServlet {
         String type = (String) session.getAttribute("type");
         try {
             if (type.equals("Student")) {
-                req.setAttribute("marks", getStrategyInstance().setStudentRepository(getInstance()).getStudentMarks(studentDbList.get(0)));
+                req.setAttribute("marks", getStrategyInstance().getStudentMarks(studentDbList.get(0)));
                 req.setAttribute("Group", studentDbList.get(0).getGroups());
                 myLogger.info("Go to Student work page");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/student-page");
@@ -44,7 +40,7 @@ public class StudentPage extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/error");
             try {
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException | MyWebAppException ex) {
+            } catch (Exception ex) {
                 myLogger.warn(String.valueOf(ex));
             }
         }

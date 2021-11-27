@@ -16,8 +16,8 @@
 
     <properties>
         <!-- Code analysis server auth -->
-        <sonar.projectKey>vasilizas.myservice</sonar.projectKey>
-        <sonar.organization>vasilizas.myservice</sonar.organization>
+        <sonar.projectKey>service</sonar.projectKey>
+        <sonar.organization>service</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <!--suppress UnresolvedMavenProperty -->
         <sonar.login>${sonar.token}</sonar.login>
