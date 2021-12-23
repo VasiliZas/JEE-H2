@@ -14,17 +14,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 public class MySpringConfig implements WebMvcConfigurer {
 
-    private final ApplicationContext applicationContext;
-
-    public MySpringConfig(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
     @Bean
     public InternalResourceViewResolver internalResourceViewResolver(@Autowired ApplicationContext ctx) {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setApplicationContext(ctx);
-        resolver.setPrefix("WEB-INF/jsp/");
+        resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         return resolver;
     }

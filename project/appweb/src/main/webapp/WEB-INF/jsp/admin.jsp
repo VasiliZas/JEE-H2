@@ -16,12 +16,12 @@
             width: 100%;
         } </style>
 </head>
-<body align=center background="/img/fon_pero_cvet.jpg">
+<body align=center>
 <jsp:include page="href.jsp"/>
 <h1 center> Admin work page </h1>
-<nav><a href="/myweb/admin/addpersonpar">Add student, teacher and teacher's salary</a> |
-    <a href="/myweb/admin/avg-salary">Teacher's salary average</a> |
-    <a href="/myweb/info2">Teacher's info</a>
+<nav><a href="/myweb/admins/addperson">Add student, teacher and teacher's salary</a> |
+    <a href="/myweb/admins/avg-salary">Teacher's salary average</a> |
+    <a href="/myweb/admins/info2">Teacher's info</a>
 </nav>
 <div id="footer">
     <jsp:include page="my.jsp"/>

@@ -18,7 +18,7 @@
         }
     </style>
 </head>
-<body align="center" background="img/fon_pero_cvet.jpg">
+<body align="center">
 <jsp:include page="href.jsp"/>
 <h1 align="center">Work with teacher </h1>
 <h2 align="center"> Please enter the name and the number of months for which you want to receive an average

@@ -31,19 +31,11 @@ public class PageSpringMvcController {
     @GetMapping("/work")
     public String workPage(HttpSession session) {
         String type = (String) session.getAttribute("type");
-        switch (type) {
-            case "Student" -> {
-                return "redirect:/student";
-            }
-            case "Teacher" -> {
-                return "redirect:/teacher";
-            }
-            case "Admin" -> {
-                return "redirect:/admin";
-            }
-            default -> {
-                return "redirect:/home";
-            }
-        }
+        return switch (type) {
+            case "Student" -> "redirect:/students/student";
+            case "Teacher" -> "redirect:/teachers/teacher";
+            case "Admin" -> "redirect:/admins/admin";
+            default -> "redirect:/home";
+        };
     }
 }

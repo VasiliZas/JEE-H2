@@ -39,6 +39,7 @@
         }
     </style>
 </head>
+<body align="center">
 <jsp:include page="href.jsp"/>
 <p center>
     <c></c>

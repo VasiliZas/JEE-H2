@@ -18,7 +18,7 @@
         }
     </style>
 </head>
-<body align="center" background="img/fon_pero_cvet.jpg">
+<body align="center">
 <jsp:include page="href.jsp"/>
 <h1 align="center">Work with users </h1>
 <h2 align="center"> Please enter age, name, login and password teacher </h2>

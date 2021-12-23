@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.TeacherDb;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +14,7 @@ import java.util.List;
 import static java.lang.String.valueOf;
 import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getStrategyInstance;
 
-@WebServlet("/info2")
+//@WebServlet("/info2")
 public class TeacherInfo extends HttpServlet {
 
     private final Logger myLogger = LoggerFactory.getLogger(TeacherInfo.class);
