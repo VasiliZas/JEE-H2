@@ -12,6 +12,7 @@ import static web.vasilizas.repositories.jpa.JpaStudentRepository.getInstance;
 public class StudentRepositoryStrategy {
 
     private static volatile StudentRepositoryStrategy instance;
+
     private StudentRepository studentRepository;
 
     private StudentRepositoryStrategy() {

@@ -39,7 +39,6 @@
         }
     </style>
 </head>
-<body align=center background="../img/fon_pero_cvet.jpg">
 <jsp:include page="href.jsp"/>
 <p center>
     <c></c>
@@ -56,14 +55,14 @@
     <th>Salary</th>
 
     <c:forEach var="teacher" items="${teacherInfo}">
-            <tr>
-                <td><c:out value="${teacher.id}"/></td>
-                <td><c:out value="${teacher.name}"/></td>
-                <td><c:out value="${teacher.login}"/></td>
-                <td><c:out value="${teacher.password}"/></td>
-                <td><c:out value="${teacher.salary}"/></td>
-            </tr>
-        </c:forEach>
+        <tr>
+            <td><c:out value="${teacher.id}"/></td>
+            <td><c:out value="${teacher.name}"/></td>
+            <td><c:out value="${teacher.login}"/></td>
+            <td><c:out value="${teacher.password}"/></td>
+            <td><c:out value="${teacher.salary}"/></td>
+        </tr>
+    </c:forEach>
 
 </table>
 <br/>

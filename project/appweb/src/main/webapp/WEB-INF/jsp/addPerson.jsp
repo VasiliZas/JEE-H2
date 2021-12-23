@@ -6,8 +6,9 @@
     <title>Add person and parameter</title>
     <style>
         #text {
-            text-align:  center;
+            text-align: center;
         }
+
         #footer {
             position: fixed;
             bottom: 0;
@@ -45,11 +46,13 @@
     <input required name=password placeholder=password type=text> <br/>
     <input type=submit value=Add!> <input type=reset value=Clean>
 </form>
-<p > </p>
-<% if (session.getAttribute("add") == null ){
-       session.setAttribute("add", "There will result your work");} %>
-<h3 style="color: blue"> <%= session.getAttribute("add")%></h3>
-<% session.setAttribute("add",null); %>
+<p></p>
+<% if (session.getAttribute("add") == null) {
+    session.setAttribute("add", "There will result your work");
+} %>
+<h3 style="color: blue"><%= session.getAttribute("add")%>
+</h3>
+<% session.setAttribute("add", null); %>
 <div id="footer">
     <jsp:include page="my.jsp"/>
 </div>

@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html lang=en>
 <head>
-    <meta charset=UTF-8>
-    <title>Teacher info</title>
-    <style>
+    <meta charset="UTF-8">
+    <title>student</title>
+    <style type="text/css">
         BODY {
             background-image: url(/img/fon_pero_cvet.jpg); /* Путь к фоновому рисунку */
         }
@@ -19,6 +19,7 @@
         }
 
         TABLE {
+
             border-collapse: collapse; /* Убираем двойные границы между ячейками */
             background: beige; /* Цвет фона таблицы */
             border: 4px solid #000; /* Рамка вокруг таблицы */
@@ -39,37 +40,54 @@
         }
     </style>
 </head>
-<body align=center background="../img/fon_pero_cvet.jpg">
+<body align=center background="img/fon_pero_cvet.jpg">
 <jsp:include page="href.jsp"/>
-<p center>
-    <c></c>
-</p>
-<br>
-<br>
+<h1 center> Your work page </h1>
+<h1 center> You can see your grades here. </h1>
+<h1 center></h1>
+<h2 center> Your name. </h2>
+<h1 center></h1>
+<h2 center style="color: blue"><%= session.getAttribute("name") %>
+</h2>
+<h1 center></h1>
+<h2 center> Your grades. </h2>
+<h1 center></h1>
 
 <table align="center">
 
-    <th>Id</th>
-    <th>Name</th>
-    <th>Login</th>
-    <th>Password</th>
-    <th>Salary</th>
+    <th>Group</th>
+    <th>Theme</th>
+    <th>Marks</th>
 
-    <c:forEach var="teacher" items="${teacherInfo}">
-            <tr>
-                <td><c:out value="${teacher.id}"/></td>
-                <td><c:out value="${teacher.name}"/></td>
-                <td><c:out value="${teacher.login}"/></td>
-                <td><c:out value="${teacher.password}"/></td>
-                <td><c:out value="${teacher.salary}"/></td>
-            </tr>
-        </c:forEach>
-
+    <c:forEach var="value" items="${marks}">
+        <tr>
+            <td><c:out value="${value.groups}"/></td>
+            <td><c:out value="${value.theme}"/></td>
+            <td><c:out value="${value.grade}"/></td>
+        </tr>
+    </c:forEach>
 </table>
-<br/>
-<p center>
-    <c></c>
-</p>
+
+<h1 center></h1>
+<h2 center> Your groups. </h2>
+<h1 center></h1>
+
+<table align="center">
+
+    <th>Name group</th>
+    <th>Your teacher</th>
+    <th>Themes</th>
+
+    <c:forEach var="value" items="${Group}">
+        <tr>
+            <td><c:out value="${value.name}"/></td>
+            <td><c:out value="${value.teacherDb.name}"/></td>
+            <td><c:out value="${value.them}"/></td>
+
+        </tr>
+    </c:forEach>
+</table>
+
 <div id="footer">
     <jsp:include page="my.jsp"/>
 </div>

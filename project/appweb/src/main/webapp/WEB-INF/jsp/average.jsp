@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang=en>
@@ -7,8 +6,9 @@
     <title>Add person and parameter</title>
     <style>
         .text {
-            text-align:  center;
+            text-align: center;
         }
+
         #footer {
             position: fixed;
             bottom: 0;
@@ -30,10 +30,12 @@
 </form>
 <p></p>
 <p></p>
-<% if (session.getAttribute("avgSalary") == null ){
-    session.setAttribute("avgSalary", "There will result your work");} %>
-<h3 style="color: blue"> <%= session.getAttribute("avgSalary")%></h3>
-<% session.setAttribute("avgSalary",null); %>
+<% if (session.getAttribute("avgSalary") == null) {
+    session.setAttribute("avgSalary", "There will result your work");
+} %>
+<h3 style="color: blue"><%= session.getAttribute("avgSalary")%>
+</h3>
+<% session.setAttribute("avgSalary", null); %>
 <div id="footer">
     <jsp:include page="my.jsp"/>
 </div>
