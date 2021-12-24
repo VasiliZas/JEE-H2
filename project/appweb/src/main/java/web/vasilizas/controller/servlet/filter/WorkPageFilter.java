@@ -37,22 +37,22 @@ public class WorkPageFilter extends AbstractFilter {
 
         switch (type) {
             case "Student" -> {
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/student");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/students/student");
                 requestDispatcher.forward(req, resp);
                 chain.doFilter(request, response);
             }
             case "Teacher" -> {
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teacher");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/teachers/teacher");
                 requestDispatcher.forward(req, resp);
                 chain.doFilter(request, response);
             }
             case "Admin" -> {
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admin");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/admins/admin");
                 requestDispatcher.forward(req, resp);
                 chain.doFilter(request, response);
             }
             default -> {
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/start");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/about");
                 requestDispatcher.forward(req, resp);
             }
         }

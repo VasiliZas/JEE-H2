@@ -2,12 +2,15 @@ package web.vasilizas.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
 @Aspect
 @Slf4j
@@ -15,11 +18,6 @@ import org.springframework.stereotype.Component;
 public class SpringAopAndAspectAnnotation {
     @Pointcut("execution(* web.vasilizas.controller.springmvc.*.*(..))")
     public void controllers() {
-        // pointcut
-    }
-
-    @Pointcut("execution(public * *Exception(..))")
-    void throwableMethod() {
         // pointcut
     }
 
@@ -41,14 +39,14 @@ public class SpringAopAndAspectAnnotation {
         log.info("Logging exception in method: {}, {}", jp.getSignature().toShortString(), exception.toString());
     }
 
-//    @Around("controllers()")
-//    public Object swallowThrowing(ProceedingJoinPoint pjp) {
-//
-//        try {
-//            Object result;
-//            return  result = pjp.proceed();
-//        } catch (Throwable e) {
-//            return new PageSpringMvcController().errorPage();
-//        }
-//    }
+    @Around("@annotation(web.vasilizas.myannotation.MyAopExceptionAnnotation)")
+    public ModelAndView swallowThrowing(ProceedingJoinPoint pjp) {
+        ModelAndView result = new ModelAndView();
+        try {
+            result = (ModelAndView) pjp.proceed();
+        } catch (Throwable e) {
+            result.setViewName("error");
+        }
+        return result;
+    }
 }

@@ -9,12 +9,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-//@WebFilter(urlPatterns = "/teacher/*")
+@WebFilter(urlPatterns = "/teachers/*")
 public class AuthenticationTeacherFilter extends AbstractFilter {
 
     private final Logger myLogger = LoggerFactory.getLogger(AuthenticationTeacherFilter.class);
@@ -41,12 +42,12 @@ public class AuthenticationTeacherFilter extends AbstractFilter {
             if (userRole.equals("Teacher")) {
                 chain.doFilter(request, response);
             } else {
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/home");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/work");
                 requestDispatcher.forward(req, res);
             }
 
         } else {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/home");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/work");
             requestDispatcher.forward(req, res);
         }
     }

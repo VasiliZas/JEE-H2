@@ -14,6 +14,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan("web.vasilizas")
 @EnableWebMvc
 @EnableAspectJAutoProxy
+//@EnableJpaRepositories(basePackages = "web.vasilizas.repositories.springjpa",
+//        entityManagerFactoryRef = "factory",
+//        transactionManagerRef = "jpaTransactionManager")
 public class MySpringConfig implements WebMvcConfigurer {
 
     @Bean

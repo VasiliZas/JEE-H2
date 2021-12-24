@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import web.vasilizas.myannotation.MyAopExceptionAnnotation;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,7 @@ import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getS
 @RequestMapping("/students")
 public class StudentsPageSpringMvcController {
 
+    @MyAopExceptionAnnotation
     @GetMapping("/student")
     public ModelAndView studentsPage(HttpSession session) {
         var model = new ModelAndView();

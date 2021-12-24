@@ -23,7 +23,7 @@
 <h1 align="center">Work with teacher </h1>
 <h2 align="center"> Please enter the name and the number of months for which you want to receive an average
     salary. </h2>
-<form action="/myweb/averagesalary" method=post>
+<form action="/myweb/admins/averagesalary" method=post>
     <input required name=id placeholder=id type=text> <br/>
     <input required name=number placeholder=number type=text> <br/>
     <input type=submit value=Go!> <input type=reset value=Clean>

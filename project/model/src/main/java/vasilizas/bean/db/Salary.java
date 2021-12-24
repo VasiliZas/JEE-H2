@@ -2,8 +2,6 @@ package vasilizas.bean.db;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,11 +25,7 @@ public class Salary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @DecimalMin(value = "1000", message = "Should be between 1000 and 10000")
-    @DecimalMax(value = "10000", message = "Should be between 1000 and 10000")
     private BigDecimal salary;
-
     private int sid;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sid", insertable = false, updatable = false)
