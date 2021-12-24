@@ -40,7 +40,7 @@
         }
     </style>
 </head>
-<body align=center background="img/fon_pero_cvet.jpg">
+<body align=center>
 <jsp:include page="href.jsp"/>
 <h1 center> Your work page </h1>
 <h1 center> You can see your grades here. </h1>

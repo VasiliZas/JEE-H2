@@ -15,7 +15,7 @@
         }
     </style>
 </head>
-<body align=center background="../../img/fon_pero_cvet.jpg">
+<body align=center>
 <jsp:include page="href.jsp"/>
 <p center>
     <c></c>

@@ -54,18 +54,18 @@ public class AuthSpringMvcController {
 
         if (type.equals("Student") && personAuthentication.checkStudentDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
             setAttribute(session, type, login, name);
-            return "student";
+            return "redirect:/students/student";
         }
         if (type.equals("Admin") && personAuthentication.check(name, login, password, adminList)) {
             setAttribute(session, type, login, name);
-            return "admin";
+            return "redirect:/admins/admin";
         }
         if (type.equals("Teacher") && personAuthentication.checkTeacherDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
             session.setAttribute("groups", teacherDbList);
             session.setAttribute("yourGroup", teacherDbList.get(0).getGroup());
             session.setAttribute("yourStudent", teacherDbList.get(0).getGroup().getStudents());
             setAttribute(session, type, login, name);
-            return "teacher";
+            return "redirect:/teachers/teacher";
         } else {
             setAttribute(session, "Error", LOGIN, NAME);
             return "error";
