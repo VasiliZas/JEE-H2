@@ -1,5 +1,7 @@
 package vasilizas.myservice.security;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.bean.memory.Person;
@@ -7,6 +9,8 @@ import vasilizas.myservice.interfece.PersonAuth;
 
 import java.util.List;
 
+@Service
+@Scope("request")
 public class PersonAuthentication implements PersonAuth {
 
     private PersonAuthentication() {

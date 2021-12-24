@@ -1,5 +1,9 @@
 package vasilizas.bean.db;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,9 +26,18 @@ public class Marks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotEmpty(message = "Should not be empty!")
+    @Size(min = 3, max = 25, message = "Should be between 3 and 25 characters")
     private String theme;
+
+    @Min(value = 0, message = "Should be between 0 and 100")
+    @Max(value = 100, message = "Should be between 0 and 100")
     private Integer grade;
     private Integer stuid;
+
+    @NotEmpty(message = "Should not be empty!")
+    @Size(min = 3, max = 25, message = "Should be between 3 and 25 characters")
     private String groups;
 
     @ManyToOne(fetch = FetchType.EAGER)

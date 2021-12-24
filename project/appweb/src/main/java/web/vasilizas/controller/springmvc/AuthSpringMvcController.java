@@ -1,12 +1,13 @@
 package web.vasilizas.controller.springmvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import vasilizas.myservice.security.PersonAuthentication;
 import web.vasilizas.controller.servlet.database.DataBase;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,37 +21,19 @@ public class AuthSpringMvcController {
     private static final String LOGIN = "login";
     private static final String NAME = "name";
     private static final String TYPE = "type";
-    private final PersonAuthentication personAuthentication = PersonAuthentication.getInstance();
-
-    private void setAttribute(HttpSession session, String type, String login, String name) {
-        session.removeAttribute("password");
-        session.setAttribute(TYPE, type);
-        session.setAttribute(LOGIN, login);
-        session.setAttribute(NAME, name);
-    }
-
-    private List getPersonFromDbInMemory(String type, String name, String login) {
-        List list = new ArrayList();
-        if (type.equals("Student")) {
-            list = DataBase.getInstance().getStudentFromDb(name, login);
-        }
-        if (type.equals("Teacher")) {
-            list = DataBase.getInstance().getTeacherFromDb(name, login);
-        }
-        return list;
-    }
 
     @PostMapping("/firstauth")
-    public String firstAuthPage(HttpServletRequest request, HttpSession session) {
+    public String firstAuthPage(@RequestParam(value = "name", required = false) String name,
+                                @RequestParam(value = "type", required = false) String type,
+                                @RequestParam(value = "login", required = false) String login,
+                                @RequestParam(value = "password", required = false) String password,
+                                @Autowired PersonAuthentication personAuthentication,
+                                HttpSession session) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        String name = request.getParameter(NAME);
-        String type = request.getParameter(TYPE);
-        String login = request.getParameter(LOGIN);
-        String password = request.getParameter("password");
 
         if (type.equals("Student") && personAuthentication.checkStudentDb(name, login, password, getPersonFromDbInMemory(type, name, login))) {
             setAttribute(session, type, login, name);
@@ -68,7 +51,7 @@ public class AuthSpringMvcController {
             return "redirect:/teachers/teacher";
         } else {
             setAttribute(session, "Error", LOGIN, NAME);
-            return "error";
+            return "auth";
         }
     }
 
@@ -76,5 +59,23 @@ public class AuthSpringMvcController {
     public String userOut(HttpSession session) {
         session.invalidate();
         return "redirect:/home";
+    }
+
+    private void setAttribute(HttpSession session, String type, String login, String name) {
+        session.removeAttribute("password");
+        session.setAttribute(TYPE, type);
+        session.setAttribute(LOGIN, login);
+        session.setAttribute(NAME, name);
+    }
+
+    private List getPersonFromDbInMemory(String type, String name, String login) {
+        List list = new ArrayList();
+        if (type.equals("Student")) {
+            list = DataBase.getInstance().getStudentFromDb(name, login);
+        }
+        if (type.equals("Teacher")) {
+            list = DataBase.getInstance().getTeacherFromDb(name, login);
+        }
+        return list;
     }
 }

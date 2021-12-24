@@ -36,11 +36,11 @@
         }
     </style>
 </head>
-<body align=center background="img/fon_pero_cvet.jpg">
+<body align=center>
 <jsp:include page="href.jsp"/>
 <h1 align="center">Work with students </h1>
 <h2 align="center"> Please enter id, student name, theme and grade to add new grade. </h2>
-<form action="/myweb/addmarks" method=post>
+<form action="/myweb/teachers/addmarks" method=post>
     <input required name=id placeholder=id type=text> <br/>
     <input required name=theme placeholder=theme type=text> <br/>
     <input required name=grade placeholder=grade type=text> <br/>
@@ -49,7 +49,7 @@
 <p></p>
 <p></p>
 <h2 align="center"> Please enter id, student name, theme and grade to remove. </h2>
-<form action="/myweb/removemarks" method=post>
+<form action="/myweb/teachers/removemarks" method=post>
     <input required name=id placeholder=id type=text> <br/>
     <input required name=theme placeholder=theme type=text> <br/>
     <input type=submit value=Remove!> <input type=reset value=Clean>

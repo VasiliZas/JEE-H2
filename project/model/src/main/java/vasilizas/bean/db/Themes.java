@@ -1,6 +1,8 @@
 package vasilizas.bean.db;
 
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +25,9 @@ public class Themes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotEmpty(message = "Should not be empty!")
+    @Size(min = 3, max = 25, message = "Should be between 3 and 25 characters")
     private String themegroup;
     private Integer idgroup;
 
