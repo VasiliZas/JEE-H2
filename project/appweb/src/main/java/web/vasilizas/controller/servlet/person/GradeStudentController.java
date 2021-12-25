@@ -18,9 +18,9 @@ import static vasilizas.repository.TeacherDbRepository.teacherDbList;
 import static web.vasilizas.repositories.strategy.StudentRepositoryStrategy.getStrategyInstance;
 
 @WebServlet("/addmarks")
-public class GradeStudentControlle extends HttpServlet {
+public class GradeStudentController extends HttpServlet {
 
-    private final Logger myLogger = LoggerFactory.getLogger(GradeStudentControlle.class);
+    private final Logger myLogger = LoggerFactory.getLogger(GradeStudentController.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
