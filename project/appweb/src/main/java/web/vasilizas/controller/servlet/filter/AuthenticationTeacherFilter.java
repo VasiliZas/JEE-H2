@@ -42,12 +42,12 @@ public class AuthenticationTeacherFilter extends AbstractFilter {
             if (userRole.equals("Teacher")) {
                 chain.doFilter(request, response);
             } else {
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/work");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/notauth");
                 requestDispatcher.forward(req, res);
             }
 
         } else {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/work");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/notauth");
             requestDispatcher.forward(req, res);
         }
     }

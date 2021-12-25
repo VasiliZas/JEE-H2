@@ -13,6 +13,11 @@ public class PageSpringMvcController {
         return "index";
     }
 
+    @GetMapping("/notauth")
+    public String notAuthErrorPage() {
+        return "notauth";
+    }
+
     @GetMapping("/error")
     public String errorPage() {
         return "error";

@@ -25,7 +25,7 @@ public class StudentsPageSpringMvcController {
             model.addObject("Group", studentDbList.get(0).getGroups());
             model.setViewName("student");
         } else {
-            model.setViewName("error");
+            model.setViewName("notauth");
         }
         return model;
     }

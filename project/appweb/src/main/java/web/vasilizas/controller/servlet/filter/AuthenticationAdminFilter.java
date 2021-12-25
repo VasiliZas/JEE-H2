@@ -42,12 +42,12 @@ public class AuthenticationAdminFilter extends AbstractFilter {
             if (userRole.equals("Admin")) {
                 chain.doFilter(request, response);
             } else {
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/work");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/notauth");
                 requestDispatcher.forward(req, res);
             }
 
         } else {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/work");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/notauth");
             requestDispatcher.forward(req, res);
         }
     }
