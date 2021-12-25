@@ -39,12 +39,26 @@ public class SpringAopAndAspectAnnotation {
         log.info("Logging exception in method: {}, {}", jp.getSignature().toShortString(), exception.toString());
     }
 
+
+    @Around("execution(public String web.vasilizas.controller.springmvc.*.*(..))")
+    public String catchExceptionWhereReturningStringAndRedirectToErrorPage(ProceedingJoinPoint pjp) {
+        String result;
+        try {
+            result = (String) pjp.proceed();
+        } catch (Throwable e) {
+            log.error(e.toString());
+            result = "error";
+        }
+        return result;
+    }
+
     @Around("@annotation(web.vasilizas.myannotation.MyAopExceptionAnnotation)")
-    public ModelAndView swallowThrowing(ProceedingJoinPoint pjp) {
+    public ModelAndView catchExceptionAndRedirectToErrorPage(ProceedingJoinPoint pjp) {
         ModelAndView result = new ModelAndView();
         try {
             result = (ModelAndView) pjp.proceed();
         } catch (Throwable e) {
+            log.error(e.toString());
             result.setViewName("error");
         }
         return result;
