@@ -1,6 +1,10 @@
 package web.vasilizas.config;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import web.vasilizas.controller.servlet.filter.ContentCachingFilter;
+
+import javax.servlet.Filter;
 
 public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -8,19 +12,20 @@ public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationC
         return null;
     }
 
-//    @Override
-//    protected Filter[] getServletFilters() {
-//        return new Filter[]{new EncodingFilter(), new LoginFilter(), new WorkPageFilter(),
-//                new AuthenticationAdminFilter(), new AuthenticationTeacherFilter()};
-//    }
-
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{MySpringConfig.class};
     }
 
     @Override
-    protected String[] getServletMappings() {
+    protected String @NotNull [] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{
+                new ContentCachingFilter()
+        };
     }
 }
