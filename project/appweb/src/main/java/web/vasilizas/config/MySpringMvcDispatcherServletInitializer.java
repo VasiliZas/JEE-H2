@@ -8,6 +8,12 @@ public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationC
         return null;
     }
 
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        return new Filter[]{new EncodingFilter(), new LoginFilter(), new WorkPageFilter(),
+//                new AuthenticationAdminFilter(), new AuthenticationTeacherFilter()};
+//    }
+
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{MySpringConfig.class};
