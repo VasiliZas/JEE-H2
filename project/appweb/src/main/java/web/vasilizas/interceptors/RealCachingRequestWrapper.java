@@ -34,12 +34,6 @@ public class RealCachingRequestWrapper extends HttpServletRequestWrapper {
     @Nullable
     private BufferedReader reader;
 
-
-    /**
-     * Create a new ContentCachingRequestWrapper for the given servlet request.
-     *
-     * @param request the original servlet request
-     */
     public RealCachingRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
         int contentLength = request.getContentLength();
@@ -56,7 +50,6 @@ public class RealCachingRequestWrapper extends HttpServletRequestWrapper {
         writeRequestParametersToCachedContent();
         data = request.getInputStream().readAllBytes();
     }
-
 
     @Override
     public ServletInputStream getInputStream() {
@@ -223,5 +216,4 @@ public class RealCachingRequestWrapper extends HttpServletRequestWrapper {
             //Not implemented
         }
     }
-
 }

@@ -1,6 +1,9 @@
 package web.vasilizas.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import web.vasilizas.controller.servlet.filter.ContentCachingFilter;
+
+import javax.servlet.Filter;
 
 public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -18,4 +21,10 @@ public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationC
         return new String[]{"/"};
     }
 
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{
+                new ContentCachingFilter()
+        };
+    }
 }
