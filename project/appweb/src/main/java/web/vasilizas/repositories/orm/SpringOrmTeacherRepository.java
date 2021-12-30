@@ -3,13 +3,21 @@ package web.vasilizas.repositories.orm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import vasilizas.bean.db.Salary;
 import vasilizas.bean.db.TeacherDb;
+import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.interfaces.TeacherRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static vasilizas.myservice.person.TeacherService.getAverage;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,40 +33,114 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
 
     @Override
     public void addPersonInDb(TeacherDb teacherDb) {
-
+        try {
+            begin();
+            getEm().persist(teacherDb);
+            commit();
+        } catch (Exception ex) {
+            rollBack();
+            throw new MyWebAppException(ex.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     @Override
     public Optional<TeacherDb> find(int id) {
-        return Optional.empty();
+        TeacherDb user;
+        try {
+            begin();
+            user = getEm().find(TeacherDb.class, id);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return Optional.of(user);
     }
 
     @Override
     public List<TeacherDb> findAll() {
-        begin();
-        List<TeacherDb> resultList = getEm().createQuery("from  TeacherDb", TeacherDb.class).getResultList();
-        commit();
-        return resultList;
+        List<TeacherDb> dbList;
+        try {
+            begin();
+            dbList = getEm().createQuery("from TeacherDb ", TeacherDb.class).getResultList();
+            commit();
+        } catch (Exception e) {
+            rollBack();
+            throw new MyWebAppException(e.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return dbList;
     }
 
     @Override
     public void removeSalary(int id) {
-
+        List<Salary> salary;
+        salary = find(id).orElseThrow(MyWebAppException::new).getSalary();
+        try {
+            begin();
+            getEm().remove(salary);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     @Override
     public void remove(int id) {
-
+        try {
+            begin();
+            var teacherDb = getEm().find(TeacherDb.class, id);
+            getEm().remove(teacherDb);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     @Override
     public double getAvgTeachersSalary(int id, int number) {
-        return 0;
+        List<BigDecimal> salary = new ArrayList<>();
+        try {
+            begin();
+            TypedQuery<Salary> fromSalary = getEm().createQuery("from Salary where sid = ?1", Salary.class);
+            fromSalary.setParameter(1, id);
+            var userSalary = fromSalary.getResultList();
+            commit();
+            for (Salary s : userSalary) {
+                salary.add(s.getSalary());
+            }
+        } catch (MyWebAppException | PersistenceException exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return getAverage(salary, number);
     }
 
     @Override
     public void addTeachersSalary(TeacherDb teacherDb, double salary) {
-
+        try {
+            begin();
+            getEm().persist(new Salary().withTid(teacherDb.getId()).withSalary(BigDecimal.valueOf(salary)));
+            commit();
+        } catch (Exception ex) {
+            rollBack();
+            throw new MyWebAppException(ex.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     public EntityManager getEm() {

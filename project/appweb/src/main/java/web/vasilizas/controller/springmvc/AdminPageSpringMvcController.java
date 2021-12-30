@@ -13,14 +13,13 @@ import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.myannotation.MyAopExceptionAnnotation;
+import web.vasilizas.repositories.orm.SpringOrmStudentRepository;
 import web.vasilizas.repositories.orm.SpringOrmTeacherRepository;
-import web.vasilizas.repositories.strategy.StudentRepositoryStrategy;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
-import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getStrategyInstance;
 
 @Controller
 @PropertySource("classpath:application.properties")
@@ -29,6 +28,7 @@ import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getS
 public class AdminPageSpringMvcController {
 
     private final SpringOrmTeacherRepository teacherRepository;
+    private final SpringOrmStudentRepository studentRepository;
     private final String addPerson = "addPerson";
 
 
@@ -42,7 +42,7 @@ public class AdminPageSpringMvcController {
         return addPerson;
     }
 
-    @MyAopExceptionAnnotation
+
     @PostMapping("/addteacher")
     public String adminAddTeacher(@RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "age", required = false) String age,
@@ -50,7 +50,7 @@ public class AdminPageSpringMvcController {
                                   @RequestParam(value = "password", required = false) String password,
                                   HttpSession session) {
         session.setAttribute("add", "You add new teacher " + name + " with age " + age + " and login " + login);
-        getStrategyInstance().addPersonInDb(new TeacherDb()
+        teacherRepository.addPersonInDb(new TeacherDb()
                 .withAge(parseInt(age))
                 .withLogin(login)
                 .withPassword(password)
@@ -58,7 +58,6 @@ public class AdminPageSpringMvcController {
         return addPerson;
     }
 
-    @MyAopExceptionAnnotation
     @PostMapping("/addstudent")
     public String adminAddStudent(@RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "age", required = false) String age,
@@ -66,33 +65,34 @@ public class AdminPageSpringMvcController {
                                   @RequestParam(value = "password", required = false) String password,
                                   HttpSession session) {
         session.setAttribute("add", "You add new student " + name + " with age " + age + " and login " + login);
-        StudentRepositoryStrategy.getStrategyInstance().addPersonInDb(new StudentDb().withName(name)
+        studentRepository.addPersonInDb(new StudentDb().withName(name)
                 .withAge(parseInt(age))
                 .withLogin(login)
                 .withPassword(password));
         return addPerson;
     }
 
-    @MyAopExceptionAnnotation
     @PostMapping("/teachersalary")
     public String adminAddTeacherSalary(@RequestParam(value = "name", required = false) String name,
                                         @RequestParam(value = "id", required = false) String id,
                                         @RequestParam(value = "salary", required = false) String salary,
                                         HttpSession session) {
-        var teacher = getStrategyInstance().find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
-        getStrategyInstance().addTeachersSalary(teacher, Double.parseDouble(salary));
+        var teacher = teacherRepository.find(Integer.parseInt(id)).orElseThrow(MyWebAppException::new);
+        teacherRepository.addTeachersSalary(teacher, Double.parseDouble(salary));
         session.setAttribute("add", "You add for teacher " + name + "  salary " + salary);
         return addPerson;
     }
 
     @MyAopExceptionAnnotation
     @PostMapping("/averagesalary")
-    public String adminGetAvgTeacherSalary(@RequestParam(value = "number", required = false) String number,
-                                           @RequestParam(value = "id", required = false) String id,
-                                           HttpSession session) {
-        double average = getStrategyInstance().getAvgTeachersSalary(parseInt(id), parseInt(number));
+    public ModelAndView adminGetAvgTeacherSalary(@RequestParam(value = "number", required = false) String number,
+                                                 @RequestParam(value = "id", required = false) String id,
+                                                 HttpSession session) {
+        double average = teacherRepository.getAvgTeachersSalary(parseInt(id), parseInt(number));
         session.setAttribute("avgSalary", "Average salary teacher with id " + id + " is " + average + " eur");
-        return "average";
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("average");
+        return modelAndView;
     }
 
     @GetMapping("/avg-salary")
