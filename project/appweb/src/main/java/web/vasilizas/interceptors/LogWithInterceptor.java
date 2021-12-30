@@ -19,7 +19,7 @@ public class LogWithInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp, @NotNull Object handler, ModelAndView modelAndView) throws UnsupportedEncodingException {
         logUrl(req, resp);
         logHeaders(req);
-        //logBody(req);
+        logBody(req);
     }
 
     private void logUrl(HttpServletRequest req, HttpServletResponse resp) {
@@ -31,18 +31,18 @@ public class LogWithInterceptor extends HandlerInterceptorAdapter {
         Enumeration<String> headerNames = req.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String name = headerNames.nextElement();
-            log.info(" +++++++++++++++++++++");
-            log.info(" logHeaders - [{}]: {}", name, req.getHeader(name));
+            log.debug(" +++++++++++++++++++++");
+            log.debug(" logHeaders - [{}]: {}", name, req.getHeader(name));
         }
     }
 
 
-//    private void logBody(HttpServletRequest req) throws UnsupportedEncodingException {
-//        RealCachingRequestWrapper reqWrapper = (RealCachingRequestWrapper) req;
-//        String body = new String(reqWrapper.getContentAsByteArray(), req.getCharacterEncoding());
-//        log.info(" ======================");
-//        log.debug("Request Body:  {}", body);
-//    }
+    private void logBody(HttpServletRequest req) throws UnsupportedEncodingException {
+        RealCachingRequestWrapper reqWrapper = (RealCachingRequestWrapper) req;
+        String body = new String(reqWrapper.getContentAsByteArray(), req.getCharacterEncoding());
+        log.debug(" ======================");
+        log.debug("Request Body:  {}", body);
+    }
 
     @Override
     public boolean preHandle(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp, @NotNull Object handler) {

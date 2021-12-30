@@ -1,6 +1,7 @@
 package web.vasilizas.controller.springmvc;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import vasilizas.bean.db.StudentDb;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
 import web.vasilizas.myannotation.MyAopExceptionAnnotation;
+import web.vasilizas.repositories.orm.SpringOrmTeacherRepository;
 import web.vasilizas.repositories.strategy.StudentRepositoryStrategy;
 
 import javax.servlet.http.HttpSession;
@@ -23,9 +25,12 @@ import static web.vasilizas.repositories.strategy.TeacherRepositoryStrategy.getS
 @Controller
 @PropertySource("classpath:application.properties")
 @RequestMapping("/admins")
+@RequiredArgsConstructor
 public class AdminPageSpringMvcController {
 
+    private final SpringOrmTeacherRepository teacherRepository;
     private final String addPerson = "addPerson";
+
 
     @GetMapping("/admin")
     public String adminsPage() {
@@ -99,7 +104,7 @@ public class AdminPageSpringMvcController {
     @GetMapping("/info2")
     public ModelAndView adminGetTeachersInfoPage() {
         ModelAndView modelAndView = new ModelAndView();
-        List<TeacherDb> list = getStrategyInstance().findAll();
+        List<TeacherDb> list = teacherRepository.findAll();
         modelAndView.setViewName("info");
         modelAndView.addObject("teacherInfo", list);
         return modelAndView;
