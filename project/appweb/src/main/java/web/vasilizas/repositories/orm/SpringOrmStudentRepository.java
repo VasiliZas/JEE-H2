@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
+import vasilizas.exception.MyWebAppException;
 import web.vasilizas.repositories.interfaces.StudentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,46 +28,133 @@ public class SpringOrmStudentRepository implements StudentRepository {
 
     @Override
     public void addPersonInDb(StudentDb studentDb) {
-
+        try {
+            begin();
+            getEm().persist(studentDb);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     @Override
     public Optional<StudentDb> find(int id) {
-        return Optional.empty();
+        StudentDb user;
+        try {
+            begin();
+            user = getEm().find(StudentDb.class, id);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return Optional.of(user);
     }
 
     @Override
     public List<StudentDb> findAll() {
-        return null;
+        List<StudentDb> resultList;
+        try {
+            begin();
+            resultList = getEm().createQuery("from  StudentDb", StudentDb.class).getResultList();
+            commit();
+        } catch (Exception e) {
+            rollBack();
+            throw new MyWebAppException(e.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return resultList;
     }
 
     @Override
     public void removeMarks(int id) {
-
+        StudentDb user;
+        try {
+            begin();
+            user = getEm().find(StudentDb.class, id);
+            getEm().remove(user.getGrade());
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     @Override
     public void remove(int id) {
-
+        try {
+            begin();
+            var student = getEm().find(StudentDb.class, id);
+            getEm().remove(student);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     @Override
     public void addStudentMarks(String theme, int mark, int id, String group) {
-
+        try {
+            begin();
+            getEm().persist(new Marks().withStudentId(id).withTheme(theme).withGrade(mark).withGroup(group));
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     @Override
     public List<Marks> getStudentMarks(StudentDb studentDb) {
-        begin();
-        var resultList = getEm().createQuery("from Marks where stuid = ?1", Marks.class)
-                .setParameter(1, studentDb.getId()).getResultList();
-        commit();
+        List<Marks> resultList;
+        try {
+            begin();
+            resultList = getEm().createQuery("from Marks where stuid = ?1", Marks.class)
+                    .setParameter(1, studentDb.getId()).getResultList();
+            commit();
+        } catch (Exception e) {
+            rollBack();
+            throw new MyWebAppException(e.getMessage());
+        } finally {
+            getEm().close();
+        }
         return resultList;
     }
 
     @Override
     public void removeThemeMarks(int id, String theme, String groups) {
-
+        List<Marks> marks;
+        try {
+            begin();
+            TypedQuery<Marks> fromMarks = getEm().createQuery("from Marks where stuid = ?1", Marks.class)
+                    .setParameter(1, id);
+            marks = fromMarks.getResultList();
+            Marks userMarks = null;
+            for (Marks mark : marks) {
+                if (mark.getGroups().equals(groups) && mark.getTheme().equals(theme))
+                    userMarks = mark;
+            }
+            getEm().remove(userMarks);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
     }
 
     public EntityManager getEm() {
