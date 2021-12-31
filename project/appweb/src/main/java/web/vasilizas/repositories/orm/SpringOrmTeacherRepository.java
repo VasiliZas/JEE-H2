@@ -3,6 +3,8 @@ package web.vasilizas.repositories.orm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import vasilizas.bean.db.Salary;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
@@ -23,6 +25,23 @@ import static vasilizas.myservice.person.TeacherService.getAverage;
 @RequiredArgsConstructor
 public class SpringOrmTeacherRepository implements TeacherRepository {
 
+    /*
+    private static volatile SpringOrmTeacherRepository instance;
+    private SpringOrmTeacherRepository() {
+        //singleton
+    }
+
+    public static SpringOrmTeacherRepository getInstance() {
+        if (instance == null) {
+            synchronized (SpringOrmTeacherRepository.class) {
+                if (instance == null) {
+                    instance = new SpringOrmTeacherRepository();
+                }
+            }
+        }
+        return instance;
+    }
+*/
     private final ThreadLocal<EntityManager> em = new ThreadLocal<>();
     private EntityManagerFactory emf;
 
@@ -78,6 +97,7 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void removeSalary(int id) {
         List<Salary> salary;
         salary = find(id).orElseThrow(MyWebAppException::new).getSalary();
@@ -94,6 +114,7 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void remove(int id) {
         try {
             begin();

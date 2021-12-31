@@ -55,10 +55,8 @@
     <input type=submit value=Remove!> <input type=reset value=Clean>
 </form>
 <p></p>
-<% if (request.getAttribute("grade") == null) {
-    request.setAttribute("grade", "There will result your work");
-} %>
-<h3 style="color: blue"><%= request.getAttribute("grade")%>
+<c:forEach var="mark" items="${grade}">
+    <h3 style="color: blue"><c:out value="${mark}"/></h3></c:forEach>
 </h3>
 <h1 center></h1>
 <h2 center> Your group. </h2>
@@ -95,6 +93,7 @@
             <td><c:out value="${value.groups}"/></td>
         </tr>
     </c:forEach>
+
 </table>
 <div id="footer">
     <jsp:include page="my.jsp"/>

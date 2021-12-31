@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang=en>
 <head>
@@ -47,12 +48,8 @@
     <input type=submit value=Add!> <input type=reset value=Clean>
 </form>
 <p></p>
-<% if (session.getAttribute("add") == null) {
-    session.setAttribute("add", "There will result your work");
-} %>
-<h3 style="color: blue"><%= session.getAttribute("add")%>
-</h3>
-<% session.setAttribute("add", null); %>
+<c:forEach var="person" items="${add}">
+    <h3 style="color: blue"><c:out value="${person}"/></h3></c:forEach>
 <div id="footer">
     <jsp:include page="my.jsp"/>
 </div>

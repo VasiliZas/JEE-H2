@@ -3,6 +3,8 @@ package web.vasilizas.repositories.orm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
@@ -17,6 +19,23 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class SpringOrmStudentRepository implements StudentRepository {
+
+
+//    private static volatile SpringOrmStudentRepository instance;
+//    private SpringOrmStudentRepository() {
+//        //singleton
+//    }
+//
+//    public static SpringOrmStudentRepository getInstance() {
+//        if (instance == null) {
+//            synchronized (SpringOrmStudentRepository.class) {
+//                if (instance == null) {
+//                    instance = new SpringOrmStudentRepository();
+//                }
+//            }
+//        }
+//        return instance;
+//    }
 
     private final ThreadLocal<EntityManager> em = new ThreadLocal<>();
     private EntityManagerFactory emf;
@@ -73,6 +92,7 @@ public class SpringOrmStudentRepository implements StudentRepository {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void removeMarks(int id) {
         StudentDb user;
         try {
@@ -89,6 +109,7 @@ public class SpringOrmStudentRepository implements StudentRepository {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void remove(int id) {
         try {
             begin();
@@ -103,6 +124,7 @@ public class SpringOrmStudentRepository implements StudentRepository {
         }
     }
 
+    @Transactional
     @Override
     public void addStudentMarks(String theme, int mark, int id, String group) {
         try {

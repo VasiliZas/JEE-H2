@@ -1,9 +1,9 @@
 package web.vasilizas.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
@@ -17,13 +17,13 @@ public class SpringHibernateOrmConfig {
     private final DataSource dataSource;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean factoryBean(@Autowired Properties jpaProperties) {
+    public LocalContainerEntityManagerFactoryBean factoryBean() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPersistenceUnitName("jpa-unit");
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactoryBean.setPackagesToScan("vasilizas.bean");
-        entityManagerFactoryBean.setJpaProperties(jpaProperties);
+        entityManagerFactoryBean.setJpaProperties(jpaProperties());
         return entityManagerFactoryBean;
     }
 
@@ -42,5 +42,12 @@ public class SpringHibernateOrmConfig {
         properties.setProperty("hibernate.dbcp.maxWaitMillis", "-1");
         properties.setProperty("hibernate.default_schema", "my");
         return properties;
+    }
+
+    @Bean
+    public JpaTransactionManager jpaTransactionManager() {
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+        jpaTransactionManager.setEntityManagerFactory(factoryBean().getObject());
+        return jpaTransactionManager;
     }
 }

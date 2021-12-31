@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang=en>
 <head>
@@ -30,12 +31,8 @@
 </form>
 <p></p>
 <p></p>
-<% if (session.getAttribute("avgSalary") == null) {
-    session.setAttribute("avgSalary", "There will result your work");
-} %>
-<h3 style="color: blue"><%= session.getAttribute("avgSalary")%>
-</h3>
-<% session.setAttribute("avgSalary", null); %>
+<c:forEach var="teacher" items="${avgSalary}">
+    <h3 style="color: blue"><c:out value="${teacher}"/></h3></c:forEach>
 <div id="footer">
     <jsp:include page="my.jsp"/>
 </div>
