@@ -33,7 +33,7 @@ public class SpringHibernateOrmConfig {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
         properties.setProperty("show_sql", "true");
         properties.setProperty("hbm2ddl.auto", "none");
-        properties.setProperty("current_session_context_class", "thread");
+       // properties.setProperty("current_session_context_class", "thread");
         properties.setProperty("connection.pool_size", "20");
         properties.setProperty("hibernate.dbcp.initialSize", "5");
         properties.setProperty("hibernate.dbcp.maxTotal", "20");

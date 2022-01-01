@@ -36,7 +36,7 @@ public class SpringAopAndAspectAnnotation {
     @AfterThrowing(value = "controllers()", throwing = "exception")
     public void afterThrowingException(JoinPoint jp, Exception exception) {
         log.info("----------------------------");
-        log.info("Logging exception in method: {}, {}", jp.getSignature().toShortString(), exception.toString());
+        log.info("Logging exception in method: {}; {} ", jp.getSignature().toShortString(), exception.getMessage());
     }
 
 

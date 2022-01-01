@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vasilizas.bean.db.Group;
 import vasilizas.bean.db.Salary;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
@@ -25,23 +26,6 @@ import static vasilizas.myservice.person.TeacherService.getAverage;
 @RequiredArgsConstructor
 public class SpringOrmTeacherRepository implements TeacherRepository {
 
-    /*
-    private static volatile SpringOrmTeacherRepository instance;
-    private SpringOrmTeacherRepository() {
-        //singleton
-    }
-
-    public static SpringOrmTeacherRepository getInstance() {
-        if (instance == null) {
-            synchronized (SpringOrmTeacherRepository.class) {
-                if (instance == null) {
-                    instance = new SpringOrmTeacherRepository();
-                }
-            }
-        }
-        return instance;
-    }
-*/
     private final ThreadLocal<EntityManager> em = new ThreadLocal<>();
     private EntityManagerFactory emf;
 
@@ -131,6 +115,23 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
         }
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void removeGroup(int id) {
+        Group group;
+        group = find(id).orElseThrow(MyWebAppException::new).getGroup();
+        try {
+            begin();
+            getEm().remove(group);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
+    }
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void remove(int id) {
@@ -180,6 +181,10 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
         } finally {
             getEm().close();
         }
+    }
+
+    public void unload() {
+        em.remove();
     }
 
     public EntityManager getEm() {

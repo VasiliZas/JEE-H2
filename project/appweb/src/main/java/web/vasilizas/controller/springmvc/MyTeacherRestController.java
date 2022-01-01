@@ -16,6 +16,8 @@ import web.vasilizas.repositories.orm.SpringOrmTeacherRepository;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/teacher-rest", produces = "application/json")
@@ -64,9 +66,7 @@ public class MyTeacherRestController {
 
     @PostMapping("/deletegroup")
     public ResponseEntity<TeacherDb> deleteGroup(@RequestParam(value = "id", required = false) String id) {
-        var teacher = teacherRepository.find(Integer.parseInt(id)).orElseThrow();
-        teacher.setGroup(null);
-        teacherRepository.save(teacher);
-        return ResponseEntity.ok(teacher);
+        teacherRepository.removeGroup(parseInt(id));
+        return ResponseEntity.ok(teacherRepository.find(parseInt(id)).orElseThrow());
     }
 }
