@@ -48,6 +48,13 @@
     <input type=submit value=Add!> <input type=reset value=Clean>
 </form>
 <p></p>
+<p></p>
+<h2 align="center"> Please enter teacher ID to delete the group </h2>
+<form action="/myweb/teacher-rest/deletegroup" method=post>
+    <input required name=id placeholder=id type=text> <br/>
+    <input type=submit value=Remove!> <input type=reset value=Clean>
+</form>
+<p></p>
 <c:forEach var="person" items="${add}">
     <h3 style="color: blue"><c:out value="${person}"/></h3></c:forEach>
 <div id="footer">

@@ -59,6 +59,24 @@ public class SpringOrmStudentRepository implements StudentRepository {
         }
     }
 
+    public StudentDb save(StudentDb entity) {
+        try {
+            begin();
+            if (entity.getId() == null) {
+                getEm().persist(entity);
+            } else {
+                getEm().merge(entity);
+            }
+            commit();
+        } catch (Exception e) {
+            rollBack();
+            throw new MyWebAppException(e.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return entity;
+    }
+
     @Override
     public Optional<StudentDb> find(int id) {
         StudentDb user;
