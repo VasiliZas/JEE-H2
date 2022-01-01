@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import vasilizas.bean.db.Group;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
@@ -195,6 +196,47 @@ public class SpringOrmStudentRepository implements StudentRepository {
         } finally {
             getEm().close();
         }
+    }
+
+    public StudentDb addGroup(int id, int groupId) {
+        List<Group> groups;
+        StudentDb student;
+        try {
+            begin();
+            student = getEm().find(StudentDb.class, id);
+            var group = getEm().find(Group.class, groupId);
+            groups = student.getGroups();
+            groups.add(group);
+            student.setGroups(groups);
+            getEm().merge(student);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return student;
+    }
+
+    public StudentDb removeGroup(int id, int groupId) {
+        List<Group> groups;
+        StudentDb student;
+        try {
+            begin();
+            student = getEm().find(StudentDb.class, id);
+            groups = student.getGroups();
+            groups.removeIf(group -> group.getId() == groupId);
+            student.setGroups(groups);
+            getEm().merge(student);
+            commit();
+        } catch (Exception exception) {
+            rollBack();
+            throw new MyWebAppException(exception.getMessage());
+        } finally {
+            getEm().close();
+        }
+        return student;
     }
 
     public EntityManager getEm() {

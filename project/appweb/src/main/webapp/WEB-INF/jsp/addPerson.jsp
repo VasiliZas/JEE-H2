@@ -49,9 +49,18 @@
 </form>
 <p></p>
 <p></p>
-<h2 align="center"> Please enter teacher ID to delete the group </h2>
-<form action="/myweb/teacher-rest/deletegroup" method=post>
+<h2 align="center"> Please enter student and group ID to add the group </h2>
+<form action="/myweb/student-rest/addgroup" method=post>
     <input required name=id placeholder=id type=text> <br/>
+    <input required name=group placeholder=group type=text> <br/>
+    <input type=submit value=Remove!> <input type=reset value=Clean>
+</form>
+<p></p>
+<p></p>
+<h2 align="center"> Please enter student and group ID to delete the group </h2>
+<form action="/myweb/student-rest/deletegroup" method=post>
+    <input required name=id placeholder=id type=text> <br/>
+    <input required name=group placeholder=group type=text> <br/>
     <input type=submit value=Remove!> <input type=reset value=Clean>
 </form>
 <p></p>

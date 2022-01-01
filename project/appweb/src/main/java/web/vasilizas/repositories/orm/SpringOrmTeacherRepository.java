@@ -115,13 +115,11 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
         }
     }
 
-
-    @Transactional(propagation = Propagation.REQUIRED)
     public void removeGroup(int id) {
         Group group;
-        group = find(id).orElseThrow(MyWebAppException::new).getGroup();
         try {
             begin();
+            group = getEm().find(Group.class, id);
             getEm().remove(group);
             commit();
         } catch (Exception exception) {

@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vasilizas.bean.db.StudentDb;
 import web.vasilizas.repositories.orm.SpringOrmStudentRepository;
 
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,5 +62,17 @@ public class MyStudentRestController {
         }
         studentRepository.remove(id);
         return ResponseEntity.of(student);
+    }
+
+    @PostMapping("/addgroup")
+    public ResponseEntity<StudentDb> addGroup(@RequestParam(value = "id", required = false) String id,
+                                              @RequestParam(value = "group", required = false) String groupId) {
+        return ResponseEntity.ok(studentRepository.addGroup(parseInt(id), parseInt(groupId)));
+    }
+
+    @PostMapping("/deletegroup")
+    public ResponseEntity<StudentDb> deleteGroup(@RequestParam(value = "id", required = false) String id,
+                                                 @RequestParam(value = "group", required = false) String groupId) {
+        return ResponseEntity.ok(studentRepository.removeGroup(parseInt(id), parseInt(groupId)));
     }
 }
