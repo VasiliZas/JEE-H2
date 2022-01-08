@@ -29,3 +29,6 @@ target/
 hs_err_pid*
 
 /model/src/main/resources/credential.properties
+/appweb/src/main/resources/credential.properties
+/service/src/main/resources/credential.properties
+/src/main/resources/credential.properties
