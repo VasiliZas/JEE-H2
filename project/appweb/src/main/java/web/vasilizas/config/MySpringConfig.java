@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -13,9 +15,13 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @ComponentScan("web.vasilizas")
 @EnableWebMvc
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+//@EnableWebSecurity
+@EnableJpaRepositories(basePackages = "web.vasilizas.repositories", entityManagerFactoryRef = "factoryBean",
+    transactionManagerRef = "jpaTransactionManager")
+@EnableTransactionManagement
+//public class MySpringConfig extends AbstractSecurityWebApplicationInitializer implements WebMvcConfigurer {
 public class MySpringConfig implements WebMvcConfigurer {
-
     @Bean
     public InternalResourceViewResolver internalResourceViewResolver(@Autowired ApplicationContext ctx) {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();

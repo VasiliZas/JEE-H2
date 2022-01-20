@@ -1,6 +1,10 @@
 package web.vasilizas.controller.springmvc;
 
 
+import static java.lang.Integer.parseInt;
+
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +18,7 @@ import vasilizas.exception.MyWebAppException;
 import web.vasilizas.myannotation.MyAopExceptionAnnotation;
 import web.vasilizas.repositories.orm.SpringOrmStudentRepository;
 import web.vasilizas.repositories.orm.SpringOrmTeacherRepository;
-
-import java.util.List;
-
-import static java.lang.Integer.parseInt;
+import web.vasilizas.repositories.springdata.TeacherSpringDataRepository;
 
 @Controller
 @RequestMapping("/admins")
@@ -27,6 +28,7 @@ public class AdminPageSpringMvcController {
     private static final String PERSON = "addPerson";
     private final SpringOrmTeacherRepository teacherRepository;
     private final SpringOrmStudentRepository studentRepository;
+    private final TeacherSpringDataRepository springDataRepository;
 
     @GetMapping("/admin")
     public String adminsPage() {
@@ -103,7 +105,7 @@ public class AdminPageSpringMvcController {
     @GetMapping("/info2")
     public ModelAndView adminGetTeachersInfoPage() {
         ModelAndView modelAndView = new ModelAndView();
-        List<TeacherDb> list = teacherRepository.findAll();
+        List<TeacherDb> list = springDataRepository.findAll();
         modelAndView.setViewName("info");
         modelAndView.addObject("teacherInfo", list);
         return modelAndView;
