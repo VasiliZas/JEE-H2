@@ -4,7 +4,6 @@ import static vasilizas.myservice.person.TeacherService.getAverage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +75,8 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public double getAvgTeachersSalary(int id, int number) {
         List<BigDecimal> salary = new ArrayList<>();
-        TypedQuery<Salary> fromSalary = em.createQuery("from Salary where sid = ?1", Salary.class);
-        fromSalary.setParameter(1, id);
-        var userSalary = fromSalary.getResultList();
+        var userSalary = em.createQuery("from Salary where sid = ?1", Salary.class)
+            .setParameter(1, id).getResultList();
         for (Salary s : userSalary) {
             salary.add(s.getSalary());
         }

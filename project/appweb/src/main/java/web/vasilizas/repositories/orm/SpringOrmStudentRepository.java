@@ -2,7 +2,6 @@ package web.vasilizas.repositories.orm;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,16 +58,13 @@ public class SpringOrmStudentRepository implements StudentRepository {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeMarks(int id) {
-        StudentDb user;
-        user = em.find(StudentDb.class, id);
-        em.remove(user.getGrade());
+        em.remove(em.find(StudentDb.class, id).getGrade());
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void remove(int id) {
-        var student = em.find(StudentDb.class, id);
-        em.remove(student);
+        em.remove(em.find(StudentDb.class, id));
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -80,24 +76,20 @@ public class SpringOrmStudentRepository implements StudentRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Marks> getStudentMarks(StudentDb studentDb) {
-        List<Marks> resultList;
         try {
-            resultList = em.createQuery("from Marks where stuid = ?1", Marks.class)
+            return em.createQuery("from Marks where stuid = ?1", Marks.class)
                 .setParameter(1, studentDb.getId()).getResultList();
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new MyWebAppException(e.getMessage());
         }
-        return resultList;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void removeThemeMarks(int id, String theme, String groups) {
-        List<Marks> marks;
-        TypedQuery<Marks> fromMarks = em.createQuery("from Marks where stuid = ?1", Marks.class)
-            .setParameter(1, id);
-        marks = fromMarks.getResultList();
+        List<Marks> marks = em.createQuery("from Marks where stuid = ?1", Marks.class)
+            .setParameter(1, id).getResultList();
         Marks userMarks = null;
         for (Marks mark : marks) {
             if (mark.getGroups().equals(groups) && mark.getTheme().equals(theme)) {
@@ -109,11 +101,9 @@ public class SpringOrmStudentRepository implements StudentRepository {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public StudentDb addGroup(int id, int groupId) {
-        List<Group> groups;
-        StudentDb student;
-        student = em.find(StudentDb.class, id);
+        StudentDb student = em.find(StudentDb.class, id);
         var group = em.find(Group.class, groupId);
-        groups = student.getGroups();
+        List<Group> groups = student.getGroups();
         groups.add(group);
         student.setGroups(groups);
         em.merge(student);
@@ -122,10 +112,8 @@ public class SpringOrmStudentRepository implements StudentRepository {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public StudentDb removeGroup(int id, int groupId) {
-        List<Group> groups;
-        StudentDb student;
-        student = em.find(StudentDb.class, id);
-        groups = student.getGroups();
+        StudentDb student = em.find(StudentDb.class, id);
+        List<Group> groups = student.getGroups();
         groups.removeIf(group -> group.getId() == groupId);
         student.setGroups(groups);
         em.merge(student);
