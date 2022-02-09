@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import vasilizas.bean.db.Group;
@@ -27,12 +28,16 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
     private EntityManager em;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED,
+        rollbackFor = Exception.class,
+        isolation = Isolation.SERIALIZABLE)
     public void addPersonInDb(TeacherDb teacherDb) {
         em.persist(teacherDb);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED,
+        rollbackFor = Exception.class,
+        isolation = Isolation.SERIALIZABLE)
     public TeacherDb save(TeacherDb entity) {
         if (entity.getId() == null) {
             em.persist(entity);
@@ -42,37 +47,49 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
         return entity;
     }
 
-    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    @Transactional(rollbackFor = Exception.class,
+        readOnly = true,
+        isolation = Isolation.READ_COMMITTED)
     @Override
     public Optional<TeacherDb> find(int id) {
         return Optional.of(em.find(TeacherDb.class, id));
     }
 
-    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    @Transactional(rollbackFor = Exception.class,
+        readOnly = true,
+        isolation = Isolation.READ_COMMITTED)
     @Override
     public List<TeacherDb> findAll() {
         return em.createQuery("from TeacherDb ", TeacherDb.class).getResultList();
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED,
+        rollbackFor = Exception.class,
+        isolation = Isolation.SERIALIZABLE)
     public void removeSalary(int id) {
         em.remove(find(id).orElseThrow(MyWebAppException::new).getSalary());
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED,
+        rollbackFor = Exception.class,
+        isolation = Isolation.SERIALIZABLE)
     public void removeGroup(int id) {
         em.remove(em.find(Group.class, id));
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED,
+        rollbackFor = Exception.class,
+        isolation = Isolation.SERIALIZABLE)
     public void remove(int id) {
         em.remove(em.find(TeacherDb.class, id));
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED,
+        rollbackFor = Exception.class,
+        isolation = Isolation.READ_COMMITTED)
     public double getAvgTeachersSalary(int id, int number) {
         List<BigDecimal> salary = new ArrayList<>();
         var userSalary = em.createQuery("from Salary where sid = ?1", Salary.class)
@@ -84,7 +101,9 @@ public class SpringOrmTeacherRepository implements TeacherRepository {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED,
+        rollbackFor = Exception.class,
+        isolation = Isolation.SERIALIZABLE)
     public void addTeachersSalary(TeacherDb teacherDb, double salary) {
         em.persist(new Salary().withTid(teacherDb.getId()).withSalary(BigDecimal.valueOf(salary)));
     }
