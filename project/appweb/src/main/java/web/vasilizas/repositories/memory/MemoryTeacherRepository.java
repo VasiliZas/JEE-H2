@@ -1,5 +1,6 @@
 package web.vasilizas.repositories.memory;
 
+import org.springframework.stereotype.Repository;
 import vasilizas.bean.db.Salary;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.myservice.person.TeacherService;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 import static java.math.BigDecimal.valueOf;
 
+@Repository
 public class MemoryTeacherRepository implements TeacherRepository {
     private final List<TeacherDb> teacherDbs = new ArrayList<>();
 

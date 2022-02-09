@@ -25,7 +25,6 @@ public class Themes {
     private Integer id;
     private String themegroup;
     private Integer idgroup;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idgroup", insertable = false, updatable = false)
     private Group group;

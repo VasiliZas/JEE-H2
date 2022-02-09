@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.TeacherDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.controller.database.DataBase;
+import web.vasilizas.controller.servlet.database.DataBase;
 import web.vasilizas.repositories.interfaces.TeacherRepository;
 
 import java.math.BigDecimal;

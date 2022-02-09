@@ -1,5 +1,6 @@
 package web.vasilizas.repositories.jpa;
 
+import org.springframework.stereotype.Repository;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
@@ -13,9 +14,12 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class JpaStudentRepository implements StudentRepository {
 
     private static volatile JpaStudentRepository instance;
+    EntityManager em;
+    EntityTransaction tx;
 
     private JpaStudentRepository() {
         //singleton
@@ -34,30 +38,33 @@ public class JpaStudentRepository implements StudentRepository {
 
     public void addStudentMarks(String theme, int mark, int id, String group) {
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             em.persist(new Marks().withStudentId(id).withTheme(theme).withGrade(mark).withGroup(group));
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
-
     }
 
     public void removeMarks(int id) {
         StudentDb user;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             user = em.find(StudentDb.class, id);
             em.remove(user.getGrade());
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException | IllegalArgumentException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
     }
 
@@ -65,8 +72,8 @@ public class JpaStudentRepository implements StudentRepository {
 
         List<Marks> marks;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             TypedQuery<Marks> fromMarks = em.createQuery("from Marks where stuid = ?1", Marks.class)
                     .setParameter(1, id);
@@ -78,9 +85,11 @@ public class JpaStudentRepository implements StudentRepository {
             }
             em.remove(userMarks);
             tx.commit();
-            em.close();
         } catch (Exception exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
     }
 
@@ -88,13 +97,17 @@ public class JpaStudentRepository implements StudentRepository {
     public List<StudentDb> findAll() {
         List<StudentDb> dbList;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             TypedQuery<StudentDb> fromStudentDb = em.createQuery("from StudentDb ", StudentDb.class);
             dbList = fromStudentDb.getResultList();
+            tx.commit();
         } catch (MyWebAppException | PersistenceException e) {
+            tx.rollback();
             throw new MyWebAppException(e.getMessage());
+        } finally {
+            em.close();
         }
         return dbList;
     }
@@ -103,14 +116,16 @@ public class JpaStudentRepository implements StudentRepository {
     public Optional<StudentDb> find(int id) {
         StudentDb user;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             user = em.find(StudentDb.class, id);
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
         return Optional.of(user);
     }
@@ -118,45 +133,51 @@ public class JpaStudentRepository implements StudentRepository {
 
     public void addPersonInDb(StudentDb studentDb) {
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             em.persist(studentDb);
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
     }
 
     @Override
     public void remove(int id) {
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             var student = em.find(StudentDb.class, id);
             em.remove(student);
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
     }
 
     public List<Marks> getStudentMarks(StudentDb studentDb) {
         List<Marks> marks;
         try {
-            EntityManager em = EntityManagerHelper.getInstance().getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+            em = EntityManagerHelper.getInstance().getEntityManager();
+            tx = em.getTransaction();
             tx.begin();
             TypedQuery<Marks> fromMarks = em.createQuery("from Marks where stuid = ?1", Marks.class)
                     .setParameter(1, studentDb.getId());
             marks = fromMarks.getResultList();
             tx.commit();
-            em.close();
         } catch (MyWebAppException | PersistenceException exception) {
+            tx.rollback();
             throw new MyWebAppException(exception.getMessage());
+        } finally {
+            em.close();
         }
         return marks;
     }

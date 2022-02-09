@@ -16,10 +16,6 @@ public class StudentService {
         return SingletonHelper.instance;
     }
 
-    private static class SingletonHelper {
-        private static final StudentService instance = new StudentService();
-    }
-
     public void addStudentMarks(String name, String theme, int mark, int id) {
         if (CheckPerson.getInstance().checkPerson(studentList, id, name)) {
             studentList.stream()
@@ -42,5 +38,9 @@ public class StudentService {
         } else {
             throw new MyWebAppException("Incorrect data may have been entered. There is no such coincidence.");
         }
+    }
+
+    private static class SingletonHelper {
+        private static final StudentService instance = new StudentService();
     }
 }

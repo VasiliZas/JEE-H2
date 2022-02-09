@@ -1,5 +1,6 @@
 package web.vasilizas.repositories.memory;
 
+import org.springframework.stereotype.Repository;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import web.vasilizas.repositories.interfaces.StudentRepository;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class MemoryStudentRepository implements StudentRepository {
     private final List<StudentDb> studentList = new ArrayList<>();
 

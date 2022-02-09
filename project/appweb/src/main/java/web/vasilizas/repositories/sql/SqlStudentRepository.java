@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import vasilizas.bean.db.Marks;
 import vasilizas.bean.db.StudentDb;
 import vasilizas.exception.MyWebAppException;
-import web.vasilizas.controller.database.DataBase;
+import web.vasilizas.controller.servlet.database.DataBase;
 import web.vasilizas.repositories.interfaces.StudentRepository;
 
 import java.sql.PreparedStatement;

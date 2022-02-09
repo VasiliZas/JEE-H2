@@ -17,7 +17,7 @@
         } </style>
 </head>
 <body align=center background="/img/fon_pero_cvet.jpg">
-<jsp:include page="href.html"/>
+<jsp:include page="href.jsp"/>
 <h1 center> Admin work page </h1>
 <nav><a href="/myweb/admin/addpersonpar">Add student, teacher and teacher's salary</a> |
     <a href="/myweb/admin/avg-salary">Teacher's salary average</a> |
